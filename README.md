@@ -1,15 +1,43 @@
 # Brain Tumor Detection App 🧠
 
-This project detects brain tumors from MRI scans using a trained CNN and Google Vertex AI for inference.
+**🔗 Live demo:** PASTE_YOUR_STREAMLIT_LINK_HERE
+
+A Streamlit web app that classifies brain MRI scans into four classes using a CNN (MobileNetV2 transfer learning).
+
+> ⚠️ For educational purposes only. Not a diagnostic tool.
 
 ## Features
-- Upload MRI images
-- Predict tumor presence using a deployed ML model
-- Built with Streamlit
+- Upload an MRI image (JPG/PNG)
+- Get a predicted class with confidence: glioma, meningioma, pituitary, or no tumor
+- Runs fully in the browser with a locally loaded model
 
-## Setup
+## Model
+- **Dataset:** [Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset) (7,200 images, 4 classes)
+- **Architecture:** MobileNetV2 (ImageNet weights, frozen) + GlobalAveragePooling + Dropout + Dense (softmax)
+- **Input size:** 160 x 160
+- **Training:** 3 epochs, Adam optimizer
+- **Validation accuracy:** ~84.8%
+
+## Tech Stack
+Python, TensorFlow/Keras, Streamlit, Pillow, NumPy
+
+## Run Locally
+```bash
 pip install -r requirements.txt
-streamlit run app.py
+streamlit run braintumorapp.py
+```
+
+## Project Structure
+```
+├── braintumorapp.py    # Streamlit app
+├── model.keras         # Trained model
+├── model train         # Training code
+├── requirements.txt
+└── screenshot.png
+```
 
 ## Screenshot
-<img width="500" height="500" alt="Screenshot 2025-09-01 194330" src="https://github.com/user-attachments/assets/b81bd6cc-120d-492b-adfd-fe78a6019dd7" />
+![App Screenshot](screenshot.png)
+
+## Author
+Anjali Singh
