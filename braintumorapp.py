@@ -1,27 +1,22 @@
 import streamlit as st
-from google.cloud import aiplatform
-from utils.preprocess import preprocess_image
+import numpy as np
+import tensorflow as tf
+from PIL import Image
 
-# Vertex AI config
-PROJECT_ID = "aqueous-heading-463906-b9"
-REGION = "us-central1"
-ENDPOINT_ID = "YOUR_NEW_ENDPOINT_ID"  # Replace with correct endpoint
+st.title("Brain Tumor Detection App 🧠")
+st.caption("For educational purposes only, not a diagnostic tool.")
 
-aiplatform.init(project=PROJECT_ID, location=REGION)
-endpoint = aiplatform.Endpoint(ENDPOINT_ID)
+@st.cache_resource
+def load_model():
+    return tf.keras.models.load_model("model.keras")
 
-st.title("🧠 Brain Tumor Detection App")
-st.write("Upload an MRI image to check for brain tumor.")
+model = load_model()
+classes = ["glioma", "meningioma", "notumor", "pituitary"]
 
-uploaded_file = st.file_uploader("Upload MRI image", type=["jpg", "jpeg", "png"])
-if uploaded_file is not None:
-    st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
-    img_array = preprocess_image(uploaded_file)
-
-    prediction = endpoint.predict(instances=img_array)
-    pred_value = prediction.predictions[0][0]
-
-    if pred_value > 0.5:
-        st.error("🧠 Tumor Detected")
-    else:
-        st.success("✅ No Tumor Detected")
+file = st.file_uploader("Upload MRI image", type=["jpg", "jpeg", "png"])
+if file:
+    img = Image.open(file).convert("RGB")
+    st.image(img, width=300)
+    x = np.expand_dims(np.array(img.resize((160, 160)), dtype="float32"), 0)
+    pred = model.predict(x)[0]
+    st.success(f"Prediction: {classes[int(np.argmax(pred))]} ({pred.max()*100:.1f}%)")
