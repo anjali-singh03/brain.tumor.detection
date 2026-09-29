@@ -39,5 +39,10 @@ streamlit run braintumorapp.py
 ## Screenshot
 ![App Screenshot](screenshot.png)
 
+## Limitations
+- Trained on a single public dataset; not validated on clinical data.
+- Some scans are misclassified, including missed tumors, so results must not be used for diagnosis.
+- For educational use only.
+
 ## Author
 Anjali Singh
