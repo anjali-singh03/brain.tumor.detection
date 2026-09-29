@@ -1,11 +1,30 @@
+import os
 import streamlit as st
 import numpy as np
 import tensorflow as tf
+import plotly.graph_objects as go
 from PIL import Image
 
 st.set_page_config(page_title="Brain Tumor Detection", page_icon="🧠", layout="wide")
 
 CLASSES = ["glioma", "meningioma", "notumor", "pituitary"]
+COLORS = {"glioma": "#e74c3c", "meningioma": "#e67e22", "pituitary": "#f1c40f", "notumor": "#2ecc71"}
+SAMPLES = {c: f"{c}.jpg" for c in CLASSES}
+
+st.markdown(
+    """
+<style>
+.hero {padding: 22px 26px; border-radius: 16px; color: white; margin-bottom: 18px;
+       background: linear-gradient(120deg,#6a11cb,#2575fc 60%,#00c6ff);}
+.hero h1 {margin: 0; font-size: 2.1rem;}
+.hero p {margin: 6px 0 0; opacity: .95;}
+.card {padding: 18px 20px; border-radius: 14px; color: white; margin-bottom: 10px;}
+.card h2 {margin: 0;}
+.card p {margin: 6px 0 0; opacity: .95;}
+</style>
+""",
+    unsafe_allow_html=True,
+)
 
 DATA = {
     "glioma": {
@@ -207,40 +226,79 @@ def load_model():
     return tf.keras.models.load_model("model.keras")
 
 
-def bullets(items):
-    st.markdown("\n".join(f"- {i}" for i in items))
+# ---------------- helpers ----------------
+def box(kind, items):
+    text = "\n".join(f"- {i}" for i in items)
+    {"info": st.info, "warning": st.warning, "success": st.success, "error": st.error}[kind](text)
+
+
+def card(title, sub, color):
+    st.markdown(
+        f'<div class="card" style="background:linear-gradient(135deg,{color},#111827)">'
+        f"<h2>{title}</h2><p>{sub}</p></div>",
+        unsafe_allow_html=True,
+    )
+
+
+def style(fig, height=300):
+    fig.update_layout(height=height, margin=dict(l=10, r=10, t=30, b=10), paper_bgcolor="rgba(0,0,0,0)")
+    return fig
+
+
+def gauge(conf, color):
+    fig = go.Figure(go.Indicator(
+        mode="gauge+number", value=conf, number={"suffix": "%"},
+        gauge={"axis": {"range": [0, 100]}, "bar": {"color": color},
+               "steps": [{"range": [0, 50], "color": "#fadbd8"},
+                         {"range": [50, 70], "color": "#fdebd0"},
+                         {"range": [70, 100], "color": "#d5f5e3"}]}))
+    return style(fig, 250)
+
+
+def donut(pred):
+    fig = go.Figure(go.Pie(
+        labels=[DATA[c]["title"] for c in CLASSES], values=[float(p) for p in pred],
+        hole=0.55, sort=False, marker=dict(colors=[COLORS[c] for c in CLASSES])))
+    return style(fig)
+
+
+def bars(pred):
+    fig = go.Figure(go.Bar(
+        x=[float(p) * 100 for p in pred], y=[DATA[c]["title"] for c in CLASSES], orientation="h",
+        marker_color=[COLORS[c] for c in CLASSES],
+        text=[f"{p * 100:.1f}%" for p in pred], textposition="auto"))
+    fig.update_layout(xaxis_title="Probability (%)")
+    return style(fig)
 
 
 def show_tabs(key):
     d = DATA[key]
-    tabs = st.tabs(
-        ["📖 Overview", "🧬 Causes", "🩺 Symptoms", "💊 Treatment",
-         "🛡️ Precautions", "👨‍⚕️ Doctor's Advice", "📝 Patient Stories"]
-    )
+    tabs = st.tabs(["📖 Overview", "🧬 Causes", "🩺 Symptoms", "💊 Treatment",
+                    "🛡️ Precautions", "👨‍⚕️ Doctor's Advice", "📝 Patient Stories"])
     with tabs[0]:
-        st.markdown(d["overview"])
+        st.info(d["overview"])
     with tabs[1]:
-        bullets(d["causes"])
+        box("warning", d["causes"])
     with tabs[2]:
-        bullets(d["symptoms"])
+        box("error", d["symptoms"])
     with tabs[3]:
-        bullets(d["treatment"])
+        box("success", d["treatment"])
         st.caption("Treatment always depends on the doctor's assessment.")
     with tabs[4]:
-        bullets(d["precautions"])
+        box("info", d["precautions"])
     with tabs[5]:
-        st.markdown(f"**Which specialist to see:** {d['specialists']}")
+        st.success(f"**Which specialist to see:** {d['specialists']}")
         st.markdown("**See a doctor if you notice:**")
-        bullets(d["see_doctor"])
+        box("warning", d["see_doctor"])
         st.markdown("**Questions to ask your doctor:**")
-        bullets(d["questions"])
+        box("info", d["questions"])
         st.error("Emergency: sudden severe headache, seizure, loss of vision, weakness or confusion needs immediate medical care.")
     with tabs[6]:
         c = CASES[key]
         st.caption("Illustrative example written for education. Not a real patient. Real experiences vary.")
         st.markdown(f"**Patient:** {c['patient']}")
-        st.markdown(f"**What happened:** {c['happened']}")
-        st.markdown(f"**What the doctors explained:** {c['doctors']}")
+        st.info(f"**What happened:** {c['happened']}")
+        st.success(f"**What the doctors explained:** {c['doctors']}")
         st.markdown(f"**Outcome:** {c['outcome']}")
         st.divider()
         st.markdown("**Read real published case reports and guides:**")
@@ -248,65 +306,142 @@ def show_tabs(key):
             st.markdown(f"- [{name}]({url})")
 
 
-# ---------------- Sidebar ----------------
+def get_image():
+    source = st.radio("Image source", ["📤 Upload my own", "🖼️ Try a sample"], horizontal=True)
+    if source.startswith("📤"):
+        f = st.file_uploader("Upload MRI image", type=["jpg", "jpeg", "png"])
+        return (Image.open(f).convert("RGB"), None) if f else (None, None)
+    available = [c for c in CLASSES if os.path.exists(SAMPLES[c])]
+    if not available:
+        st.info("No sample images found in the repo yet.")
+        return None, None
+    true = st.selectbox("Pick a sample scan", available, format_func=lambda k: f"{DATA[k]['emoji']} {DATA[k]['title']} sample")
+    return Image.open(SAMPLES[true]).convert("RGB"), true
+
+
+# ---------------- pages ----------------
+def analyze_page():
+    img, true = get_image()
+    if img is None:
+        st.info("👆 Upload an MRI image or try a sample to begin.")
+        return
+
+    model = load_model()
+    x = np.expand_dims(np.array(img.resize((160, 160)), dtype="float32"), 0)
+    with st.spinner("Analyzing scan..."):
+        pred = model.predict(x, verbose=0)[0]
+    idx = int(np.argmax(pred))
+    label = CLASSES[idx]
+    conf = float(pred[idx]) * 100
+
+    col1, col2 = st.columns([1, 1.3])
+    with col1:
+        st.image(img, caption="MRI scan", width=380)
+    with col2:
+        card(f"{DATA[label]['emoji']} {DATA[label]['title']}", f"Model confidence: {conf:.1f}%", COLORS[label])
+        st.plotly_chart(gauge(conf, COLORS[label]), key="gauge")
+
+    if conf < 70:
+        st.warning("Low confidence. Treat this result with extra caution.")
+    if true:
+        if true == label:
+            st.success(f"✅ Prediction matches the true label of this sample ({DATA[true]['title']}).")
+        else:
+            st.error(f"❌ The true label of this sample is {DATA[true]['title']}, but the model predicted {DATA[label]['title']}. This shows the model is not perfect.")
+
+    st.subheader("📈 Prediction breakdown")
+    g1, g2 = st.columns(2)
+    with g1:
+        st.plotly_chart(donut(pred), key="donut")
+    with g2:
+        st.plotly_chart(bars(pred), key="bars")
+
+    st.divider()
+    st.subheader("About this condition")
+    show_tabs(label)
+
+    report = (
+        "BRAIN TUMOR DETECTION REPORT (educational use only)\n"
+        f"Prediction: {DATA[label]['title']}\nConfidence: {conf:.1f}%\n\n"
+        f"Overview: {DATA[label]['overview']}\n\n"
+        f"Specialist: {DATA[label]['specialists']}\n\n"
+        "This is not a medical diagnosis. Consult a qualified doctor."
+    )
+    st.download_button("⬇️ Download report", report, file_name="report.txt")
+
+
+def learn_page():
+    choice = st.selectbox("Select a condition", CLASSES,
+                          format_func=lambda k: f"{DATA[k]['emoji']} {DATA[k]['title']}")
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        if os.path.exists(SAMPLES[choice]):
+            st.image(Image.open(SAMPLES[choice]), caption=f"Sample MRI: {DATA[choice]['title']}", width=300)
+        else:
+            st.info("Sample image not added yet.")
+    with col2:
+        card(f"{DATA[choice]['emoji']} {DATA[choice]['title']}", DATA[choice]["overview"], COLORS[choice])
+        st.markdown(f"**Specialist:** {DATA[choice]['specialists']}")
+    show_tabs(choice)
+
+
+def performance_page():
+    st.subheader("📊 Model performance")
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Validation accuracy", "84.8%")
+    m2.metric("Training accuracy", "89.1%")
+    m3.metric("Epochs", "3")
+    m4.metric("Input size", "160 x 160")
+
+    epochs = [1, 2, 3]
+    c1, c2 = st.columns(2)
+    with c1:
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=epochs, y=[75.7, 87.1, 89.1], mode="lines+markers", name="Training", line=dict(color="#2ecc71", width=3)))
+        fig.add_trace(go.Scatter(x=epochs, y=[83.1, 83.4, 84.8], mode="lines+markers", name="Validation", line=dict(color="#3498db", width=3)))
+        fig.update_layout(title="Accuracy per epoch (%)", xaxis_title="Epoch", xaxis=dict(dtick=1))
+        st.plotly_chart(style(fig, 320), key="acc")
+    with c2:
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=epochs, y=[0.5972, 0.3522, 0.2916], mode="lines+markers", name="Training", line=dict(color="#e67e22", width=3)))
+        fig.add_trace(go.Scatter(x=epochs, y=[0.5445, 0.5762, 0.5527], mode="lines+markers", name="Validation", line=dict(color="#e74c3c", width=3)))
+        fig.update_layout(title="Loss per epoch", xaxis_title="Epoch", xaxis=dict(dtick=1))
+        st.plotly_chart(style(fig, 320), key="loss")
+
+    c3, c4 = st.columns(2)
+    with c3:
+        fig = go.Figure(go.Pie(labels=["Training images", "Testing images"], values=[5600, 1600], hole=0.55,
+                               marker=dict(colors=["#8e44ad", "#1abc9c"])))
+        fig.update_layout(title="Dataset split (7,200 images)")
+        st.plotly_chart(style(fig, 320), key="split")
+    with c4:
+        st.markdown("**Model details**")
+        st.markdown(
+            "- Architecture: MobileNetV2 (ImageNet weights, frozen) + pooling + dropout + dense softmax\n"
+            "- Classes: glioma, meningioma, pituitary, no tumor\n"
+            "- Optimizer: Adam, loss: sparse categorical cross-entropy\n"
+            "- Dataset: Brain Tumor MRI Dataset (Kaggle)"
+        )
+        st.caption("Values are taken from the training log of this model.")
+
+
+# ---------------- layout ----------------
 st.sidebar.title("🧠 Brain Tumor App")
-mode = st.sidebar.radio("Choose mode", ["🔍 Analyze MRI", "📚 Learn about conditions"])
+mode = st.sidebar.radio("Choose page", ["🔍 Analyze MRI", "📚 Learn about conditions", "📊 Model performance"])
 st.sidebar.divider()
-st.sidebar.markdown("**Model:** MobileNetV2 (transfer learning)")
-st.sidebar.markdown("**Classes:** glioma, meningioma, pituitary, no tumor")
+st.sidebar.markdown("**Model:** MobileNetV2")
 st.sidebar.markdown("**Validation accuracy:** ~84.8%")
 st.sidebar.warning("For educational purposes only. Not a diagnostic tool.")
 
-st.title("Brain Tumor Detection App 🧠")
+st.markdown(
+    '<div class="hero"><h1>🧠 Brain Tumor Detection App</h1>'
+    "<p>Upload an MRI scan, see the prediction with charts, and learn about the condition.</p></div>",
+    unsafe_allow_html=True,
+)
 
-# ---------------- Analyze mode ----------------
-if mode == "🔍 Analyze MRI":
-    st.write("Upload a brain MRI image to get a prediction and learn about the condition.")
-    file = st.file_uploader("Upload MRI image", type=["jpg", "jpeg", "png"])
-
-    if file:
-        model = load_model()
-        img = Image.open(file).convert("RGB")
-        x = np.expand_dims(np.array(img.resize((160, 160)), dtype="float32"), 0)
-        with st.spinner("Analyzing scan..."):
-            pred = model.predict(x, verbose=0)[0]
-
-        idx = int(np.argmax(pred))
-        label = CLASSES[idx]
-        conf = float(pred[idx]) * 100
-
-        col1, col2 = st.columns([1, 1.3])
-        with col1:
-            st.image(img, caption="Uploaded MRI", use_container_width=True)
-        with col2:
-            st.subheader(f"{DATA[label]['emoji']} {DATA[label]['title']}")
-            st.metric("Model confidence", f"{conf:.1f}%")
-            st.progress(min(conf / 100, 1.0))
-            if conf < 70:
-                st.warning("Low confidence. Treat this result with extra caution.")
-            st.markdown("**Probability for each class**")
-            st.bar_chart({c: float(p) for c, p in zip(CLASSES, pred)})
-
-        st.divider()
-        st.subheader("About this condition")
-        show_tabs(label)
-
-        report = (
-            "BRAIN TUMOR DETECTION REPORT (educational use only)\n"
-            f"Prediction: {DATA[label]['title']}\nConfidence: {conf:.1f}%\n\n"
-            f"Overview: {DATA[label]['overview']}\n\n"
-            f"Specialist: {DATA[label]['specialists']}\n\n"
-            "This is not a medical diagnosis. Consult a qualified doctor."
-        )
-        st.download_button("⬇️ Download report", report, file_name="report.txt")
-    else:
-        st.info("👆 Upload an MRI image to begin, or switch to 'Learn about conditions' in the sidebar.")
-
-# ---------------- Learn mode ----------------
+if mode.startswith("🔍"):
+    analyze_page()
+elif mode.startswith("📚"):
+    learn_page()
 else:
-    choice = st.selectbox(
-        "Select a condition",
-        CLASSES,
-        format_func=lambda k: f"{DATA[k]['emoji']} {DATA[k]['title']}",
-    )
-    show_tabs(choice)
+    performance_page()
