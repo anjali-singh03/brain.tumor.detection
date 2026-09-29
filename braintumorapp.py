@@ -156,6 +156,51 @@ DATA = {
     },
 }
 
+CASES = {
+    "glioma": {
+        "patient": "Illustrative case: a 42-year-old office worker",
+        "happened": "Had weeks of morning headaches, then a first seizure at work. An MRI showed a mass in the temporal lobe, and a biopsy confirmed a low-grade glioma.",
+        "doctors": "The team explained that surgery would remove as much of the tumor as safely possible, followed by radiotherapy if needed. They started anti-seizure medicine, advised no driving for a period, and planned MRI scans every few months.",
+        "outcome": "Returned to work after recovery and continues regular scans. Outcomes depend on tumor grade and location.",
+        "links": [
+            ("PubMed: glioma case reports", "https://pubmed.ncbi.nlm.nih.gov/?term=glioma+case+report"),
+            ("NHS: Brain tumours", "https://www.nhs.uk/conditions/brain-tumours/"),
+            ("American Brain Tumor Association", "https://www.abta.org"),
+        ],
+    },
+    "meningioma": {
+        "patient": "Illustrative case: a 58-year-old woman",
+        "happened": "Noticed slowly blurring vision and mild headaches. An MRI found a small meningioma pressing near the optic nerve.",
+        "doctors": "Doctors explained that most meningiomas are benign and slow growing. They started with regular MRI monitoring, and recommended surgery or radiosurgery once the tumor grew and vision was affected.",
+        "outcome": "Treatment stopped further vision loss. She continues yearly follow-up scans.",
+        "links": [
+            ("PubMed: meningioma case reports", "https://pubmed.ncbi.nlm.nih.gov/?term=meningioma+case+report"),
+            ("NHS: Brain tumours", "https://www.nhs.uk/conditions/brain-tumours/"),
+            ("American Brain Tumor Association", "https://www.abta.org"),
+        ],
+    },
+    "pituitary": {
+        "patient": "Illustrative case: a 30-year-old woman",
+        "happened": "Had irregular periods, unexpected milk discharge and headaches. Blood tests showed very high prolactin, and an MRI found a small pituitary adenoma.",
+        "doctors": "The endocrinologist explained that this type (a prolactinoma) is often treated with tablets rather than surgery, with blood tests and an eye check to monitor progress.",
+        "outcome": "Hormone levels returned to normal on medication and the tumor shrank. Surgery is kept as a backup option.",
+        "links": [
+            ("PubMed: pituitary adenoma case reports", "https://pubmed.ncbi.nlm.nih.gov/?term=pituitary+adenoma+case+report"),
+            ("NHS: Brain tumours", "https://www.nhs.uk/conditions/brain-tumours/"),
+            ("American Brain Tumor Association", "https://www.abta.org"),
+        ],
+    },
+    "notumor": {
+        "patient": "Illustrative case: a 27-year-old student",
+        "happened": "Had recurring headaches and worried about a tumor. An MRI showed no tumor or other serious abnormality.",
+        "doctors": "The doctor explained that stress, poor sleep, long screen time and migraine are common causes. They advised regular sleep, hydration, a headache diary and a review if symptoms change.",
+        "outcome": "Headaches improved with lifestyle changes. The doctor asked her to return if new symptoms appeared.",
+        "links": [
+            ("NHS: Headaches", "https://www.nhs.uk/conditions/headaches/"),
+        ],
+    },
+}
+
 
 @st.cache_resource
 def load_model():
@@ -168,27 +213,39 @@ def bullets(items):
 
 def show_tabs(key):
     d = DATA[key]
-    t1, t2, t3, t4, t5, t6 = st.tabs(
-        ["📖 Overview", "🧬 Causes", "🩺 Symptoms", "💊 Treatment", "🛡️ Precautions", "👨‍⚕️ Doctor's Advice"]
+    tabs = st.tabs(
+        ["📖 Overview", "🧬 Causes", "🩺 Symptoms", "💊 Treatment",
+         "🛡️ Precautions", "👨‍⚕️ Doctor's Advice", "📝 Patient Stories"]
     )
-    with t1:
+    with tabs[0]:
         st.markdown(d["overview"])
-    with t2:
+    with tabs[1]:
         bullets(d["causes"])
-    with t3:
+    with tabs[2]:
         bullets(d["symptoms"])
-    with t4:
+    with tabs[3]:
         bullets(d["treatment"])
         st.caption("Treatment always depends on the doctor's assessment.")
-    with t5:
+    with tabs[4]:
         bullets(d["precautions"])
-    with t6:
+    with tabs[5]:
         st.markdown(f"**Which specialist to see:** {d['specialists']}")
         st.markdown("**See a doctor if you notice:**")
         bullets(d["see_doctor"])
         st.markdown("**Questions to ask your doctor:**")
         bullets(d["questions"])
         st.error("Emergency: sudden severe headache, seizure, loss of vision, weakness or confusion needs immediate medical care.")
+    with tabs[6]:
+        c = CASES[key]
+        st.caption("Illustrative example written for education. Not a real patient. Real experiences vary.")
+        st.markdown(f"**Patient:** {c['patient']}")
+        st.markdown(f"**What happened:** {c['happened']}")
+        st.markdown(f"**What the doctors explained:** {c['doctors']}")
+        st.markdown(f"**Outcome:** {c['outcome']}")
+        st.divider()
+        st.markdown("**Read real published case reports and guides:**")
+        for name, url in c["links"]:
+            st.markdown(f"- [{name}]({url})")
 
 
 # ---------------- Sidebar ----------------
