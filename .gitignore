@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+venv/
+env/
+.env
+report.pdf
+batch_results.csv
+confusion_matrix.png
+classification_report.txt
+improved_model.keras
+
+# Streamlit
+.streamlit/credentials.toml

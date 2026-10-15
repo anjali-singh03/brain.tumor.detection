@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>NeuroScan AI — Clinical Brain Tumor Detection & Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0ea5e9;
+      --primary-hover: #38bdf8;
+      --accent-neon: #2dd4bf;
+      --accent-glow: rgba(45, 212, 191, 0.45);
+      --bg-dark-1: #050b10;
+      --bg-dark-2: #081721;
+      --bg-dark-3: #0c2331;
+      --card-bg: rgba(10, 22, 31, 0.85);
+      --card-border: rgba(45, 212, 191, 0.35);
+      --card-shadow: 0 16px 45px rgba(0, 0, 0, 0.75), 0 0 30px rgba(45, 212, 191, 0.15);
+      --text-highlight: #ffffff;
+      --text-secondary: #e2e8f0;
+      --text-sub: #94a3b8;
+      --label-color: #5eead4;
+      --input-bg: rgba(6, 14, 20, 0.85);
+      --input-border: rgba(94, 234, 212, 0.3);
+      --input-focus: #2dd4bf;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden; /* Zero vertical scrolling */
+      font-family: var(--font-sans);
+      background: radial-gradient(circle at 50% 20%, #0d2836 0%, var(--bg-dark-2) 45%, var(--bg-dark-1) 100%);
+      color: var(--text-highlight);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Ambient Glowing Horizon Dome */
+    .ambient-horizon {
+      position: fixed;
+      bottom: -280px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 20%, rgba(45, 212, 191, 0.28) 0%, rgba(14, 165, 233, 0.12) 45%, transparent 75%);
+      pointer-events: none;
+      filter: blur(10px);
+      z-index: 1;
+      animation: horizonGlow 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes horizonGlow {
+      0% { opacity: 0.75; transform: translateX(-50%) scale(0.98); }
+      100% { opacity: 1; transform: translateX(-50%) scale(1.02); }
+    }
+
+    /* Animated Neon ECG Pulse Line */
+    .ecg-container {
+      position: fixed;
+      bottom: 14%;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.85;
+      overflow: hidden;
+    }
+
+    .ecg-svg {
+      width: 200%;
+      height: 100%;
+      animation: ecgFlow 6.5s linear infinite;
+    }
+
+    @keyframes ecgFlow {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Floating Medical Glass Orbs */
+    .floating-orb {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(45, 212, 191, 0.22) 0%, rgba(10, 25, 35, 0.5) 60%, rgba(5, 12, 18, 0.85) 100%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(45, 212, 191, 0.45);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 16px rgba(45, 212, 191, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      pointer-events: auto;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    }
+
+    .floating-orb:hover {
+      transform: scale(1.1) translateY(-4px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(45, 212, 191, 0.5);
+    }
+
+    .floating-orb svg {
+      width: 48%;
+      height: 48%;
+      fill: none;
+      stroke: #5eead4;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 8px rgba(94, 234, 212, 0.6));
+    }
+
+    /* Orb 1: Left DNA Double Helix */
+    .orb-dna {
+      width: 105px;
+      height: 105px;
+      left: calc(50% - 370px);
+      top: calc(50% - 80px);
+      animation: floatSlow 6s ease-in-out infinite alternate;
+    }
+
+    /* Orb 2: Right Medical IV Infusion Bag */
+    .orb-iv {
+      width: 115px;
+      height: 115px;
+      right: calc(50% - 380px);
+      top: calc(50% - 40px);
+      animation: floatSlow 6.8s ease-in-out infinite alternate-reverse;
+    }
+
+    /* Orb 3: Top Left Brain Diagnostic */
+    .orb-brain {
+      width: 70px;
+      height: 70px;
+      left: calc(50% - 240px);
+      top: calc(50% - 240px);
+      animation: floatSlow 7.5s ease-in-out infinite alternate;
+      opacity: 0.85;
+    }
+
+    /* Orb 4: Far Right Micro Orb */
+    .orb-micro {
+      width: 50px;
+      height: 50px;
+      right: calc(50% - 240px);
+      top: calc(50% - 220px);
+      animation: floatSlow 5.2s ease-in-out infinite alternate-reverse;
+      opacity: 0.75;
+    }
+
+    @keyframes floatSlow {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-14px) rotate(4deg); }
+    }
+
+    /* Top Navigation Header */
+    .top-nav {
+      width: 100%;
+      max-width: 1100px;
+      padding: 16px 24px 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 20;
+    }
+
+    .brand-pill {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(10, 22, 31, 0.85);
+      border: 1px solid rgba(45, 212, 191, 0.4);
+      padding: 6px 14px;
+      border-radius: 30px;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .brand-pill .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2dd4bf;
+      box-shadow: 0 0 10px #2dd4bf;
+      animation: pulseTeal 1.8s infinite;
+    }
+
+    @keyframes pulseTeal {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    /* Language Picker Dropdown */
+    .lang-dropdown {
+      position: relative;
+    }
+
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(10, 22, 31, 0.85);
+      border: 1px solid rgba(45, 212, 191, 0.4);
+      padding: 6px 14px;
+      border-radius: 24px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .lang-btn:hover {
+      border-color: #2dd4bf;
+      background: rgba(15, 35, 48, 0.95);
+      box-shadow: 0 0 15px rgba(45, 212, 191, 0.3);
+    }
+
+    .lang-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      background: rgba(9, 20, 29, 0.96);
+      backdrop-filter: blur(16px);
+      border-radius: 12px;
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+      min-width: 145px;
+      padding: 5px;
+      display: none;
+      flex-direction: column;
+      z-index: 50;
+    }
+
+    .lang-menu.show {
+      display: flex;
+    }
+
+    .lang-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .lang-item:hover, .lang-item.active {
+      background: rgba(45, 212, 191, 0.18);
+      color: #5eead4;
+    }
+
+    /* Main Container — Fitted Vertically without Scrolling */
+    .main-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 440px;
+      margin: auto 0;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Dark Glassmorphism Auth Card */
+    .auth-card {
+      width: 100%;
+      background: var(--card-bg);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 24px 28px 20px 28px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease;
+    }
+
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #0ea5e9, #2dd4bf, #06b6d4);
+      box-shadow: 0 0 12px #2dd4bf;
+    }
+
+    /* Medical Cross & Leaf Emblem */
+    .emblem-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .medical-cross-logo {
+      width: 40px;
+      height: 40px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 0 10px rgba(45, 212, 191, 0.5));
+    }
+
+    .cross-h, .cross-v {
+      position: absolute;
+      background: linear-gradient(135deg, #2dd4bf 0%, #0ea5e9 100%);
+      border-radius: 6px;
+    }
+
+    .cross-h { width: 34px; height: 11px; }
+    .cross-v { width: 11px; height: 34px; }
+
+    .cross-leaf {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 10px;
+      height: 10px;
+      background: #34d399;
+      border-radius: 0 7px 0 7px;
+      border: 1.5px solid #07151e;
+      transform: rotate(15deg);
+      box-shadow: 0 0 6px #34d399;
+    }
+
+    /* High-Contrast Card Header */
+    .card-header {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+      text-shadow: 0 0 14px rgba(45, 212, 191, 0.4);
+      margin-bottom: 3px;
+    }
+
+    .card-subtitle {
+      font-size: 12.5px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    /* Segmented Switcher for Sign In vs Sign Up */
+    .mode-tabs {
+      display: flex;
+      background: rgba(5, 12, 18, 0.7);
+      border: 1px solid rgba(45, 212, 191, 0.25);
+      border-radius: 26px;
+      padding: 3px;
+      margin-bottom: 15px;
+    }
+
+    .mode-tab-btn {
+      flex: 1;
+      padding: 7px 0;
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #94a3b8;
+      border: none;
+      background: transparent;
+      border-radius: 22px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .mode-tab-btn.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+      box-shadow: 0 2px 10px rgba(13, 148, 136, 0.5);
+    }
+
+    /* Form Fields — Compact & High Readability */
+    .form-group {
+      margin-bottom: 11px;
+      position: relative;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--label-color);
+      margin-bottom: 4px;
+      letter-spacing: 0.3px;
+      text-shadow: 0 0 8px rgba(94, 234, 212, 0.3);
+      text-align: left;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-field {
+      width: 100%;
+      height: 38px;
+      padding: 8px 38px 8px 12px;
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: 10px;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #ffffff;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-field::placeholder {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .input-field:focus {
+      background: rgba(10, 22, 32, 0.95);
+      border-color: var(--input-focus);
+      box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.25);
+    }
+
+    .field-icon {
+      position: absolute;
+      right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5eead4;
+      pointer-events: none;
+    }
+
+    .field-icon.interactive {
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .field-icon.interactive:hover {
+      color: #ffffff;
+      filter: drop-shadow(0 0 6px #2dd4bf);
+    }
+
+    .field-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+
+    /* Role Selector Dropdown */
+    .role-select {
+      width: 100%;
+      height: 38px;
+      padding: 8px 12px;
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: 10px;
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #ffffff;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232dd4bf' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 14px;
+    }
+
+    .role-select option {
+      background: #081721;
+      color: #ffffff;
+    }
+
+    /* Password Strength Indicator */
+    .password-strength {
+      margin-top: 5px;
+      display: none;
+    }
+
+    .strength-bars {
+      display: flex;
+      gap: 3px;
+      height: 3px;
+      margin-bottom: 3px;
+    }
+
+    .strength-bar {
+      flex: 1;
+      height: 100%;
+      background: #1e293b;
+      border-radius: 2px;
+      transition: background 0.3s;
+    }
+
+    .strength-text {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    /* Remember me & Forgot Password */
+    .form-aux-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0 14px;
+      font-size: 12px;
+    }
+
+    .remember-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #cbd5e1;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 500;
+    }
+
+    .remember-checkbox {
+      accent-color: #2dd4bf;
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+
+    .forgot-link:hover {
+      color: #2dd4bf;
+      text-decoration: underline;
+      text-shadow: 0 0 8px rgba(45, 212, 191, 0.4);
+    }
+
+    /* Primary CTA Button — Neon Cyan Pill */
+    .btn-primary {
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(135deg, #0d9488 0%, #0ea5e9 100%);
+      color: #ffffff;
+      border: 1px solid rgba(45, 212, 191, 0.5);
+      border-radius: 24px;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(14, 165, 233, 0.4), 0 0 10px rgba(45, 212, 191, 0.3);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #14b8a6 0%, #38bdf8 100%);
+      box-shadow: 0 6px 24px rgba(45, 212, 191, 0.6), 0 0 15px rgba(56, 189, 248, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    /* Divider "OR" */
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      margin: 11px 0;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(148, 163, 184, 0.2);
+    }
+
+    .auth-divider span {
+      padding: 0 10px;
+    }
+
+    /* Social Auth: Google Button */
+    .btn-google {
+      width: 100%;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.07);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 24px;
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-google:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 14px rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-google svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* One-Click Quick Doctor Demo Access */
+    .demo-access-btn {
+      margin-top: 8px;
+      width: 100%;
+      height: 32px;
+      background: rgba(45, 212, 191, 0.08);
+      color: #5eead4;
+      border: 1px dashed #2dd4bf;
+      border-radius: 24px;
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .demo-access-btn:hover {
+      background: rgba(45, 212, 191, 0.18);
+      border-style: solid;
+      box-shadow: 0 0 12px rgba(45, 212, 191, 0.3);
+    }
+
+    /* Toggle Switcher at Bottom */
+    .auth-footer {
+      text-align: center;
+      margin-top: 13px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .switch-mode-btn {
+      color: #38bdf8;
+      background: none;
+      border: none;
+      font-weight: 800;
+      cursor: pointer;
+      margin-left: 4px;
+      transition: color 0.15s;
+    }
+
+    .switch-mode-btn:hover {
+      color: #2dd4bf;
+      text-decoration: underline;
+      text-shadow: 0 0 8px rgba(45, 212, 191, 0.5);
+    }
+
+    /* Bottom High-Contrast Compliance Footer */
+    .compliance-footer {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 0 20px 14px 20px;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+
+    .badge-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .badge-item svg {
+      width: 13px;
+      height: 13px;
+      stroke: #2dd4bf;
+      stroke-width: 2.2;
+      fill: none;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      top: 18px;
+      right: 20px;
+      background: #0b1a24;
+      color: #ffffff;
+      padding: 10px 16px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      border-left: 4px solid #2dd4bf;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      transform: translateY(-80px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.success { border-left-color: #10b981; }
+    .toast.error { border-left-color: #ef4444; }
+
+    /* Responsive adjustments */
+    @media (max-height: 720px) {
+      .auth-card { padding: 18px 22px 14px; }
+      .card-header { margin-bottom: 10px; }
+      .mode-tabs { margin-bottom: 10px; }
+      .form-group { margin-bottom: 8px; }
+      .auth-divider { margin: 8px 0; }
+      .compliance-footer { display: none; } /* Hide on very small laptop viewports */
+    }
+
+    @media (max-width: 860px) {
+      .floating-orb { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Glowing Horizon Dome -->
+  <div class="ambient-horizon"></div>
+
+  <!-- Animated Neon ECG Heartbeat Pulse Line -->
+  <div class="ecg-container">
+    <svg class="ecg-svg" viewBox="0 0 2400 120" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="ecgGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.1"/>
+          <stop offset="30%" stop-color="#ffffff" stop-opacity="0.95"/>
+          <stop offset="50%" stop-color="#2dd4bf" stop-opacity="0.9"/>
+          <stop offset="70%" stop-color="#06b6d4" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#0369a1" stop-opacity="0.1"/>
+        </linearGradient>
+        <filter id="glowEffect" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3.5" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <path d="
+        M0,60 L240,60 L260,60 L275,45 L290,75 L305,15 L320,105 L335,50 L350,68 L365,60 L540,60
+        L600,60 L620,60 L635,45 L650,75 L665,15 L680,105 L695,50 L710,68 L725,60 L900,60
+        L960,60 L980,60 L995,45 L1010,75 L1025,15 L1040,105 L1055,50 L1070,68 L1085,60 L1260,60
+        L1320,60 L1340,60 L1355,45 L1370,75 L1385,15 L1400,105 L1415,50 L1430,68 L1445,60 L1620,60
+        L1680,60 L1700,60 L1715,45 L1730,75 L1745,15 L1760,105 L1775,50 L1790,68 L1805,60 L1980,60
+        L2040,60 L2060,60 L2075,45 L2090,75 L2105,15 L2120,105 L2135,50 L2150,68 L2165,60 L2400,60
+      " fill="none" stroke="url(#ecgGlow)" stroke-width="2.6" filter="url(#glowEffect)" />
+    </svg>
+  </div>
+
+  <!-- Left Floating Orb: DNA Double Helix -->
+  <div class="floating-orb orb-dna" id="orbDna" title="Neurogenetics & Biomarkers">
+    <svg viewBox="0 0 24 24">
+      <path d="M2 15c6.667-6 13.333 0 20-6"></path>
+      <path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"></path>
+      <path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"></path>
+      <path d="M17 6l-2.5-2.5"></path>
+      <path d="M14 8l-1-1"></path>
+      <path d="M7 18l2.5 2.5"></path>
+      <path d="M3.5 14.5l.5.5"></path>
+      <path d="M20 9.5l.5.5"></path>
+      <path d="M6.5 12.5l1 1"></path>
+      <path d="M16.5 10.5l1 1"></path>
+      <path d="M10 16l1.5 1.5"></path>
+    </svg>
+  </div>
+
+  <!-- Right Floating Orb: Medical IV / Blood Infusion Bag -->
+  <div class="floating-orb orb-iv" id="orbIv" title="Clinical Infusion & Oncology">
+    <svg viewBox="0 0 24 24">
+      <path d="M7 3h10a2 2 0 0 1 2 2v10a6 6 0 0 1-6 6H11a6 6 0 0 1-6-6V5a2 2 0 0 1 2-2z"></path>
+      <line x1="9" y1="3" x2="9" y2="1"></line>
+      <line x1="15" y1="3" x2="15" y2="1"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="10" y1="8" x2="14" y2="8"></line>
+      <line x1="10" y1="12" x2="14" y2="12"></line>
+    </svg>
+  </div>
+
+  <!-- Top Ambient Orb: Brain Diagnostic -->
+  <div class="floating-orb orb-brain" title="Neural Scan Processing">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 2a5 5 0 0 0-5 5c0 .7.1 1.4.4 2A5 5 0 0 0 3 13a5 5 0 0 0 5 5h1a4 4 0 0 0 4-4V2z"></path>
+      <path d="M12 2a5 5 0 0 1 5 5c0 .7-.1 1.4-.4 2A5 5 0 0 1 21 13a5 5 0 0 1-5 5h-1a4 4 0 0 1-4-4V2z"></path>
+    </svg>
+  </div>
+
+  <!-- Far Right Micro Ambient Orb -->
+  <div class="floating-orb orb-micro">
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8"></circle>
+      <path d="M12 8v8M8 12h8"></path>
+    </svg>
+  </div>
+
+  <!-- Top Navigation Bar -->
+  <header class="top-nav">
+    <div class="brand-pill">
+      <span class="pulse-dot"></span>
+      <span>NeuroScan 2.5 • Clinical AI</span>
+    </div>
+
+    <!-- Language Selector Dropdown -->
+    <div class="lang-dropdown">
+      <button class="lang-btn" id="langBtn" aria-label="Select Language">
+        <span id="currentFlag">🇺🇸</span>
+        <span id="currentLangText">En</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+      <div class="lang-menu" id="langMenu">
+        <div class="lang-item active" data-lang="en" data-flag="🇺🇸" data-label="En">
+          <span>🇺🇸</span> English (US)
+        </div>
+        <div class="lang-item" data-lang="hi" data-flag="🇮🇳" data-label="हि">
+          <span>🇮🇳</span> हिंदी (Hindi)
+        </div>
+        <div class="lang-item" data-lang="es" data-flag="🇪🇸" data-label="Es">
+          <span>🇪🇸</span> Español
+        </div>
+        <div class="lang-item" data-lang="fr" data-flag="🇫🇷" data-label="Fr">
+          <span>🇫🇷</span> Français
+        </div>
+        <div class="lang-item" data-lang="de" data-flag="🇩🇪" data-label="De">
+          <span>🇩🇪</span> Deutsch
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Authentication Card (Fitted in viewport without scroll) -->
+  <main class="main-wrapper">
+    <div class="auth-card" id="authCard">
+
+      <!-- Medical Cross & Leaf Logo -->
+      <div class="emblem-wrapper">
+        <div class="medical-cross-logo" title="NeuroScan Clinical AI">
+          <div class="cross-h"></div>
+          <div class="cross-v"></div>
+          <div class="cross-leaf"></div>
+        </div>
+      </div>
+
+      <!-- Segmented Switcher for Sign In vs Sign Up -->
+      <div class="mode-tabs">
+        <button type="button" class="mode-tab-btn active" id="tabSignIn" onclick="setAuthMode('login')">
+          Sign In
+        </button>
+        <button type="button" class="mode-tab-btn" id="tabSignUp" onclick="setAuthMode('signup')">
+          Sign Up
+        </button>
+      </div>
+
+      <!-- High-Contrast Card Header -->
+      <div class="card-header">
+        <h1 class="card-title" id="cardTitle">Welcome Back!</h1>
+        <p class="card-subtitle" id="cardSubtitle">Enter clinical ID to access diagnostic suite</p>
+      </div>
+
+      <!-- Form -->
+      <form id="authForm" onsubmit="handleAuthSubmit(event)">
+
+        <!-- Full Name (Only for Sign Up) -->
+        <div class="form-group" id="groupFullName" style="display: none;">
+          <label class="field-label" id="lblFullName" for="fullName">Full Name & Title</label>
+          <div class="input-wrapper">
+            <input type="text" id="fullName" class="input-field" placeholder="Dr. Sarah Mitchell, MD">
+            <span class="field-icon">
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Role / Specialization (Only for Sign Up) -->
+        <div class="form-group" id="groupRole" style="display: none;">
+          <label class="field-label" id="lblRole" for="roleSelect">Clinical Specialization</label>
+          <select id="roleSelect" class="role-select">
+            <option value="radiologist">Chief Radiologist / MRI Specialist</option>
+            <option value="neurologist">Consultant Neurologist</option>
+            <option value="neurosurgeon">Neurosurgeon</option>
+            <option value="oncologist">Neuro-Oncologist</option>
+            <option value="researcher">Clinical AI Researcher</option>
+            <option value="resident">Medical Resident / Student</option>
+          </select>
+        </div>
+
+        <!-- Email or Phone Field (Matches reference image) -->
+        <div class="form-group">
+          <label class="field-label" id="lblIdentifier" for="identifier">Email or No. Handphone</label>
+          <div class="input-wrapper">
+            <input type="text" id="identifier" class="input-field" value="leonba@pixel.co.id" placeholder="leonba@pixel.co.id" required>
+            <span class="field-icon">
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label class="field-label" id="lblPassword" for="password">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="password" class="input-field" value="Password123!" placeholder="••••••••••••" required oninput="evaluatePasswordStrength(this.value)">
+            <span class="field-icon interactive" onclick="togglePasswordVisibility('password', this)" title="Show/Hide Password">
+              <svg id="eyeIcon" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </span>
+          </div>
+
+          <!-- Password Strength Meter -->
+          <div class="password-strength" id="passwordStrength">
+            <div class="strength-bars">
+              <div class="strength-bar" id="strBar1"></div>
+              <div class="strength-bar" id="strBar2"></div>
+              <div class="strength-bar" id="strBar3"></div>
+              <div class="strength-bar" id="strBar4"></div>
+            </div>
+            <span class="strength-text" id="strengthText">Strength: HIPAA-compliant</span>
+          </div>
+        </div>
+
+        <!-- Aux Row: Remember Me & Forgot Password -->
+        <div class="form-aux-row" id="loginAuxRow">
+          <label class="remember-label">
+            <input type="checkbox" class="remember-checkbox" id="rememberMe" checked>
+            <span id="txtRemember">Remember device</span>
+          </label>
+          <a href="#" class="forgot-link" id="linkForgot" onclick="handleForgotPassword(event)">Forgot Password?</a>
+        </div>
+
+        <!-- HIPAA Agreement (Only on Sign Up) -->
+        <div class="form-aux-row" id="signupAuxRow" style="display: none;">
+          <label class="remember-label">
+            <input type="checkbox" class="remember-checkbox" id="termsCheck" required>
+            <span>Agree to HIPAA Data Policy</span>
+          </label>
+        </div>
+
+        <!-- Primary Submit Button -->
+        <button type="submit" class="btn-primary" id="btnSubmit">
+          <span id="btnSubmitText">SIGN IN</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+
+        <!-- Divider OR -->
+        <div class="auth-divider">
+          <span>OR</span>
+        </div>
+
+        <!-- Google Single Sign-On Button -->
+        <button type="button" class="btn-google" id="btnGoogle" onclick="handleGoogleSignIn()">
+          <svg viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          <span id="googleBtnText">Continue with Google</span>
+        </button>
+
+        <!-- One-Click Quick Doctor Demo Access -->
+        <button type="button" class="demo-access-btn" onclick="handleDemoLogin()">
+          <span>🩺</span>
+          <span id="demoBtnText">Quick Access: Dr. Sarah Mitchell (Demo)</span>
+        </button>
+
+      </form>
+
+      <!-- Toggle Switcher at Bottom -->
+      <div class="auth-footer">
+        <span id="switchPrompt">Don't have an account ?</span>
+        <button type="button" class="switch-mode-btn" id="switchActionBtn" onclick="toggleAuthMode()">
+          Sign Up
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- High-Contrast Security Badges -->
+  <footer class="compliance-footer">
+    <div class="badge-item">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+      <span>HIPAA Security Rule Ready</span>
+    </div>
+    <div class="badge-item">
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      <span>256-Bit SSL Encryption</span>
+    </div>
+    <div class="badge-item">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+      <span>DICOM & HL7 Clinical Compatible</span>
+    </div>
+  </footer>
+
+  <!-- Toast Notification System -->
+  <div class="toast" id="toast">
+    <span id="toastIcon">ℹ️</span>
+    <span id="toastMsg">Notification message</span>
+  </div>
+
+  <script>
+    let currentMode = 'login';
+    let currentLang = 'en';
+
+    const translations = {
+      en: {
+        flag: "🇺🇸",
+        label: "En",
+        welcomeTitle: "Welcome Back!",
+        welcomeSub: "Enter clinical ID to access diagnostic suite",
+        signupTitle: "Create Account",
+        signupSub: "Register clinical clinician or workstation",
+        tabSignIn: "Sign In",
+        tabSignUp: "Sign Up",
+        identifierLabel: "Email or No. Handphone",
+        identifierPlaceholder: "leonba@pixel.co.id",
+        passwordLabel: "Password",
+        forgotPassword: "Forgot Password?",
+        rememberDevice: "Remember device",
+        btnSignIn: "SIGN IN",
+        btnSignUp: "CREATE CLINICAL ACCOUNT",
+        googleText: "Continue with Google",
+        demoText: "Quick Access: Dr. Sarah Mitchell (Demo)",
+        noAccount: "Don't have an account ?",
+        haveAccount: "Already registered ?",
+        switchSignUp: "Sign Up",
+        switchSignIn: "Log In",
+        fullNameLabel: "Full Name & Title",
+        roleLabel: "Clinical Specialization"
+      },
+      hi: {
+        flag: "🇮🇳",
+        label: "हि",
+        welcomeTitle: "वापसी पर स्वागत है!",
+        welcomeSub: "निदान सूट तक पहुँचने के लिए आईडी दर्ज करें",
+        signupTitle: "नया खाता बनाएं",
+        signupSub: "क्लिनिकल एआई नेटवर्क से जुड़ें",
+        tabSignIn: "साइन इन",
+        tabSignUp: "साइन अप",
+        identifierLabel: "ईमेल या मोबाइल नंबर",
+        identifierPlaceholder: "doctor@hospital.in",
+        passwordLabel: "पासवर्ड",
+        forgotPassword: "पासवर्ड भूल गए?",
+        rememberDevice: "डिवाइस याद रखें",
+        btnSignIn: "साइन इन करें",
+        btnSignUp: "खाता बनाएं",
+        googleText: "Google के साथ जारी रखें",
+        demoText: "त्वरित प्रवेश: डॉ. सारा मिचेल (डेमो)",
+        noAccount: "खाता नहीं है?",
+        haveAccount: "पहले से खाता है?",
+        switchSignUp: "साइन अप करें",
+        switchSignIn: "लॉग इन करें",
+        fullNameLabel: "पूरा नाम और पदवी",
+        roleLabel: "चिकित्सा विशेषज्ञता"
+      },
+      es: {
+        flag: "🇪🇸",
+        label: "Es",
+        welcomeTitle: "¡Bienvenido de nuevo!",
+        welcomeSub: "Ingrese credenciales para acceder",
+        signupTitle: "Crear Cuenta",
+        signupSub: "Únase a la red de diagnóstico clínico",
+        tabSignIn: "Iniciar Sesión",
+        tabSignUp: "Registrarse",
+        identifierLabel: "Correo o Teléfono",
+        identifierPlaceholder: "doctor@hospital.es",
+        passwordLabel: "Contraseña",
+        forgotPassword: "¿Olvidó su contraseña?",
+        rememberDevice: "Recordar dispositivo",
+        btnSignIn: "INICIAR SESIÓN",
+        btnSignUp: "CREAR CUENTA",
+        googleText: "Continuar con Google",
+        demoText: "Acceso Rápido: Dra. Mitchell (Demo)",
+        noAccount: "¿No tienes cuenta?",
+        haveAccount: "¿Ya tienes cuenta?",
+        switchSignUp: "Registrarse",
+        switchSignIn: "Iniciar Sesión",
+        fullNameLabel: "Nombre Completo y Título",
+        roleLabel: "Especialización Clínica"
+      },
+      fr: {
+        flag: "🇫🇷",
+        label: "Fr",
+        welcomeTitle: "Bon retour !",
+        welcomeSub: "Entrez vos identifiants pour continuer",
+        signupTitle: "Créer un Compte",
+        signupSub: "Rejoignez le réseau d'IA clinique",
+        tabSignIn: "Connexion",
+        tabSignUp: "Inscription",
+        identifierLabel: "Email ou Téléphone",
+        identifierPlaceholder: "docteur@hopital.fr",
+        passwordLabel: "Mot de passe",
+        forgotPassword: "Mot de passe oublié ?",
+        rememberDevice: "Se souvenir de cet appareil",
+        btnSignIn: "SE CONNECTER",
+        btnSignUp: "CRÉER UN COMPTE",
+        googleText: "Continuer avec Google",
+        demoText: "Accès Rapide: Dr. Sarah Mitchell (Démo)",
+        noAccount: "Vous n'avez pas de compte ?",
+        haveAccount: "Déjà inscrit ?",
+        switchSignUp: "S'inscrire",
+        switchSignIn: "Se connecter",
+        fullNameLabel: "Nom Complet & Titre",
+        roleLabel: "Spécialisation Clinique"
+      },
+      de: {
+        flag: "🇩🇪",
+        label: "De",
+        welcomeTitle: "Willkommen zurück!",
+        welcomeSub: "Geben Sie Ihre Anmeldedaten ein",
+        signupTitle: "Konto erstellen",
+        signupSub: "Treten Sie unserem klinischen KI-Netzwerk bei",
+        tabSignIn: "Anmelden",
+        tabSignUp: "Registrieren",
+        identifierLabel: "E-Mail oder Telefonnummer",
+        identifierPlaceholder: "arzt@klinikum.de",
+        passwordLabel: "Passwort",
+        forgotPassword: "Passwort vergessen?",
+        rememberDevice: "Gerät merken",
+        btnSignIn: "ANMELDEN",
+        btnSignUp: "KONTO ERSTELLEN",
+        googleText: "Weiter mit Google",
+        demoText: "Schnellzugang: Dr. Sarah Mitchell (Demo)",
+        noAccount: "Noch kein Konto?",
+        haveAccount: "Bereits registriert?",
+        switchSignUp: "Registrieren",
+        switchSignIn: "Anmelden",
+        fullNameLabel: "Vollständiger Name & Titel",
+        roleLabel: "Klinische Spezialisierung"
+      }
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setupLanguageDropdown();
+      setupMouseParallax();
+    });
+
+    function setupLanguageDropdown() {
+      const langBtn = document.getElementById("langBtn");
+      const langMenu = document.getElementById("langMenu");
+
+      langBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        langMenu.classList.toggle("show");
+      });
+
+      document.addEventListener("click", () => {
+        langMenu.classList.remove("show");
+      });
+
+      document.querySelectorAll(".lang-item").forEach(item => {
+        item.addEventListener("click", () => {
+          setLanguage(item.getAttribute("data-lang"));
+        });
+      });
+    }
+
+    function setLanguage(lang) {
+      if (!translations[lang]) return;
+      currentLang = lang;
+      const t = translations[lang];
+
+      document.getElementById("currentFlag").textContent = t.flag;
+      document.getElementById("currentLangText").textContent = t.label;
+
+      document.querySelectorAll(".lang-item").forEach(el => {
+        el.classList.toggle("active", el.getAttribute("data-lang") === lang);
+      });
+
+      document.getElementById("tabSignIn").textContent = t.tabSignIn;
+      document.getElementById("tabSignUp").textContent = t.tabSignUp;
+      document.getElementById("lblIdentifier").textContent = t.identifierLabel;
+      document.getElementById("identifier").placeholder = t.identifierPlaceholder;
+      document.getElementById("lblPassword").textContent = t.passwordLabel;
+      document.getElementById("linkForgot").textContent = t.forgotPassword;
+      document.getElementById("txtRemember").textContent = t.rememberDevice;
+      document.getElementById("googleBtnText").textContent = t.googleText;
+      document.getElementById("demoBtnText").textContent = t.demoText;
+      document.getElementById("lblFullName").textContent = t.fullNameLabel;
+      document.getElementById("lblRole").textContent = t.roleLabel;
+
+      applyAuthModeTexts();
+      showToast(`Language: ${t.label}`, "info");
+    }
+
+    function applyAuthModeTexts() {
+      const t = translations[currentLang];
+      if (currentMode === 'login') {
+        document.getElementById("cardTitle").textContent = t.welcomeTitle;
+        document.getElementById("cardSubtitle").textContent = t.welcomeSub;
+        document.getElementById("btnSubmitText").textContent = t.btnSignIn;
+        document.getElementById("switchPrompt").textContent = t.noAccount;
+        document.getElementById("switchActionBtn").textContent = t.switchSignUp;
+      } else {
+        document.getElementById("cardTitle").textContent = t.signupTitle;
+        document.getElementById("cardSubtitle").textContent = t.signupSub;
+        document.getElementById("btnSubmitText").textContent = t.btnSignUp;
+        document.getElementById("switchPrompt").textContent = t.haveAccount;
+        document.getElementById("switchActionBtn").textContent = t.switchSignIn;
+      }
+    }
+
+    function setAuthMode(mode) {
+      currentMode = mode;
+      const isLogin = mode === 'login';
+
+      document.getElementById("tabSignIn").classList.toggle("active", isLogin);
+      document.getElementById("tabSignUp").classList.toggle("active", !isLogin);
+
+      document.getElementById("groupFullName").style.display = isLogin ? "none" : "block";
+      document.getElementById("groupRole").style.display = isLogin ? "none" : "block";
+      document.getElementById("passwordStrength").style.display = isLogin ? "none" : "block";
+      document.getElementById("loginAuxRow").style.display = isLogin ? "flex" : "none";
+      document.getElementById("signupAuxRow").style.display = isLogin ? "none" : "flex";
+
+      applyAuthModeTexts();
+
+      const card = document.getElementById("authCard");
+      card.style.transform = "scale(0.985)";
+      setTimeout(() => { card.style.transform = "scale(1)"; }, 120);
+    }
+
+    function toggleAuthMode() {
+      setAuthMode(currentMode === 'login' ? 'signup' : 'login');
+    }
+
+    function togglePasswordVisibility(inputId, toggleEl) {
+      const input = document.getElementById(inputId);
+      const isPassword = input.type === "password";
+      input.type = isPassword ? "text" : "password";
+
+      const eyeSvg = toggleEl.querySelector("svg");
+      if (isPassword) {
+        eyeSvg.innerHTML = `
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        `;
+      } else {
+        eyeSvg.innerHTML = `
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        `;
+      }
+    }
+
+    function evaluatePasswordStrength(val) {
+      if (currentMode !== 'signup') return;
+      const bars = [
+        document.getElementById("strBar1"),
+        document.getElementById("strBar2"),
+        document.getElementById("strBar3"),
+        document.getElementById("strBar4")
+      ];
+      const strText = document.getElementById("strengthText");
+
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+
+      const colors = ["#ef4444", "#f97316", "#eab308", "#10b981"];
+      const labels = ["Weak", "Fair", "Good", "HIPAA Compliant"];
+
+      bars.forEach((b, i) => {
+        b.style.background = i < score ? colors[score - 1] : "#1e293b";
+      });
+
+      strText.textContent = val ? labels[score - 1] || "Enter password" : "Strength: HIPAA-compliant";
+      strText.style.color = score > 0 ? colors[score - 1] : "#94a3b8";
+    }
+
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      const identifier = document.getElementById("identifier").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!identifier || !password) {
+        showToast("Please enter all credentials.", "error");
+        return;
+      }
+
+      if (currentMode === 'login') {
+        showToast("Verifying credentials...", "info");
+        setTimeout(() => {
+          showToast(`Access Granted! Welcome Dr. ${identifier.split('@')[0]}`, "success");
+          window.location.href = "http://localhost:8501";
+        }, 700);
+      } else {
+        showToast("Account Created! Please Sign In.", "success");
+        setTimeout(() => setAuthMode('login'), 800);
+      }
+    }
+
+    function handleGoogleSignIn() {
+      showToast("Connecting to Google Healthcare...", "info");
+      setTimeout(() => {
+        showToast("Verified with Google! Launching Workspace...", "success");
+        window.location.href = "http://localhost:8501";
+      }, 800);
+    }
+
+    function handleDemoLogin() {
+      document.getElementById("identifier").value = "dr.mitchell@neuroscan.ai";
+      document.getElementById("password").value = "DemoMedical2026!";
+      showToast("Dr. Mitchell credentials loaded. Entering workspace...", "info");
+      setTimeout(() => {
+        showToast("Welcome Dr. Sarah Mitchell!", "success");
+        window.location.href = "http://localhost:8501";
+      }, 700);
+    }
+
+    function handleForgotPassword(e) {
+      e.preventDefault();
+      const identifier = document.getElementById("identifier").value.trim();
+      showToast(`Reset link sent to ${identifier || "your email"}`, "info");
+    }
+
+    function showToast(msg, type = "info") {
+      const toast = document.getElementById("toast");
+      const icon = document.getElementById("toastIcon");
+      const text = document.getElementById("toastMsg");
+
+      const iconMap = { success: "✅", error: "⚠️", info: "🩺" };
+      icon.textContent = iconMap[type] || "ℹ️";
+      text.textContent = msg;
+
+      toast.className = `toast show ${type}`;
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => { toast.classList.remove("show"); }, 3000);
+    }
+
+    function setupMouseParallax() {
+      const card = document.getElementById("authCard");
+      const orbDna = document.getElementById("orbDna");
+      const orbIv = document.getElementById("orbIv");
+
+      document.addEventListener("mousemove", (e) => {
+        const x = (e.clientX / window.innerWidth) - 0.5;
+        const y = (e.clientY / window.innerHeight) - 0.5;
+        card.style.transform = `perspective(1000px) rotateY(${x * 5}deg) rotateX(${-y * 5}deg)`;
+        if (orbDna) orbDna.style.transform = `translate(${x * 25}px, ${y * 25}px)`;
+        if (orbIv) orbIv.style.transform = `translate(${-x * 25}px, ${-y * 25}px)`;
+      });
+
+      document.addEventListener("mouseleave", () => {
+        card.style.transform = "perspective(1000px) rotateY(0deg) rotateX(0deg)";
+        if (orbDna) orbDna.style.transform = "translate(0, 0)";
+        if (orbIv) orbIv.style.transform = "translate(0, 0)";
+      });
+    }
+  </script>
+</body>
+</html>
