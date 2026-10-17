@@ -85,7 +85,7 @@ def render_user_profile_sidebar():
         """,
         unsafe_allow_html=True
     )
-    if st.sidebar.button("🚪 Log Out", key="btn_logout_sidebar", use_container_width=True):
+    if st.sidebar.button("🔄 Switch Clinician / Log Out", key="btn_logout_sidebar", use_container_width=True):
         logout_user()
 
 
@@ -474,6 +474,12 @@ def render_login_page():
             """,
             unsafe_allow_html=True
         )
+
+    # Instant Direct 1-Click Entry to PACS Diagnostic Workstation
+    if st.button("🚀 Enter PACS Diagnostic Scanner Directly", key="btn_direct_pacs_entry", type="primary", use_container_width=True):
+        st.session_state["authenticated"] = True
+        st.session_state["user"] = CLINICAL_USERS["dr.mitchell@neuroscan.ai"]
+        st.rerun()
 
     # Mode Selector Tabs: Sign In vs Sign Up
     t_col1, t_col2 = st.columns(2)
