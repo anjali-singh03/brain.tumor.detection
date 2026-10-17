@@ -116,11 +116,11 @@ def render_login_page():
 
     is_login = st.session_state["auth_mode"] == "login"
 
-    # 2. Inject Dark Clinical CSS: Zero scroll, glowing neon accents, high contrast
+    # 2. Inject Full Animated Dark Clinical CSS: Zero scroll, flowing SVG ECG, glowing dome, floating orbs
     st.markdown(
         """
         <style>
-        /* Force Dark App Canvas */
+        /* Force Dark App Canvas with Animated Subtle Horizon */
         .stApp {
             background: radial-gradient(circle at 50% 15%, #0d2836 0%, #07151e 50%, #03080c 100%) !important;
             color: #ffffff !important;
@@ -131,43 +131,114 @@ def render_login_page():
 
         /* Eliminate all Streamlit padding so zero scrolling occurs */
         .block-container {
-            padding-top: 0.8rem !important;
+            padding-top: 0.6rem !important;
             padding-bottom: 0.2rem !important;
             padding-left: 1rem !important;
             padding-right: 1rem !important;
             max-width: 440px !important;
             margin: 0 auto !important;
+            position: relative !important;
+            z-index: 10 !important;
         }
 
         header[data-testid="stHeader"], footer, [data-testid="stSidebar"] {
             display: none !important;
         }
 
-        /* Glowing Horizon Dome */
+        /* Animated Glowing Horizon Dome */
         .auth-bg-dome {
             position: fixed;
             bottom: -260px;
             left: 50%;
             transform: translateX(-50%);
-            width: 800px;
-            height: 480px;
+            width: 860px;
+            height: 520px;
             border-radius: 50%;
-            background: radial-gradient(circle at 50% 20%, rgba(45, 212, 191, 0.25) 0%, rgba(14, 165, 233, 0.1) 45%, transparent 75%);
+            background: radial-gradient(circle at 50% 20%, rgba(45, 212, 191, 0.28) 0%, rgba(14, 165, 233, 0.12) 45%, transparent 75%);
             pointer-events: none;
             z-index: 0;
-            filter: blur(10px);
+            filter: blur(12px);
+            animation: horizonGlow 6s ease-in-out infinite alternate;
         }
 
-        /* Neon Animated Pulse Wave */
-        .pulse-line-anim {
+        @keyframes horizonGlow {
+            0% { opacity: 0.65; transform: translateX(-50%) scale(0.96); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1.04); }
+        }
+
+        /* Animated Neon ECG Heartbeat Pulse Line */
+        .ecg-container {
             position: fixed;
-            bottom: 12%;
+            bottom: 6%;
             left: 0;
             width: 100%;
-            height: 60px;
+            height: 70px;
             pointer-events: none;
-            opacity: 0.7;
             z-index: 1;
+            opacity: 0.85;
+            overflow: hidden;
+        }
+
+        .ecg-svg {
+            width: 200%;
+            height: 100%;
+            animation: ecgFlow 6.5s linear infinite;
+        }
+
+        @keyframes ecgFlow {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Floating Medical Glass Orbs */
+        .floating-orb {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(45, 212, 191, 0.22) 0%, rgba(10, 25, 35, 0.5) 60%, rgba(5, 12, 18, 0.85) 100%);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1.5px solid rgba(45, 212, 191, 0.45);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 16px rgba(45, 212, 191, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            pointer-events: none;
+            width: 48px;
+            height: 48px;
+            font-size: 20px;
+        }
+
+        .orb-left {
+            top: 22%;
+            left: calc(50% - 280px);
+            animation: floatSlow1 6.5s ease-in-out infinite alternate;
+        }
+
+        .orb-right {
+            top: 36%;
+            right: calc(50% - 280px);
+            animation: floatSlow2 7.5s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes floatSlow1 {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-16px) rotate(8deg); }
+        }
+
+        @keyframes floatSlow2 {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(16px) rotate(-8deg); }
+        }
+
+        /* Pulsing Medical Cross Emblem */
+        .emblem-pulse {
+            animation: pulseTeal 2.2s ease-in-out infinite;
+        }
+
+        @keyframes pulseTeal {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(45, 212, 191, 0.6)); }
+            50% { transform: scale(1.08); filter: drop-shadow(0 0 20px rgba(45, 212, 191, 0.95)); }
         }
 
         /* High-Contrast Highlighted Titles */
@@ -210,7 +281,7 @@ def render_login_page():
         }
         div[data-baseweb="input"]:focus-within {
             border-color: #2dd4bf !important;
-            box-shadow: 0 0 12px rgba(45, 212, 191, 0.5), inset 0 0 10px rgba(0,0,0,0.5) !important;
+            box-shadow: 0 0 14px rgba(45, 212, 191, 0.6), inset 0 0 10px rgba(0,0,0,0.5) !important;
         }
         div[data-baseweb="input"] input {
             color: #ffffff !important;
@@ -241,12 +312,12 @@ def render_login_page():
             letter-spacing: 0.6px !important;
             padding: 6px 16px !important;
             box-shadow: 0 4px 18px rgba(14, 165, 233, 0.5), 0 0 12px rgba(45, 212, 191, 0.4) !important;
-            transition: all 0.2s ease !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
         .stButton > button[kind="primary"]:hover {
             background: linear-gradient(135deg, #14b8a6 0%, #38bdf8 100%) !important;
-            box-shadow: 0 6px 24px rgba(45, 212, 191, 0.7) !important;
-            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 26px rgba(45, 212, 191, 0.75) !important;
+            transform: translateY(-2px) scale(1.01) !important;
         }
 
         /* Secondary Button (Tabs & Options) */
@@ -254,27 +325,48 @@ def render_login_page():
             border-radius: 22px !important;
             font-size: 12px !important;
             font-weight: 700 !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            background: rgba(255, 255, 255, 0.08) !important;
+            border: 1px solid rgba(45, 212, 191, 0.3) !important;
+            background: rgba(10, 25, 35, 0.8) !important;
             color: #f1f5f9 !important;
             padding: 5px 12px !important;
-            transition: all 0.2s ease !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
         .stButton > button[kind="secondary"]:hover {
             border-color: #2dd4bf !important;
-            background: rgba(45, 212, 191, 0.18) !important;
+            background: rgba(45, 212, 191, 0.22) !important;
             color: #5eead4 !important;
-            box-shadow: 0 0 12px rgba(45, 212, 191, 0.35) !important;
+            box-shadow: 0 0 14px rgba(45, 212, 191, 0.4) !important;
+            transform: translateY(-1px) !important;
         }
 
-        /* Compact form elements */
+        /* Compact form elements with animated top shimmer */
         .stForm {
-            border: 1px solid rgba(45, 212, 191, 0.25) !important;
-            border-radius: 16px !important;
-            background: rgba(8, 20, 28, 0.82) !important;
-            padding: 12px 16px !important;
+            border: 1px solid rgba(45, 212, 191, 0.35) !important;
+            border-radius: 18px !important;
+            background: rgba(8, 20, 28, 0.88) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            padding: 14px 18px !important;
             margin-bottom: 6px !important;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(45, 212, 191, 0.1) !important;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(45, 212, 191, 0.15) !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+
+        .stForm::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #2dd4bf, #0ea5e9, #38bdf8, transparent);
+            animation: formShimmer 4s linear infinite;
+        }
+
+        @keyframes formShimmer {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(50%); }
         }
 
         div[data-testid="stCheckbox"] label span {
@@ -282,8 +374,48 @@ def render_login_page():
             font-size: 11.5px !important;
             font-weight: 600 !important;
         }
+
+        @media (max-width: 768px) {
+            .floating-orb { display: none !important; }
+        }
         </style>
+
+        <!-- Ambient Horizon Dome -->
         <div class="auth-bg-dome"></div>
+
+        <!-- Animated Neon ECG Heartbeat Pulse Line -->
+        <div class="ecg-container">
+            <svg class="ecg-svg" viewBox="0 0 2400 120" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="ecgGlowAuth" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.1"/>
+                        <stop offset="30%" stop-color="#ffffff" stop-opacity="0.95"/>
+                        <stop offset="50%" stop-color="#2dd4bf" stop-opacity="0.9"/>
+                        <stop offset="70%" stop-color="#06b6d4" stop-opacity="0.6"/>
+                        <stop offset="100%" stop-color="#0369a1" stop-opacity="0.1"/>
+                    </linearGradient>
+                    <filter id="glowEffectAuth" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="3.2" result="blur" />
+                        <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+                </defs>
+                <path d="
+                    M0,60 L240,60 L260,60 L275,45 L290,75 L305,15 L320,105 L335,50 L350,68 L365,60 L540,60
+                    L600,60 L620,60 L635,45 L650,75 L665,15 L680,105 L695,50 L710,68 L725,60 L900,60
+                    L960,60 L980,60 L995,45 L1010,75 L1025,15 L1040,105 L1055,50 L1070,68 L1085,60 L1260,60
+                    L1320,60 L1340,60 L1355,45 L1370,75 L1385,15 L1400,105 L1415,50 L1430,68 L1445,60 L1620,60
+                    L1680,60 L1700,60 L1715,45 L1730,75 L1745,15 L1760,105 L1775,50 L1790,68 L1805,60 L1980,60
+                    L2040,60 L2060,60 L2075,45 L2090,75 L2105,15 L2120,105 L2135,50 L2150,68 L2165,60 L2400,60
+                " fill="none" stroke="url(#ecgGlowAuth)" stroke-width="2.6" filter="url(#glowEffectAuth)" />
+            </svg>
+        </div>
+
+        <!-- Floating Medical Glass Orbs -->
+        <div class="floating-orb orb-left" title="Neural Connectome & 3.0T MRI">🧠</div>
+        <div class="floating-orb orb-right" title="Clinical Oncology Decision Support">🔬</div>
         """,
         unsafe_allow_html=True
     )
@@ -311,11 +443,11 @@ def render_login_page():
         )
         st.session_state["lang"] = "hi" if "Hi" in lang_choice else "en"
 
-    # Medical Cross + Leaf Emblem
+    # Medical Cross + Leaf Emblem with Pulse Animation
     st.markdown(
         """
         <div style="display: flex; justify-content: center; margin: 4px 0 6px 0;">
-            <div style="width: 36px; height: 36px; position: relative; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 0 10px rgba(45, 212, 191, 0.6));">
+            <div class="emblem-pulse" style="width: 36px; height: 36px; position: relative; display: flex; align-items: center; justify-content: center;">
                 <div style="position: absolute; width: 32px; height: 10px; background: linear-gradient(135deg, #2dd4bf 0%, #0ea5e9 100%); border-radius: 5px;"></div>
                 <div style="position: absolute; width: 10px; height: 32px; background: linear-gradient(135deg, #2dd4bf 0%, #0ea5e9 100%); border-radius: 5px;"></div>
                 <div style="position: absolute; top: 1px; right: 1px; width: 9px; height: 9px; background: #34d399; border-radius: 0 6px 0 6px; border: 1px solid #081721; box-shadow: 0 0 6px #34d399;"></div>

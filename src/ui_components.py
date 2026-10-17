@@ -12,7 +12,7 @@ from src.inference import validate_image
 def render_top_masthead(lang_code: str = "en"):
     """
     Render a prominent, glowing clinical workstation masthead banner at the top of the UI.
-    Highlights the app name as a primary heading and supports full bilingual localization.
+    Features an animated holographic laser beam and pulsing status beacons.
     """
     if lang_code == "hi":
         app_name = "🧠 न्यूरोस्कैन"
@@ -31,13 +31,34 @@ def render_top_masthead(lang_code: str = "en"):
 
     st.markdown(
         f"""
+        <style>
+        @keyframes mastheadBeam {{
+            0% {{ background-position: -200% 0; }}
+            100% {{ background-position: 200% 0; }}
+        }}
+        @keyframes beaconPulse {{
+            0%, 100% {{ opacity: 1; transform: scale(1); filter: drop-shadow(0 0 6px #2dd4bf); }}
+            50% {{ opacity: 0.6; transform: scale(0.92); filter: drop-shadow(0 0 2px #2dd4bf); }}
+        }}
+        .masthead-beacon {{
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #2dd4bf;
+            animation: beaconPulse 1.8s ease-in-out infinite;
+            margin-right: 6px;
+        }}
+        </style>
         <div style="background: linear-gradient(135deg, rgba(13, 38, 52, 0.95) 0%, rgba(6, 16, 24, 0.98) 100%);
                     border: 1.5px solid #2dd4bf; border-radius: 18px; padding: 22px 28px;
                     margin-bottom: 22px; box-shadow: 0 16px 45px rgba(0, 0, 0, 0.8), 0 0 30px rgba(45, 212, 191, 0.25);
                     position: relative; overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px;
-                        background: linear-gradient(90deg, #0ea5e9, #2dd4bf, #06b6d4, #10b981);
-                        box-shadow: 0 0 14px #2dd4bf;"></div>
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
+                        background: linear-gradient(90deg, #0ea5e9, #2dd4bf, #06b6d4, #10b981, #0ea5e9);
+                        background-size: 200% 100%;
+                        animation: mastheadBeam 4s linear infinite;
+                        box-shadow: 0 0 16px #2dd4bf;"></div>
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
                 <div>
                     <h1 style="font-size: 28px; font-weight: 900; color: #ffffff; margin: 0;
@@ -51,8 +72,8 @@ def render_top_masthead(lang_code: str = "en"):
                 </div>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                     <span style="background: rgba(45, 212, 191, 0.15); border: 1px solid #2dd4bf; color: #5eead4;
-                                 padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800;">
-                        {b1}
+                                 padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; display: flex; align-items: center;">
+                        <span class="masthead-beacon"></span>{b1}
                     </span>
                     <span style="background: rgba(14, 165, 233, 0.15); border: 1px solid #38bdf8; color: #38bdf8;
                                  padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800;">
@@ -76,18 +97,40 @@ def render_top_masthead(lang_code: str = "en"):
 
 def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: str = "Axial T1-Gd + FLAIR"):
     """
-    Render a high-tech PACS scanner telemetry bar replacing generic banners.
-    Displays realistic scanner parameters, field strength, and HIPAA status.
+    Render a high-tech PACS scanner telemetry bar with embedded real-time animated SVG ECG heartbeat waveform.
+    Displays realistic scanner parameters, field strength, physiological rhythm, and HIPAA status.
     """
     st.markdown(
         f"""
+        <style>
+        @keyframes telemetryEcg {{
+            0% {{ transform: translateX(0); }}
+            100% {{ transform: translateX(-50%); }}
+        }}
+        .telemetry-ecg-bar {{
+            width: 100%;
+            height: 38px;
+            overflow: hidden;
+            background: rgba(4, 12, 18, 0.85);
+            border-radius: 8px;
+            border: 1px solid rgba(45, 212, 191, 0.2);
+            position: relative;
+            margin-top: 10px;
+        }}
+        .telemetry-ecg-svg {{
+            width: 200%;
+            height: 100%;
+            animation: telemetryEcg 5s linear infinite;
+        }}
+        </style>
         <div style="background: linear-gradient(135deg, rgba(8, 24, 34, 0.95) 0%, rgba(5, 15, 22, 0.95) 100%);
                     border: 1px solid rgba(45, 212, 191, 0.35); border-radius: 14px; padding: 16px 20px;
-                    margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(45, 212, 191, 0.1);">
+                    margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(45, 212, 191, 0.15);">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
                 <div style="display: flex; align-items: center; gap: 14px;">
                     <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(45, 212, 191, 0.15);
-                                border: 1.5px solid #2dd4bf; display: flex; align-items: center; justify-content: center; font-size: 22px;">
+                                border: 1.5px solid #2dd4bf; display: flex; align-items: center; justify-content: center; font-size: 22px;
+                                box-shadow: 0 0 15px rgba(45, 212, 191, 0.3);">
                         🧠
                     </div>
                     <div>
@@ -99,9 +142,13 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
                                          font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 20px;">
                                 3.0T MRI
                             </span>
+                            <span style="background: rgba(16, 185, 129, 0.2); color: #4ade80; border: 1px solid #34d399;
+                                         font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 20px;">
+                                72 BPM Normal
+                            </span>
                         </div>
                         <div style="font-size: 12px; color: #94a3b8; margin-top: 2px;">
-                            AI-Assisted Computer Vision • MobileNetV2 + Grad-CAM XAI • RECIST 1.1 Volumetrics
+                            AI Computer Vision • MobileNetV2 + Grad-CAM XAI • RECIST 1.1 Volumetrics
                         </div>
                     </div>
                 </div>
@@ -121,6 +168,29 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
                     </div>
                 </div>
             </div>
+
+            <!-- Embedded Live ECG Pulse Line -->
+            <div class="telemetry-ecg-bar">
+                <svg class="telemetry-ecg-svg" viewBox="0 0 2400 120" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="ecgTelemGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.2"/>
+                            <stop offset="30%" stop-color="#ffffff" stop-opacity="0.95"/>
+                            <stop offset="50%" stop-color="#2dd4bf" stop-opacity="0.9"/>
+                            <stop offset="70%" stop-color="#06b6d4" stop-opacity="0.6"/>
+                            <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.2"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="
+                        M0,60 L240,60 L260,60 L275,45 L290,75 L305,15 L320,105 L335,50 L350,68 L365,60 L540,60
+                        L600,60 L620,60 L635,45 L650,75 L665,15 L680,105 L695,50 L710,68 L725,60 L900,60
+                        L960,60 L980,60 L995,45 L1010,75 L1025,15 L1040,105 L1055,50 L1070,68 L1085,60 L1260,60
+                        L1320,60 L1340,60 L1355,45 L1370,75 L1385,15 L1400,105 L1415,50 L1430,68 L1445,60 L1620,60
+                        L1680,60 L1700,60 L1715,45 L1730,75 L1745,15 L1760,105 L1775,50 L1790,68 L1805,60 L1980,60
+                        L2040,60 L2060,60 L2075,45 L2090,75 L2105,15 L2120,105 L2135,50 L2150,68 L2165,60 L2400,60
+                    " fill="none" stroke="url(#ecgTelemGlow)" stroke-width="2.5" />
+                </svg>
+            </div>
         </div>
         """,
         unsafe_allow_html=True
@@ -129,17 +199,18 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
 
 def box(kind: str, items: list):
     """Render a styled box with a list of items."""
-    text = "\n".join(f"- {i}" for i in items)
+    text = "\\n".join(f"- {i}" for i in items)
     dispatch = {"info": st.info, "warning": st.warning, "success": st.success, "error": st.error}
     dispatch.get(kind, st.info)(text)
 
 
 def card(title: str, sub: str, color: str):
-    """Render a custom clinical dark card."""
+    """Render a custom clinical dark card with animated left-glow and smooth hover transition."""
     st.markdown(
         f'<div class="card" style="background: linear-gradient(135deg, rgba(10,25,35,0.95), #060e14);'
-        f'border: 1.5px solid {color}; border-left: 5px solid {color}; box-shadow: 0 8px 24px rgba(0,0,0,0.5);">'
-        f'<h2 style="color:#ffffff; margin:0; font-size:1.4rem;">{title}</h2>'
+        f'border: 1.5px solid {color}; border-left: 5px solid {color}; box-shadow: 0 10px 28px rgba(0,0,0,0.6), 0 0 15px rgba(45,212,191,0.15);'
+        f'transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);">'
+        f'<h2 style="color:#ffffff; margin:0; font-size:1.4rem; text-shadow: 0 0 12px rgba(45,212,191,0.4);">{title}</h2>'
         f'<p style="color:#cbd5e1; margin:6px 0 0 0; font-size:1.05rem;">{sub}</p></div>',
         unsafe_allow_html=True,
     )

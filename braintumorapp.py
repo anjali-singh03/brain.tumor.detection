@@ -55,14 +55,64 @@ if not is_authenticated():
 if "lang_code" not in st.session_state:
     st.session_state["lang_code"] = "en"
 
-# Clinical Obsidian Dark Workstation Stylesheet + Highlighted Navigation
+# Clinical Obsidian Dark Workstation Animated Stylesheet
 st.markdown(
     """
 <style>
-/* Base Dark Theme Styling */
+/* Base Dark Theme Canvas */
 .stApp {
     background-color: #050c12 !important;
+    background: radial-gradient(circle at 50% 12%, #0a2230 0%, #061520 40%, #03080e 100%) !important;
     color: #f8fafc !important;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Ambient Horizon Dome Animation */
+.ambient-horizon-main {
+    position: fixed;
+    bottom: -280px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 520px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 20%, rgba(45, 212, 191, 0.22) 0%, rgba(14, 165, 233, 0.08) 45%, transparent 75%);
+    pointer-events: none;
+    filter: blur(14px);
+    z-index: 0;
+    animation: horizonGlow 7s ease-in-out infinite alternate;
+}
+
+@keyframes horizonGlow {
+    0% { opacity: 0.6; transform: translateX(-50%) scale(0.96); }
+    100% { opacity: 1; transform: translateX(-50%) scale(1.04); }
+}
+
+/* Global Bottom Animated ECG Pulse Ticker */
+.global-ecg-ticker {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 32px;
+    background: rgba(4, 12, 18, 0.92);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(45, 212, 191, 0.25);
+    z-index: 999;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.global-ecg-svg {
+    width: 200%;
+    height: 100%;
+    animation: ecgFlow 6s linear infinite;
+}
+
+@keyframes ecgFlow {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
 /* Prominently Highlighted Sidebar Clinical Navigation */
@@ -70,14 +120,15 @@ st.markdown(
     background: rgba(45, 212, 191, 0.15);
     border: 1px solid #2dd4bf;
     color: #5eead4;
-    padding: 6px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.8px;
     text-transform: uppercase;
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    box-shadow: 0 0 12px rgba(45, 212, 191, 0.25);
 }
 
 div[data-testid="stRadio"] > div {
@@ -89,7 +140,7 @@ div[data-testid="stRadio"] label {
     border: 1px solid rgba(45, 212, 191, 0.25) !important;
     border-radius: 12px !important;
     padding: 10px 14px !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
     cursor: pointer !important;
 }
@@ -97,14 +148,15 @@ div[data-testid="stRadio"] label {
 div[data-testid="stRadio"] label:hover {
     border-color: #2dd4bf !important;
     background: rgba(15, 38, 52, 0.95) !important;
-    transform: translateX(4px) !important;
-    box-shadow: 0 6px 18px rgba(45, 212, 191, 0.3) !important;
+    transform: translateX(6px) !important;
+    box-shadow: 0 6px 20px rgba(45, 212, 191, 0.35) !important;
 }
 
 div[data-testid="stRadio"] label:has(input:checked) {
-    background: linear-gradient(135deg, rgba(13, 148, 136, 0.4) 0%, rgba(14, 165, 233, 0.4) 100%) !important;
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.45) 0%, rgba(14, 165, 233, 0.45) 100%) !important;
     border: 1.5px solid #2dd4bf !important;
-    box-shadow: 0 0 16px rgba(45, 212, 191, 0.45) !important;
+    box-shadow: 0 0 20px rgba(45, 212, 191, 0.5) !important;
+    transform: translateX(4px) !important;
 }
 
 div[data-testid="stRadio"] label span p {
@@ -114,13 +166,18 @@ div[data-testid="stRadio"] label span p {
     letter-spacing: 0.2px !important;
 }
 
-/* Card Styling */
+/* Card Styling with Interactive Elevation */
 .card {
     padding: 20px;
     border-radius: 14px;
     color: white;
     margin-bottom: 14px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card:hover {
+    transform: translateY(-4px) scale(1.006);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 24px rgba(45, 212, 191, 0.25);
 }
 
 /* DICOM Inspector Box */
@@ -133,28 +190,154 @@ div[data-testid="stRadio"] label span p {
     font-size: 12px;
     color: #cbd5e1;
     margin-bottom: 14px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Streamlit Tabs Dark Styling */
+/* Streamlit Tabs Dark Styling with Glowing Indicator */
 .stTabs [data-baseweb="tab-list"] {
     gap: 8px;
-    background-color: rgba(6, 15, 22, 0.7);
+    background-color: rgba(6, 15, 22, 0.85);
     padding: 6px;
-    border-radius: 12px;
-    border: 1px solid rgba(45, 212, 191, 0.2);
+    border-radius: 14px;
+    border: 1px solid rgba(45, 212, 191, 0.25);
 }
 
 .stTabs [data-baseweb="tab"] {
-    border-radius: 8px;
+    border-radius: 9px;
     color: #94a3b8;
-    font-weight: 600;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+.stTabs [data-baseweb="tab"]:hover {
+    color: #5eead4;
+    background-color: rgba(45, 212, 191, 0.08);
 }
 
 .stTabs [aria-selected="true"] {
-    background-color: rgba(45, 212, 191, 0.18) !important;
-    color: #2dd4bf !important;
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.35) 0%, rgba(14, 165, 233, 0.35) 100%) !important;
+    border: 1px solid #2dd4bf !important;
+    color: #5eead4 !important;
+    box-shadow: 0 0 14px rgba(45, 212, 191, 0.35) !important;
+}
+
+/* Animated Scanline Directly on All MRI Viewports */
+div[data-testid="stImage"] {
+    position: relative !important;
+    border: 2px solid rgba(45, 212, 191, 0.45) !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(45, 212, 191, 0.18) !important;
+    transition: all 0.3s ease !important;
+}
+
+div[data-testid="stImage"]:hover {
+    border-color: #2dd4bf !important;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 35px rgba(45, 212, 191, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
+div[data-testid="stImage"]::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #2dd4bf, #38bdf8, #2dd4bf, transparent);
+    box-shadow: 0 0 12px #2dd4bf, 0 0 22px #38bdf8;
+    z-index: 5;
+    pointer-events: none;
+    animation: laserScan 4s ease-in-out infinite alternate;
+}
+
+/* Animated Laser Scanner Viewport Frame */
+.mri-viewport-container {
+    position: relative;
+    border: 2px solid rgba(45, 212, 191, 0.4);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000000;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(45, 212, 191, 0.2);
+}
+
+.laser-scan-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #2dd4bf, #38bdf8, #2dd4bf, transparent);
+    box-shadow: 0 0 14px #2dd4bf, 0 0 24px #38bdf8;
+    z-index: 5;
+    pointer-events: none;
+    animation: laserScan 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes laserScan {
+    0% { top: 2%; opacity: 0.9; }
+    50% { opacity: 1; }
+    100% { top: 96%; opacity: 0.85; }
+}
+
+/* Primary Action Buttons */
+.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, #0d9488 0%, #0ea5e9 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid #2dd4bf !important;
+    border-radius: 20px !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 18px rgba(14, 165, 233, 0.5), 0 0 14px rgba(45, 212, 191, 0.4) !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.stButton > button[kind="primary"]:hover {
+    box-shadow: 0 6px 26px rgba(45, 212, 191, 0.8) !important;
+    transform: translateY(-2px) scale(1.01) !important;
+}
+
+/* Preset Buttons */
+.preset-btn {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(14, 165, 233, 0.15);
+    border: 1px solid #38bdf8;
+    border-radius: 12px;
+    color: #38bdf8;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.preset-btn:hover {
+    background: rgba(45, 212, 191, 0.25);
+    border-color: #2dd4bf;
+    color: #5eead4;
 }
 </style>
+
+<!-- Ambient Glowing Horizon Dome -->
+<div class="ambient-horizon-main"></div>
+
+<!-- Global Animated SVG ECG Rhythm Ticker -->
+<div class="global-ecg-ticker">
+    <svg class="global-ecg-svg" viewBox="0 0 2400 120" preserveAspectRatio="none">
+        <defs>
+            <linearGradient id="ecgGlobalGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.2"/>
+                <stop offset="30%" stop-color="#ffffff" stop-opacity="0.95"/>
+                <stop offset="50%" stop-color="#2dd4bf" stop-opacity="0.9"/>
+                <stop offset="70%" stop-color="#06b6d4" stop-opacity="0.6"/>
+                <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.2"/>
+            </linearGradient>
+        </defs>
+        <path d="
+            M0,60 L240,60 L260,60 L275,45 L290,75 L305,15 L320,105 L335,50 L350,68 L365,60 L540,60
+            L600,60 L620,60 L635,45 L650,75 L665,15 L680,105 L695,50 L710,68 L725,60 L900,60
+            L960,60 L980,60 L995,45 L1010,75 L1025,15 L1040,105 L1055,50 L1070,68 L1085,60 L1260,60
+            L1320,60 L1340,60 L1355,45 L1370,75 L1385,15 L1400,105 L1415,50 L1430,68 L1445,60 L1620,60
+            L1680,60 L1700,60 L1715,45 L1730,75 L1745,15 L1760,105 L1775,50 L1790,68 L1805,60 L1980,60
+            L2040,60 L2060,60 L2075,45 L2090,75 L2105,15 L2120,105 L2135,50 L2150,68 L2165,60 L2400,60
+        " fill="none" stroke="url(#ecgGlobalGlow)" stroke-width="2.2" />
+    </svg>
+</div>
 """,
     unsafe_allow_html=True,
 )
@@ -315,8 +498,41 @@ def analyze_page():
 
     with col_side:
         st.markdown(f"### {t['pacs_processing']}")
-        brightness = st.slider(t["win_level"], 0.5, 2.0, 1.0, 0.05)
-        contrast = st.slider(t["win_width"], 0.5, 2.5, 1.0, 0.05)
+        # 1-Click Interactive Window Presets
+        st.markdown(
+            "<div style='font-size:11px; font-weight:800; color:#5eead4; margin-bottom:6px; letter-spacing:0.4px;'>"
+            "⚡ 1-CLICK WINDOW PRESETS</div>",
+            unsafe_allow_html=True
+        )
+        pr1, pr2, pr3, pr4 = st.columns(4)
+        if "pacs_b" not in st.session_state:
+            st.session_state["pacs_b"] = 1.0
+        if "pacs_c" not in st.session_state:
+            st.session_state["pacs_c"] = 1.0
+
+        with pr1:
+            if st.button("🧠 Brain", key="btn_pr_brain", use_container_width=True):
+                st.session_state["pacs_b"] = 1.0
+                st.session_state["pacs_c"] = 1.0
+                st.rerun()
+        with pr2:
+            if st.button("🩸 Blood", key="btn_pr_blood", use_container_width=True):
+                st.session_state["pacs_b"] = 1.25
+                st.session_state["pacs_c"] = 1.8
+                st.rerun()
+        with pr3:
+            if st.button("⚡ Stroke", key="btn_pr_stroke", use_container_width=True):
+                st.session_state["pacs_b"] = 0.85
+                st.session_state["pacs_c"] = 1.6
+                st.rerun()
+        with pr4:
+            if st.button("💀 Bone", key="btn_pr_bone", use_container_width=True):
+                st.session_state["pacs_b"] = 1.4
+                st.session_state["pacs_c"] = 2.2
+                st.rerun()
+
+        brightness = st.slider(t["win_level"], 0.5, 2.0, float(st.session_state.get("pacs_b", 1.0)), 0.05, key="slider_b")
+        contrast = st.slider(t["win_width"], 0.5, 2.5, float(st.session_state.get("pacs_c", 1.0)), 0.05, key="slider_c")
 
         c1, c2 = st.columns(2)
         with c1:
