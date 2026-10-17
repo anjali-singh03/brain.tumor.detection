@@ -46,9 +46,9 @@ st.set_page_config(
 )
 setup_app_state(st)
 
-# Direct Clinical Access: Auto-authenticate session so app opens directly to PACS workstation
-if "authenticated" not in st.session_state:
-    st.session_state["authenticated"] = True
+# Direct Clinical Access: Always ensure active session so app opens directly to PACS workstation
+st.session_state["authenticated"] = True
+if "user" not in st.session_state or not st.session_state["user"]:
     st.session_state["user"] = {
         "name": "Dr. Sarah Mitchell",
         "title": "Chief Neuro-Radiologist",
@@ -56,11 +56,6 @@ if "authenticated" not in st.session_state:
         "role": "Senior Radiologist",
         "avatar": "👩‍⚕️"
     }
-
-# Authentication Guard (used if user explicitly logs out to switch clinician)
-if not is_authenticated():
-    render_login_page()
-    st.stop()
 
 # Initialize Global Language Session State
 if "lang_code" not in st.session_state:

@@ -325,10 +325,16 @@ def show_tabs(key: str):
 
 
 def get_image():
-    """Allow user to upload an image or choose a sample."""
-    source = st.radio("Image source", ["Upload my own", "Try a sample"], horizontal=True)
+    """Allow user to choose a pre-loaded clinical sample or upload their own MRI scan."""
+    source = st.radio(
+        "Scan Input Source",
+        ["⚡ Pre-loaded Clinical Scan (Immediate)", "📁 Upload Custom MRI Scan (DICOM / JPG / PNG)"],
+        index=0,
+        horizontal=True,
+        key="radio_scan_source"
+    )
 
-    if source == "Upload my own":
+    if source == "📁 Upload Custom MRI Scan (DICOM / JPG / PNG)":
         f = st.file_uploader(
             "Upload MRI image (DICOM / JPG / PNG)",
             type=["jpg", "jpeg", "png", "dcm"],
@@ -341,15 +347,18 @@ def get_image():
             except Exception as e:
                 st.error(f"Image validation failed: {e}")
                 return None, None
+        st.info("👆 Please upload an MRI scan above, or switch to '⚡ Pre-loaded Clinical Scan' to view immediate AI inference.")
         return None, None
 
     choice = st.selectbox(
-        "Choose sample scan",
+        "Select Clinical Tumor Case",
         CLASSES,
-        format_func=lambda k: f"{DATA[k]['emoji']} {DATA[k]['title']}"
+        index=0,
+        format_func=lambda k: f"{DATA[k]['emoji']} {DATA[k]['title']}",
+        key="select_sample_case"
     )
     path = SAMPLES[choice]
     if os.path.exists(path):
         return Image.open(path), choice
-    st.error("Sample scan file not found.")
+    st.error(f"Sample scan file not found at: {path}")
     return None, None
