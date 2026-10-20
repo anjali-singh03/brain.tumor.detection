@@ -2,7 +2,7 @@ import sys
 import importlib
 
 # Ensure in-memory custom modules are automatically synced on hot-reloads
-for _mod in ["src.ui_components", "src.pacs", "src.neuro_copilot", "src.report_generator", "src.auth", "src.fhir_exporter"]:
+for _mod in ["src.inference", "src.ui_components", "src.pacs", "src.neuro_copilot", "src.report_generator", "src.auth", "src.fhir_exporter"]:
     if _mod in sys.modules:
         importlib.reload(sys.modules[_mod])
 
@@ -19,7 +19,8 @@ from src.config import CLASSES, COLORS, SAMPLES, MODEL_PATH
 from src.content import DATA
 from src.inference import (
     load_model, preprocess_image, predict,
-    get_gradcam_heatmap, overlay_gradcam, validate_image
+    get_gradcam_heatmap, overlay_gradcam, validate_image,
+    PRECOMPUTED_SAMPLE_INFERENCE
 )
 from src.ui_components import (
     card, style, gauge, donut, bars, show_tabs, get_image,
@@ -70,8 +71,13 @@ st.markdown(
     background-color: #050c12 !important;
     background: radial-gradient(circle at 50% 12%, #0a2230 0%, #061520 40%, #03080e 100%) !important;
     color: #f8fafc !important;
-    position: relative;
-    overflow-x: hidden;
+    min-height: 100vh !important;
+    height: 100vh !important;
+}
+
+.stAppViewContainer, [data-testid="stAppViewContainer"] {
+    min-height: 100vh !important;
+    height: 100% !important;
 }
 
 /* Ambient Horizon Dome Animation */
@@ -554,7 +560,7 @@ def analyze_page():
         threshold = st.slider(t["diag_threshold"], min_value=0, max_value=100, value=70, step=5)
 
     with col_main:
-        img, true = get_image()
+        img, sample_case = get_image()
         if img is None:
             st.info(t["upload_or_sample"])
             return
@@ -570,17 +576,31 @@ def analyze_page():
             st.error(f"Image preprocessing error: {e}")
             return
 
-        model = load_model(MODEL_PATH)
-        if model is None:
-            return
+        # Instant zero-latency inference cache:
+        # Precomputed sample cases and session cache allow PACS sliders to update at 60 FPS without CPU lag
+        if "inference_cache" not in st.session_state:
+            st.session_state["inference_cache"] = {}
 
-        with st.spinner(t["analyzing"]):
-            try:
-                pred = predict(model, x)
-                heatmap = get_gradcam_heatmap(model, x)
-            except Exception as e:
-                st.error(f"Error during neural inference: {e}")
+        cache_key = f"sample_{sample_case}" if sample_case else f"custom_{img.size}_{img.mode}"
+
+        if cache_key in st.session_state["inference_cache"]:
+            pred, heatmap = st.session_state["inference_cache"][cache_key]
+        elif sample_case in PRECOMPUTED_SAMPLE_INFERENCE:
+            pred = PRECOMPUTED_SAMPLE_INFERENCE[sample_case]["pred"]
+            heatmap = PRECOMPUTED_SAMPLE_INFERENCE[sample_case]["heatmap"]
+            st.session_state["inference_cache"][cache_key] = (pred, heatmap)
+        else:
+            model = load_model(MODEL_PATH)
+            if model is None:
                 return
+            with st.spinner(t["analyzing"]):
+                try:
+                    pred = predict(model, x)
+                    heatmap = get_gradcam_heatmap(model, x)
+                    st.session_state["inference_cache"][cache_key] = (pred, heatmap)
+                except Exception as e:
+                    st.error(f"Error during neural inference: {e}")
+                    return
 
         top_indices = np.argsort(pred)[-2:][::-1]
         idx1, idx2 = top_indices[0], top_indices[1]

@@ -3,6 +3,7 @@
 import streamlit as st
 import plotly.graph_objects as go
 import os
+import textwrap
 from PIL import Image
 from src.config import CLASSES, COLORS, SAMPLES
 from src.content import DATA, CASES
@@ -30,7 +31,7 @@ def render_top_masthead(lang_code: str = "en"):
         b4 = "● HIPAA Safe Harbor Enforced"
 
     st.markdown(
-        f"""
+        textwrap.dedent(f"""
         <style>
         @keyframes mastheadBeam {{
             0% {{ background-position: -200% 0; }}
@@ -90,7 +91,7 @@ def render_top_masthead(lang_code: str = "en"):
                 </div>
             </div>
         </div>
-        """,
+        """),
         unsafe_allow_html=True
     )
 
@@ -101,7 +102,7 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
     Displays realistic scanner parameters, field strength, physiological rhythm, and HIPAA status.
     """
     st.markdown(
-        f"""
+        textwrap.dedent(f"""
         <style>
         @keyframes telemetryEcg {{
             0% {{ transform: translateX(0); }}
@@ -152,7 +153,6 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
                         </div>
                     </div>
                 </div>
-                <!-- Telemetry Metrics Grid -->
                 <div style="display: flex; gap: 16px; align-items: center;">
                     <div style="border-left: 1px solid rgba(148, 163, 184, 0.2); padding-left: 14px;">
                         <div style="font-size: 10px; font-weight: 700; color: #5eead4; text-transform: uppercase;">Patient Token</div>
@@ -168,8 +168,6 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
                     </div>
                 </div>
             </div>
-
-            <!-- Embedded Live ECG Pulse Line -->
             <div class="telemetry-ecg-bar">
                 <svg class="telemetry-ecg-svg" viewBox="0 0 2400 120" preserveAspectRatio="none">
                     <defs>
@@ -181,18 +179,11 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
                             <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.2"/>
                         </linearGradient>
                     </defs>
-                    <path d="
-                        M0,60 L240,60 L260,60 L275,45 L290,75 L305,15 L320,105 L335,50 L350,68 L365,60 L540,60
-                        L600,60 L620,60 L635,45 L650,75 L665,15 L680,105 L695,50 L710,68 L725,60 L900,60
-                        L960,60 L980,60 L995,45 L1010,75 L1025,15 L1040,105 L1055,50 L1070,68 L1085,60 L1260,60
-                        L1320,60 L1340,60 L1355,45 L1370,75 L1385,15 L1400,105 L1415,50 L1430,68 L1445,60 L1620,60
-                        L1680,60 L1700,60 L1715,45 L1730,75 L1745,15 L1760,105 L1775,50 L1790,68 L1805,60 L1980,60
-                        L2040,60 L2060,60 L2075,45 L2090,75 L2105,15 L2120,105 L2135,50 L2150,68 L2165,60 L2400,60
-                    " fill="none" stroke="url(#ecgTelemGlow)" stroke-width="2.5" />
+                    <path d="M0,60 L240,60 L260,60 L275,45 L290,75 L305,15 L320,105 L335,50 L350,68 L365,60 L540,60 L600,60 L620,60 L635,45 L650,75 L665,15 L680,105 L695,50 L710,68 L725,60 L900,60 L960,60 L980,60 L995,45 L1010,75 L1025,15 L1040,105 L1055,50 L1070,68 L1085,60 L1260,60 L1320,60 L1340,60 L1355,45 L1370,75 L1385,15 L1400,105 L1415,50 L1430,68 L1445,60 L1620,60 L1680,60 L1700,60 L1715,45 L1730,75 L1745,15 L1760,105 L1775,50 L1790,68 L1805,60 L1980,60 L2040,60 L2060,60 L2075,45 L2090,75 L2105,15 L2120,105 L2135,50 L2150,68 L2165,60 L2400,60" fill="none" stroke="url(#ecgTelemGlow)" stroke-width="2.5" />
                 </svg>
             </div>
         </div>
-        """,
+        """),
         unsafe_allow_html=True
     )
 
