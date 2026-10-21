@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - **Docker**: Added `Dockerfile` for containerized deployments.
 
 ### Changed
+- **Direct Login Authentication Launch**: Configured the application to open directly into the centered hospital staff authentication screen on initial launch, eliminating intermediate landing screens. Included 1-click clinical persona shortcuts (`Dr. Sarah Mitchell`, `Dr. Rajiv Sharma`, `Leon Bastian`) and institutional SSO options directly on the login card.
 - **Clinical PACS Enterprise Theme**: Redesigned application into an authentic, hospital-grade Clinical PACS Workstation (Siemens / GE Healthcare / Epic style). Replaced fashion editorial portrait with a high-precision Siemens MAGNETOM Skyra 3.0T DICOM HUD preview, removed all ECG wave lines across telemetry and workstation bars, added 100% interactive clickable top navigation controls, and applied deep surgical slate (`#090D16`), container slate (`#0E1726`), and clinical blue/cyan (`#0EA5E9` / `#38BDF8`) accents with clean medical typography (`Plus Jakarta Sans` and `JetBrains Mono`).
 - **Architecture Refactor**: Split the monolithic `braintumorapp.py` into distinct logical modules (`inference.py`, `ui_components.py`, `content.py`, etc.).
 - **UI Refresh**: Modernized CSS with better color contrast, shadows, and spacing for accessibility.
