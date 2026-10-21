@@ -170,7 +170,7 @@ def render_login_page():
         .node-bottom-left { bottom: 8%; left: 10%; animation-delay: 3.5s; }
         .node-bottom-right { bottom: 6%; right: 10%; animation-delay: 1.5s; }
 
-        /* Centered compact login form container */
+        /* Centered compact login form container — reveals smoothly after 4s splash */
         .block-container {
             max-width: 400px !important;
             padding-top: 1rem !important;
@@ -180,6 +180,20 @@ def render_login_page():
             margin: 0 auto !important;
             position: relative !important;
             z-index: 2 !important;
+            animation: loginRevealTiming 4.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        }
+
+        @keyframes loginRevealTiming {
+            0%, 82% {
+                opacity: 0;
+                transform: translateY(16px) scale(0.96);
+                pointer-events: none;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                pointer-events: auto;
+            }
         }
 
         /* Hospital Brand Header with Pulsing Version Tag */
@@ -365,6 +379,212 @@ def render_login_page():
             box-shadow: 0 5px 14px rgba(14, 165, 233, 0.25) !important;
             transform: translateY(-1.5px) !important;
         }
+        /* 4-Second Cinematic Opening Splash Overlay */
+        .neuroscan-splash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 50% 40%, #0F1B2D 0%, #070B14 70%);
+            z-index: 9999999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            animation: splashFadeDissolve 4.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        @keyframes splashFadeDissolve {
+            0% { opacity: 1; visibility: visible; }
+            84% { opacity: 1; visibility: visible; }
+            98% { opacity: 0; visibility: visible; }
+            100% { opacity: 0; visibility: hidden; pointer-events: none; display: none; }
+        }
+
+        .splash-center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            animation: splashContentRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes splashContentRise {
+            0% { opacity: 0; transform: translateY(20px) scale(0.94); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .splash-rings-anchor {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 22px;
+        }
+
+        .splash-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1.5px solid #0EA5E9;
+            pointer-events: none;
+            animation: splashRipple 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+        }
+        .ring-1 { width: 95px; height: 95px; animation-delay: 0s; }
+        .ring-2 { width: 95px; height: 95px; animation-delay: 0.85s; }
+        .ring-3 { width: 95px; height: 95px; animation-delay: 1.7s; }
+
+        @keyframes splashRipple {
+            0% { transform: scale(0.85); opacity: 0.9; box-shadow: 0 0 10px #0EA5E9; }
+            60% { opacity: 0.35; }
+            100% { transform: scale(2.4); opacity: 0; box-shadow: 0 0 25px rgba(56, 189, 248, 0); }
+        }
+
+        .splash-logo-box {
+            position: relative;
+            width: 96px;
+            height: 96px;
+            border-radius: 22px;
+            background: #090D16;
+            border: 2px solid #0EA5E9;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.9), 0 0 30px rgba(14, 165, 233, 0.55), inset 0 0 20px rgba(14, 165, 233, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 5;
+            animation: logoBreathSplash 3s ease-in-out infinite;
+        }
+
+        @keyframes logoBreathSplash {
+            0%, 100% { transform: scale(1); border-color: #0EA5E9; box-shadow: 0 12px 35px rgba(0,0,0,0.9), 0 0 25px rgba(14,165,233,0.5); }
+            50% { transform: scale(1.06); border-color: #38BDF8; box-shadow: 0 16px 45px rgba(0,0,0,0.95), 0 0 40px rgba(56,189,248,0.85); }
+        }
+
+        .splash-logo-laser {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #38BDF8, #FFFFFF, #38BDF8, transparent);
+            box-shadow: 0 0 14px #38BDF8;
+            animation: splashLaserPass 2.4s ease-in-out infinite alternate;
+            pointer-events: none;
+            z-index: 6;
+        }
+
+        @keyframes splashLaserPass {
+            0% { top: 2%; opacity: 0.6; }
+            50% { opacity: 1; filter: drop-shadow(0 0 6px #38BDF8); }
+            100% { top: 96%; opacity: 0.8; }
+        }
+
+        .splash-brand-title {
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            color: #FFFFFF;
+            letter-spacing: 2px;
+            margin: 0;
+            text-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+        }
+
+        .splash-brand-kicker {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #38BDF8;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        .splash-brand-meta {
+            font-size: 9.5px;
+            color: #94A3B8;
+            letter-spacing: 0.8px;
+            margin-top: 4px;
+        }
+
+        .splash-loader-track {
+            width: 260px;
+            height: 3px;
+            background: rgba(56, 189, 248, 0.15);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 24px;
+            position: relative;
+        }
+
+        .splash-loader-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #0284C7, #38BDF8, #FFFFFF);
+            border-radius: 4px;
+            box-shadow: 0 0 10px #38BDF8;
+            animation: fillProgressSplash 3.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes fillProgressSplash {
+            0% { width: 0%; }
+            30% { width: 45%; }
+            65% { width: 78%; }
+            100% { width: 100%; }
+        }
+
+        .splash-status-container {
+            position: relative;
+            height: 18px;
+            width: 320px;
+            margin-top: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9.5px;
+            color: #38BDF8;
+            letter-spacing: 0.8px;
+            text-align: center;
+        }
+
+        .splash-status-text {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            opacity: 0;
+        }
+        .phase-1 { animation: showStatusPhase 1s ease 0s forwards; }
+        .phase-2 { animation: showStatusPhase 1s ease 1s forwards; }
+        .phase-3 { animation: showStatusPhase 1s ease 2s forwards; }
+        .phase-4 { animation: showFinalStatusPhase 1s ease 3s forwards; }
+
+        @keyframes showStatusPhase {
+            0% { opacity: 0; transform: translateX(-50%) translateY(4px); }
+            20%, 80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-4px); }
+        }
+        @keyframes showFinalStatusPhase {
+            0% { opacity: 0; transform: translateX(-50%) translateY(4px); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        .splash-tap-hint {
+            margin-top: 24px;
+            font-size: 9px;
+            font-weight: 600;
+            color: #64748B;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            opacity: 0.75;
+        }
         </style>
         <div class="ambient-node node-top-left"></div>
         <div class="ambient-node node-top-right"></div>
@@ -374,15 +594,79 @@ def render_login_page():
         unsafe_allow_html=True
     )
 
-    # Hospital Brand Header (Always Visible at Top of Login)
+    # 4-Second Cinematic Splash Screen with App Logo & Telemetry Readout
     logo_b64 = _get_logo_base64()
     if logo_b64:
+        splash_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;" alt="Logo" />'
         logo_html = f'<img src="data:image/png;base64,{logo_b64}" style="width: 36px; height: 36px; border-radius: 9px; border: 1.5px solid #0EA5E9; box-shadow: 0 0 10px rgba(14, 165, 233, 0.45); object-fit: cover;" alt="Logo" />'
     else:
+        splash_logo_img = '<span style="font-size: 48px;">🧠</span>'
         logo_html = '<span style="font-size: 22px;">🧠</span>'
 
     st.markdown(
         textwrap.dedent(f"""
+        <!-- 4-Second Opening Splash Screen -->
+        <div id="neuroscan-splash-overlay" class="neuroscan-splash-overlay" onclick="dismissSplash()">
+            <div class="splash-center-content">
+                <div class="splash-rings-anchor">
+                    <div class="splash-ring ring-1"></div>
+                    <div class="splash-ring ring-2"></div>
+                    <div class="splash-ring ring-3"></div>
+                    <div class="splash-logo-box">
+                        {splash_logo_img}
+                        <div class="splash-logo-laser"></div>
+                    </div>
+                </div>
+
+                <h1 class="splash-brand-title">NEUROSCAN PACS</h1>
+                <div class="splash-brand-kicker">CLINICAL NEURO-ONCOLOGY DECISION SUPPORT WORKSTATION</div>
+                <div class="splash-brand-meta">3.0T MRI • FDA SaMD Class II • CE-IVD • HIPAA Safe Harbor</div>
+
+                <div class="splash-loader-track">
+                    <div class="splash-loader-fill"></div>
+                </div>
+
+                <div class="splash-status-container">
+                    <span class="splash-status-text phase-1">INITIALIZING 3.0T SYNAPTIC CORE...</span>
+                    <span class="splash-status-text phase-2">LOADING MOBILENETV2 & GRAD-CAM XAI...</span>
+                    <span class="splash-status-text phase-3">VERIFYING HIPAA SAFE HARBOR PROTOCOLS...</span>
+                    <span class="splash-status-text phase-4">CLINICAL WORKSTATION READY</span>
+                </div>
+
+                <div class="splash-tap-hint">⚡ Tap anywhere to enter immediately</div>
+            </div>
+        </div>
+
+        <script>
+        function dismissSplash() {{
+            var el = document.getElementById('neuroscan-splash-overlay');
+            if (el) {{
+                el.style.transition = 'opacity 0.4s ease, visibility 0.4s ease';
+                el.style.opacity = '0';
+                setTimeout(function() {{
+                    el.style.visibility = 'hidden';
+                    el.style.pointerEvents = 'none';
+                    el.style.display = 'none';
+                    var loginBox = document.querySelector('.block-container');
+                    if (loginBox) {{
+                        loginBox.style.animation = 'none';
+                        loginBox.style.opacity = '1';
+                        loginBox.style.transform = 'translateY(0) scale(1)';
+                        loginBox.style.pointerEvents = 'auto';
+                    }}
+                }}, 400);
+            }}
+        }}
+        setTimeout(function() {{
+            var el = document.getElementById('neuroscan-splash-overlay');
+            if (el) {{
+                el.addEventListener('touchstart', dismissSplash, {{once: true, passive: true}});
+                el.addEventListener('click', dismissSplash, {{once: true}});
+            }}
+        }}, 50);
+        </script>
+
+        <!-- Hospital Brand Header on Login Page -->
         <div class="clinical-login-header">
             <div class="clinical-brand-badge">
                 {logo_html}
