@@ -431,8 +431,26 @@ def render_login_page():
             touch-action: manipulation;
             margin: 0 !important;
             padding: 0 !important;
-            opacity: 1;
-            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: splashAutoTransition 2.8s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+        }
+
+        @keyframes splashAutoTransition {
+            0%, 68% {
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+            88% {
+                opacity: 0;
+                visibility: visible;
+                pointer-events: none;
+            }
+            100% {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                display: none !important;
+            }
         }
 
         .splash-center-content {
@@ -517,12 +535,12 @@ def render_login_page():
             background: linear-gradient(90deg, #0284C7, #38BDF8, #FFFFFF);
             border-radius: 999px;
             box-shadow: 0 0 8px #38BDF8;
-            animation: splashProgressFill 3.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: splashProgressFill 1.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes splashProgressFill {
             0% { width: 0%; }
-            50% { width: 65%; }
+            50% { width: 70%; }
             100% { width: 100%; }
         }
 
@@ -559,78 +577,32 @@ def render_login_page():
         splash_logo_img = '<span style="font-size: 110px;">🧠</span>'
         login_center_logo_img = '<span style="font-size: 32px;">🧠</span>'
 
+    show_splash = not st.session_state.get("splash_completed", False)
+    if show_splash:
+        st.session_state["splash_completed"] = True
+        st.markdown(
+            textwrap.dedent(f"""
+            <!-- 1. FIRST: Pure Centered NeuroScan Squircle Logo Opening Screen (Auto-dissolves to Login Page) -->
+            <div id="neuroscan-splash-overlay" class="neuroscan-splash-overlay"
+                 onclick="this.style.transition='opacity 0.3s ease, transform 0.3s ease'; this.style.opacity='0'; this.style.transform='scale(1.05)'; setTimeout(()=>{{this.style.display='none';}}, 300);">
+                <div class="splash-center-content">
+                    <div class="splash-logo-box">
+                        {splash_logo_img}
+                    </div>
+                    <div class="splash-floor-shadow"></div>
+                    <div class="splash-progress-track">
+                        <div class="splash-progress-fill"></div>
+                    </div>
+                    <div class="splash-enter-hint">CLICK ANYWHERE TO ENTER WORKSTATION ⟶</div>
+                </div>
+            </div>
+            """),
+            unsafe_allow_html=True
+        )
+
+    # 2. THEN: Hospital Staff Login Header (Clean Centered Emblem & Typography)
     st.markdown(
         textwrap.dedent(f"""
-        <!-- 1. FIRST: Pure Centered NeuroScan Squircle Logo Opening Screen -->
-        <div id="neuroscan-splash-overlay" class="neuroscan-splash-overlay" onclick="dismissSplashImmediately()">
-            <div class="splash-center-content">
-                <div class="splash-logo-box">
-                    {splash_logo_img}
-                </div>
-                <div class="splash-floor-shadow"></div>
-                <div class="splash-progress-track">
-                    <div class="splash-progress-fill"></div>
-                </div>
-                <div class="splash-enter-hint">CLICK ANYWHERE TO ENTER WORKSTATION ⟶</div>
-            </div>
-        </div>
-
-        <script>
-        function dismissSplashImmediately() {{
-            var el = document.getElementById('neuroscan-splash-overlay');
-            if (el) {{
-                el.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
-                el.style.opacity = '0';
-                el.style.transform = 'scale(1.04)';
-                el.style.pointerEvents = 'none';
-                setTimeout(function() {{
-                    try {{ el.remove(); }} catch(e) {{ el.style.display = 'none'; }}
-                }}, 450);
-            }}
-            try {{
-                sessionStorage.setItem('neuroscan_splash_seen', 'true');
-            }} catch(e) {{}}
-        }}
-
-        (function() {{
-            try {{
-                if (performance && performance.getEntriesByType) {{
-                    var nav = performance.getEntriesByType("navigation")[0];
-                    if (nav && nav.type === "reload") {{
-                        sessionStorage.removeItem('neuroscan_splash_seen');
-                    }}
-                }}
-            }} catch(e) {{}}
-
-            var isSeen = false;
-            try {{
-                isSeen = sessionStorage.getItem('neuroscan_splash_seen') === 'true';
-            }} catch(e) {{}}
-
-            var el = document.getElementById('neuroscan-splash-overlay');
-            if (el) {{
-                if (isSeen) {{
-                    el.style.display = 'none';
-                    try {{ el.remove(); }} catch(e) {{}}
-                }} else {{
-                    if (document.body && el.parentElement !== document.body) {{
-                        document.body.appendChild(el);
-                    }}
-                    setTimeout(dismissSplashImmediately, 3200);
-                    setTimeout(function() {{
-                        el.addEventListener('touchstart', dismissSplashImmediately, {{once: true, passive: true}});
-                        el.addEventListener('click', dismissSplashImmediately, {{once: true}});
-                        document.addEventListener('keydown', function onKey(e) {{
-                            dismissSplashImmediately();
-                            document.removeEventListener('keydown', onKey);
-                        }}, {{once: true}});
-                    }}, 50);
-                }}
-            }}
-        }})();
-        </script>
-
-        <!-- 2. THEN: Hospital Staff Login Header (Clean Centered Emblem & Typography) -->
         <div class="clinical-login-header">
             <div class="clinical-logo-centered-wrapper">
                 <div class="clinical-logo-centered-box">
