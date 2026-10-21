@@ -196,26 +196,69 @@ def render_login_page():
             }
         }
 
-        /* Hospital Brand Header with Pulsing Version Tag */
+        /* Hospital Brand Header with Centered Emblem */
         .clinical-login-header {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .clinical-brand-badge {
-            display: inline-flex;
+        .clinical-logo-centered-wrapper {
+            position: relative;
+            display: flex;
             align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .clinical-logo-centered-box {
+            position: relative;
+            width: 72px;
+            height: 72px;
+            border-radius: 18px;
+            background: #090D16;
+            border: 2px solid #0EA5E9;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), 0 0 20px rgba(14, 165, 233, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: logoFloatGlow 3.5s ease-in-out infinite;
+        }
+        @keyframes logoFloatGlow {
+            0%, 100% {
+                border-color: #0EA5E9;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), 0 0 18px rgba(14, 165, 233, 0.45);
+            }
+            50% {
+                border-color: #38BDF8;
+                box-shadow: 0 10px 28px rgba(0, 0, 0, 0.9), 0 0 26px rgba(56, 189, 248, 0.7);
+            }
+        }
+        .clinical-logo-centered-box:hover {
+            transform: scale(1.05);
+            border-color: #38BDF8;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 30px rgba(56, 189, 248, 0.7);
+        }
+
+        .clinical-brand-title-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             gap: 8px;
             margin-bottom: 2px;
         }
 
-        .clinical-brand-badge h1 {
+        .clinical-brand-title-wrap h1 {
             font-size: 20px;
             font-weight: 800;
             color: #FFFFFF;
-            letter-spacing: -0.3px;
+            letter-spacing: 0.5px;
             margin: 0;
-            display: inline;
             text-shadow: 0 0 12px rgba(14, 165, 233, 0.35);
         }
 
@@ -224,7 +267,7 @@ def render_login_page():
             50% { box-shadow: 0 0 8px rgba(56, 189, 248, 0.65); border-color: #38BDF8; }
         }
 
-        .clinical-brand-badge span.version-tag {
+        .clinical-brand-title-wrap span.version-tag {
             font-size: 9.5px;
             font-weight: 700;
             color: #38BDF8;
@@ -504,10 +547,10 @@ def render_login_page():
     logo_b64 = _get_logo_base64()
     if logo_b64:
         splash_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 34px;" alt="Logo" />'
-        logo_html = f'<img src="data:image/png;base64,{logo_b64}" style="width: 36px; height: 36px; border-radius: 9px; border: 1.5px solid #0EA5E9; box-shadow: 0 0 10px rgba(14, 165, 233, 0.45); object-fit: cover;" alt="Logo" />'
+        login_center_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px; display: block;" alt="NeuroScan PACS Logo" />'
     else:
         splash_logo_img = '<span style="font-size: 72px;">🧠</span>'
-        logo_html = '<span style="font-size: 22px;">🧠</span>'
+        login_center_logo_img = '<span style="font-size: 32px;">🧠</span>'
 
     st.markdown(
         textwrap.dedent(f"""
@@ -555,10 +598,14 @@ def render_login_page():
         }}, 50);
         </script>
 
-        <!-- Hospital Brand Header on Login Page -->
+        <!-- Hospital Brand Header on Login Page (Centered Logo & Typography) -->
         <div class="clinical-login-header">
-            <div class="clinical-brand-badge">
-                {logo_html}
+            <div class="clinical-logo-centered-wrapper">
+                <div class="clinical-logo-centered-box">
+                    {login_center_logo_img}
+                </div>
+            </div>
+            <div class="clinical-brand-title-wrap">
                 <h1>NEUROSCAN</h1>
                 <span class="version-tag">PACS v4.2</span>
             </div>
