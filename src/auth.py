@@ -170,7 +170,7 @@ def render_login_page():
         .node-bottom-left { bottom: 8%; left: 10%; animation-delay: 3.5s; }
         .node-bottom-right { bottom: 6%; right: 10%; animation-delay: 1.5s; }
 
-        /* Centered compact login form container — reveals smoothly after 5s pure logo splash */
+        /* Centered compact login form container — reveals smoothly after 10s pure logo splash */
         .block-container {
             max-width: 400px !important;
             padding-top: 1rem !important;
@@ -180,11 +180,11 @@ def render_login_page():
             margin: 0 auto !important;
             position: relative !important;
             z-index: 2 !important;
-            animation: loginRevealTiming 5.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+            animation: loginRevealTiming 10.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
         }
 
         @keyframes loginRevealTiming {
-            0%, 86% {
+            0%, 93% {
                 opacity: 0;
                 transform: translateY(16px) scale(0.96);
                 pointer-events: none;
@@ -379,51 +379,57 @@ def render_login_page():
             box-shadow: 0 5px 14px rgba(14, 165, 233, 0.25) !important;
             transform: translateY(-1.5px) !important;
         }
-        /* 5-Second Pure Logo Opening Splash Overlay (Zero Text, Only Logo Centered) */
+        /* 10-Second Pure Logo Opening Splash Overlay (Zero Text, Absolute Mathematical Center) */
         .neuroscan-splash-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100vw;
-            height: 100vh;
-            background: radial-gradient(circle at 50% 50%, #0C172B 0%, #070B14 70%);
-            z-index: 9999999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: radial-gradient(circle at 50% 50%, #0C172B 0%, #070B14 70%) !important;
+            z-index: 9999999 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
             cursor: pointer;
-            animation: splashFadeDissolve 5.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: splashFadeDissolve 10.2s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
+            margin: 0 !important;
+            padding: 0 !important;
         }
 
         @keyframes splashFadeDissolve {
-            0% { opacity: 1; visibility: visible; }
-            86% { opacity: 1; visibility: visible; }
+            0%, 93% { opacity: 1; visibility: visible; }
             98% { opacity: 0; visibility: visible; }
             100% { opacity: 0; visibility: hidden; pointer-events: none; display: none; }
         }
 
         .splash-center-content {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 !important;
+            padding: 0 !important;
             animation: splashContentRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes splashContentRise {
-            0% { opacity: 0; transform: scale(0.88); }
-            100% { opacity: 1; transform: scale(1); }
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
         .splash-rings-anchor {
             position: relative;
-            width: 220px;
-            height: 220px;
+            width: 260px;
+            height: 260px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -434,26 +440,26 @@ def render_login_page():
             border-radius: 50%;
             border: 1.5px solid #0EA5E9;
             pointer-events: none;
-            animation: splashRipple 3s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+            animation: splashRipple 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
         }
-        .ring-1 { width: 140px; height: 140px; animation-delay: 0s; }
-        .ring-2 { width: 140px; height: 140px; animation-delay: 1s; }
-        .ring-3 { width: 140px; height: 140px; animation-delay: 2s; }
+        .ring-1 { width: 160px; height: 160px; animation-delay: 0s; }
+        .ring-2 { width: 160px; height: 160px; animation-delay: 1.15s; }
+        .ring-3 { width: 160px; height: 160px; animation-delay: 2.3s; }
 
         @keyframes splashRipple {
             0% { transform: scale(0.85); opacity: 0.9; box-shadow: 0 0 12px #0EA5E9; }
             50% { opacity: 0.4; }
-            100% { transform: scale(2.5); opacity: 0; box-shadow: 0 0 30px rgba(56, 189, 248, 0); }
+            100% { transform: scale(2.6); opacity: 0; box-shadow: 0 0 35px rgba(56, 189, 248, 0); }
         }
 
         .splash-logo-box {
             position: relative;
-            width: 140px;
-            height: 140px;
-            border-radius: 30px;
+            width: 160px;
+            height: 160px;
+            border-radius: 36px;
             background: #090D16;
             border: 2.5px solid #0EA5E9;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.95), 0 0 40px rgba(14, 165, 233, 0.65), inset 0 0 25px rgba(14, 165, 233, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 50px rgba(14, 165, 233, 0.7), inset 0 0 30px rgba(14, 165, 233, 0.35);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -463,8 +469,8 @@ def render_login_page():
         }
 
         @keyframes logoBreathSplash {
-            0%, 100% { transform: scale(1); border-color: #0EA5E9; box-shadow: 0 15px 50px rgba(0,0,0,0.95), 0 0 35px rgba(14,165,233,0.55); }
-            50% { transform: scale(1.06); border-color: #38BDF8; box-shadow: 0 20px 60px rgba(0,0,0,1), 0 0 50px rgba(56,189,248,0.9); }
+            0%, 100% { transform: scale(1); border-color: #0EA5E9; box-shadow: 0 20px 60px rgba(0,0,0,0.95), 0 0 40px rgba(14,165,233,0.6); }
+            50% { transform: scale(1.06); border-color: #38BDF8; box-shadow: 0 25px 75px rgba(0,0,0,1), 0 0 60px rgba(56,189,248,0.95); }
         }
 
         .splash-logo-laser {
@@ -474,7 +480,7 @@ def render_login_page():
             right: 0;
             height: 3.5px;
             background: linear-gradient(90deg, transparent, #38BDF8, #FFFFFF, #38BDF8, transparent);
-            box-shadow: 0 0 16px #38BDF8;
+            box-shadow: 0 0 18px #38BDF8;
             animation: splashLaserPass 2.4s ease-in-out infinite alternate;
             pointer-events: none;
             z-index: 6;
@@ -494,18 +500,18 @@ def render_login_page():
         unsafe_allow_html=True
     )
 
-    # 5-Second Pure Logo Opening Splash (No Text, Logo Only in Center)
+    # 10-Second Pure Logo Opening Splash (No Text, Logo Only in Absolute Center)
     logo_b64 = _get_logo_base64()
     if logo_b64:
-        splash_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 28px;" alt="Logo" />'
+        splash_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 34px;" alt="Logo" />'
         logo_html = f'<img src="data:image/png;base64,{logo_b64}" style="width: 36px; height: 36px; border-radius: 9px; border: 1.5px solid #0EA5E9; box-shadow: 0 0 10px rgba(14, 165, 233, 0.45); object-fit: cover;" alt="Logo" />'
     else:
-        splash_logo_img = '<span style="font-size: 64px;">🧠</span>'
+        splash_logo_img = '<span style="font-size: 72px;">🧠</span>'
         logo_html = '<span style="font-size: 22px;">🧠</span>'
 
     st.markdown(
         textwrap.dedent(f"""
-        <!-- 5-Second Pure Logo Opening Splash Screen (Zero Text) -->
+        <!-- 10-Second Pure Logo Opening Splash Screen (Zero Text, Absolute Center) -->
         <div id="neuroscan-splash-overlay" class="neuroscan-splash-overlay" onclick="dismissSplash()">
             <div class="splash-center-content">
                 <div class="splash-rings-anchor">
