@@ -84,8 +84,32 @@ def logout_user():
 def render_user_profile_sidebar():
     """Render clinical user profile pill in Streamlit sidebar using Clean Medical PACS theme."""
     user = get_current_user()
+    logo_b64 = _get_logo_base64()
+    if logo_b64:
+        sidebar_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 9px;" alt="NeuroScan Logo" />'
+    else:
+        sidebar_logo_img = '<span style="font-size: 20px;">🧠</span>'
+
     st.sidebar.markdown(
         textwrap.dedent(f"""
+        <!-- Top-Left Sidebar App Branding Masthead Above Clinician Profile -->
+        <div style="display: flex; align-items: center; gap: 11px; margin-bottom: 14px; padding: 2px 4px 12px 4px; border-bottom: 1px solid rgba(56, 189, 248, 0.16);">
+            <div style="width: 38px; height: 38px; border-radius: 10px; background: #080D18;
+                        border: 1.5px solid #0EA5E9; box-shadow: 0 0 14px rgba(14, 165, 233, 0.35);
+                        overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                {sidebar_logo_img}
+            </div>
+            <div>
+                <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 15px; color: #FFFFFF; letter-spacing: 0.5px; line-height: 1.2;">
+                    NEUROSCAN <span style="font-size: 9.5px; color: #38BDF8; font-weight: 700; background: rgba(56, 189, 248, 0.14); padding: 2px 5px; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.3);">PACS</span>
+                </div>
+                <div style="font-size: 10px; color: #94A3B8; font-weight: 600; letter-spacing: 0.3px; margin-top: 2px;">
+                    Clinical Decision Support
+                </div>
+            </div>
+        </div>
+
+        <!-- Clinician Profile Card -->
         <div style="background: linear-gradient(145deg, #0E1726 0%, #090D16 100%);
                     border: 1.5px solid rgba(56, 189, 248, 0.25);
                     border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;
