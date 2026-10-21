@@ -12,7 +12,6 @@ import pandas as pd
 import plotly.graph_objects as go
 import os
 import tempfile
-import json
 from PIL import Image
 
 from src.config import CLASSES, COLORS, SAMPLES, MODEL_PATH
@@ -105,23 +104,24 @@ div[data-testid="stRadio"] label {
     border: 1px solid rgba(56, 189, 248, 0.18) !important;
     border-radius: 10px !important;
     padding: 10px 14px !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
     cursor: pointer !important;
+    position: relative !important;
 }
 
 div[data-testid="stRadio"] label:hover {
     border-color: #38BDF8 !important;
     background: #142033 !important;
-    transform: translateX(4px) !important;
-    box-shadow: 0 6px 16px rgba(14, 165, 233, 0.2) !important;
+    transform: translateX(6px) !important;
+    box-shadow: 0 6px 18px rgba(14, 165, 233, 0.25) !important;
 }
 
 div[data-testid="stRadio"] label:has(input:checked) {
-    background: rgba(14, 165, 233, 0.15) !important;
+    background: rgba(14, 165, 233, 0.16) !important;
     border: 1.5px solid #0EA5E9 !important;
-    box-shadow: 0 0 18px rgba(14, 165, 233, 0.3) !important;
-    transform: translateX(3px) !important;
+    box-shadow: 0 0 18px rgba(14, 165, 233, 0.35) !important;
+    transform: translateX(4px) !important;
 }
 
 div[data-testid="stRadio"] label span p {
@@ -138,11 +138,28 @@ div[data-testid="stRadio"] label span p {
     color: #F1F5F9;
     margin-bottom: 14px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
 }
 .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.88), 0 0 20px rgba(14, 165, 233, 0.22);
+}
+
+/* Streamlit Metrics with Interactive Cyber Glow */
+[data-testid="stMetric"] {
+    background: linear-gradient(135deg, #0E1726 0%, #090D16 100%) !important;
+    border: 1px solid rgba(56, 189, 248, 0.22) !important;
+    border-radius: 10px !important;
+    padding: 12px 16px !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6) !important;
+    transition: all 0.25s ease !important;
+}
+[data-testid="stMetric"]:hover {
+    border-color: #38BDF8 !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.8), 0 0 14px rgba(14, 165, 233, 0.2) !important;
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85), 0 0 16px rgba(14, 165, 233, 0.18);
 }
 
 /* DICOM Inspector Box */
@@ -171,35 +188,57 @@ div[data-testid="stRadio"] label span p {
     border-radius: 8px;
     color: #94A3B8;
     font-weight: 700;
-    transition: all 0.2s ease;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .stTabs [data-baseweb="tab"]:hover {
     color: #38BDF8;
-    background-color: rgba(14, 165, 233, 0.12);
+    background-color: rgba(14, 165, 233, 0.15);
+    transform: translateY(-1px);
 }
 
 .stTabs [aria-selected="true"] {
-    background: rgba(14, 165, 233, 0.2) !important;
+    background: rgba(14, 165, 233, 0.22) !important;
     border: 1.5px solid #0EA5E9 !important;
     color: #ffffff !important;
-    box-shadow: 0 0 14px rgba(14, 165, 233, 0.3) !important;
+    box-shadow: 0 0 16px rgba(14, 165, 233, 0.35) !important;
 }
 
-/* Animated Scanline on MRI Viewports */
+/* Animated Scanline & HUD Reticle on MRI Viewports */
 div[data-testid="stImage"] {
     position: relative !important;
-    border: 2px solid rgba(56, 189, 248, 0.3) !important;
-    border-radius: 12px !important;
+    border: 2px solid rgba(56, 189, 248, 0.35) !important;
+    border-radius: 14px !important;
     overflow: hidden !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
-    transition: all 0.25s ease !important;
+    background: radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.05) 0%, transparent 80%), #070B14 !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), inset 0 0 25px rgba(0, 0, 0, 0.6) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 div[data-testid="stImage"]:hover {
-    border-color: #0EA5E9 !important;
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(14, 165, 233, 0.35) !important;
+    border-color: #38BDF8 !important;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.95), 0 0 30px rgba(14, 165, 233, 0.4), inset 0 0 20px rgba(14, 165, 233, 0.15) !important;
+    transform: translateY(-2px);
 }
 
+/* Pulsing HUD Reticle Frame */
+div[data-testid="stImage"]::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1.5px dashed rgba(56, 189, 248, 0.28);
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 4;
+    animation: hudFramePulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes hudFramePulse {
+    0% { border-color: rgba(56, 189, 248, 0.2); opacity: 0.6; }
+    50% { border-color: rgba(56, 189, 248, 0.5); opacity: 1; filter: drop-shadow(0 0 4px #0EA5E9); }
+    100% { border-color: rgba(14, 165, 233, 0.25); opacity: 0.7; }
+}
+
+/* Dual-beam Holographic Laser Scanner */
 div[data-testid="stImage"]::after {
     content: '';
     position: absolute;
@@ -207,39 +246,25 @@ div[data-testid="stImage"]::after {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, transparent, #38BDF8, #0EA5E9, #38BDF8, transparent);
-    box-shadow: 0 0 14px #0EA5E9;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(56, 189, 248, 0.2) 15%,
+        #38BDF8 35%,
+        #FFFFFF 50%,
+        #38BDF8 65%,
+        rgba(56, 189, 248, 0.2) 85%,
+        transparent 100%
+    );
+    box-shadow: 0 0 16px #0EA5E9, 0 0 8px #38BDF8, 0 2px 20px rgba(56, 189, 248, 0.6);
     z-index: 5;
     pointer-events: none;
-    animation: laserScan 4s ease-in-out infinite alternate;
-}
-
-/* Animated Laser Scanner Viewport Frame */
-.mri-viewport-container {
-    position: relative;
-    border: 2px solid rgba(56, 189, 248, 0.3);
-    border-radius: 12px;
-    overflow: hidden;
-    background: #070B14;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-}
-
-.laser-scan-bar {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #38BDF8, #0EA5E9, #38BDF8, transparent);
-    box-shadow: 0 0 14px #0EA5E9;
-    z-index: 5;
-    pointer-events: none;
-    animation: laserScan 3.5s ease-in-out infinite alternate;
+    animation: laserScan 3.6s ease-in-out infinite alternate;
 }
 
 @keyframes laserScan {
-    0% { top: 2%; opacity: 0.9; }
-    50% { opacity: 1; }
-    100% { top: 96%; opacity: 0.85; }
+    0% { top: 2%; opacity: 0.85; }
+    50% { opacity: 1; filter: drop-shadow(0 0 10px #38BDF8); }
+    100% { top: 96%; opacity: 0.9; }
 }
 
 /* Primary Action Buttons — Surgical Blue */
@@ -255,7 +280,7 @@ div[data-testid="stImage"]::after {
 }
 .stButton > button[kind="primary"]:hover {
     box-shadow: 0 8px 24px rgba(14, 165, 233, 0.55) !important;
-    transform: translateY(-1.5px) !important;
+    transform: translateY(-2px) !important;
 }
 
 /* Preset Buttons */
@@ -531,7 +556,7 @@ def analyze_page():
                     return
 
         top_indices = np.argsort(pred)[-2:][::-1]
-        idx1, idx2 = top_indices[0], top_indices[1]
+        idx1 = top_indices[0]
         label1 = CLASSES[idx1]
         conf1 = float(pred[idx1]) * 100
 
@@ -606,13 +631,18 @@ def analyze_page():
 
             st.markdown(
                 f"""
-                <div style="background: #353044; border: 1.5px solid #5E5373; border-radius: 12px; padding: 14px; margin-top: 10px; box-shadow: 0 4px 15px rgba(42,37,57,0.35);">
-                    <div style="color: #DBD8E3; font-weight: 800; font-size: 13px;">📊 RECIST 1.1 ONCOLOGY VOLUMETRICS</div>
-                    <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 12.5px; color: #DBD8E3;">
-                        <span>{t['est_volume']}: <b>{recist_res['volume_cm3']} cm³</b></span>
-                        <span>{t['max_diam']}: <b>{recist_res['max_diameter_mm']} mm</b></span>
+                <div style="background: linear-gradient(135deg, #0E1726 0%, #090D16 100%);
+                            border: 1.5px solid rgba(56, 189, 248, 0.28); border-radius: 12px; padding: 16px;
+                            margin-top: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.7), 0 0 12px rgba(14,165,233,0.12);
+                            transition: all 0.25s ease;">
+                    <div style="color: #38BDF8; font-weight: 800; font-size: 13px; letter-spacing: 0.5px;">
+                        📊 RECIST 1.1 ONCOLOGY VOLUMETRICS
                     </div>
-                    <div style="font-size: 12px; color: #b8aec9; margin-top: 4px;">
+                    <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12.5px; color: #F1F5F9;">
+                        <span>{t['est_volume']}: <b style="color: #38BDF8;">{recist_res['volume_cm3']} cm³</b></span>
+                        <span>{t['max_diam']}: <b style="color: #38BDF8;">{recist_res['max_diameter_mm']} mm</b></span>
+                    </div>
+                    <div style="font-size: 12px; color: #94A3B8; margin-top: 5px;">
                         {t['mass_effect']}: <b style="color: #ffffff;">{recist_res['mass_effect']}</b>
                     </div>
                 </div>
@@ -740,12 +770,15 @@ def neuro_copilot_page():
 
         st.markdown(
             f"""
-            <div style="background: #353044; border: 2px solid {score_color};
-                        border-radius: 14px; padding: 18px 22px; margin-bottom: 16px;
-                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px {score_color}33;">
+            <div style="background: linear-gradient(135deg, #0E1726 0%, #090D16 100%); border: 2px solid {score_color};
+                        border-radius: 14px; padding: 18px 22px; margin-bottom: 16px; position: relative; overflow: hidden;
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px {score_color}33;
+                        transition: all 0.25s ease;">
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: 2px;
+                            background: linear-gradient(90deg, transparent, {score_color}, transparent); opacity: 0.8;"></div>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div>
-                        <div style="font-size: 11px; font-weight: 800; color: #DBD8E3; text-transform: uppercase;">
+                        <div style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.8px;">
                             Gross Total Resection (GTR) Feasibility Index
                         </div>
                         <div style="font-size: 26px; font-weight: 900; color: {score_color}; margin-top: 2px;">
@@ -755,10 +788,10 @@ def neuro_copilot_page():
                             Strategy: {risk_res['resectability_class']}
                         </div>
                     </div>
-                    <div style="text-align: right; border-left: 1px solid rgba(219, 216, 227, 0.2); padding-left: 18px;">
-                        <div style="font-size: 11px; font-weight: 800; color: #DBD8E3;">WHO CNS STAGING</div>
+                    <div style="text-align: right; border-left: 1px solid rgba(56, 189, 248, 0.2); padding-left: 18px;">
+                        <div style="font-size: 11px; font-weight: 800; color: #94A3B8; letter-spacing: 0.5px;">WHO CNS STAGING</div>
                         <div style="font-size: 13.5px; font-weight: 800; color: #ffffff;">{risk_res['who_grade']}</div>
-                        <div style="font-size: 11.5px; color: #b8aec9; margin-top: 3px;">Projected Post-Op KPS: <b>{risk_res['projected_postop_kps']}</b></div>
+                        <div style="font-size: 11.5px; color: #38BDF8; margin-top: 3px;">Projected Post-Op KPS: <b style="color: #ffffff;">{risk_res['projected_postop_kps']}</b></div>
                     </div>
                 </div>
             </div>

@@ -98,19 +98,66 @@ def render_top_masthead(lang_code: str = "en"):
 
 def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: str = "Axial T1-Gd + FLAIR"):
     """
-    Render high-precision PACS scanner telemetry bar without waveform animations.
+    Render high-precision PACS scanner telemetry bar with clinical laser animations.
     Displays realistic scanner parameters, field strength, physiological status, and HIPAA security.
     """
     st.markdown(
         textwrap.dedent(f"""
+        <style>
+        @keyframes telemetryLaser {{
+            0% {{ background-position: -200% 0; }}
+            100% {{ background-position: 200% 0; }}
+        }}
+        @keyframes radarPingGreen {{
+            0% {{ box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }}
+            70% {{ box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }}
+            100% {{ box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }}
+        }}
+        @keyframes radarPingCyan {{
+            0% {{ box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.7); }}
+            70% {{ box-shadow: 0 0 0 6px rgba(14, 165, 233, 0); }}
+            100% {{ box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }}
+        }}
+        @keyframes iconBreathGlow {{
+            0%, 100% {{ box-shadow: 0 0 10px rgba(14, 165, 233, 0.3); border-color: #0EA5E9; }}
+            50% {{ box-shadow: 0 0 20px rgba(56, 189, 248, 0.65); border-color: #38BDF8; }}
+        }}
+        .status-beacon-green {{
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #10B981;
+            margin-right: 5px;
+            animation: radarPingGreen 1.8s infinite;
+        }}
+        .status-beacon-cyan {{
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #0EA5E9;
+            margin-right: 5px;
+            animation: radarPingCyan 2s infinite;
+        }}
+        .icon-workstation-pulse {{
+            animation: iconBreathGlow 3s ease-in-out infinite;
+        }}
+        </style>
         <div style="background: linear-gradient(135deg, #0E1726 0%, #090D16 100%);
                     border: 1.5px solid rgba(56, 189, 248, 0.25); border-radius: 12px; padding: 16px 20px;
-                    margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(14, 165, 233, 0.1);">
+                    margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(14, 165, 233, 0.1);
+                    position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 2px;
+                        background: linear-gradient(90deg, transparent, #0EA5E9, #38BDF8, #0EA5E9, transparent);
+                        background-size: 200% 100%;
+                        animation: telemetryLaser 4.5s linear infinite;
+                        box-shadow: 0 0 8px #0EA5E9;"></div>
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
                 <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="width: 42px; height: 42px; border-radius: 10px; background: #090D16;
-                                border: 1.5px solid #0EA5E9; display: flex; align-items: center; justify-content: center; font-size: 22px;
-                                box-shadow: 0 0 12px rgba(14, 165, 233, 0.3);">
+                    <div class="icon-workstation-pulse"
+                         style="width: 42px; height: 42px; border-radius: 10px; background: #090D16;
+                                border: 1.5px solid #0EA5E9; display: flex; align-items: center; justify-content: center; font-size: 22px;">
                         🧠
                     </div>
                     <div>
@@ -119,12 +166,12 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
                                 NeuroScan PACS Diagnostic Workstation
                             </span>
                             <span style="background: rgba(14, 165, 233, 0.18); color: #38BDF8; border: 1px solid #0EA5E9;
-                                         font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 6px;">
-                                3.0T MRI
+                                         font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 6px; display: inline-flex; align-items: center;">
+                                <span class="status-beacon-cyan"></span>3.0T MRI
                             </span>
                             <span style="background: rgba(16, 185, 129, 0.18); color: #34D399; border: 1px solid #10B981;
-                                         font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 6px;">
-                                ● 72 BPM Normal
+                                         font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 6px; display: inline-flex; align-items: center;">
+                                <span class="status-beacon-green"></span>72 BPM Normal
                             </span>
                         </div>
                         <div style="font-size: 11.5px; color: #94A3B8; margin-top: 3px; letter-spacing: 0.3px;">
@@ -143,7 +190,9 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
                     </div>
                     <div style="border-left: 1px solid rgba(56, 189, 248, 0.2); padding-left: 14px;">
                         <div style="font-size: 10px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.8px;">HIPAA Security</div>
-                        <div style="font-size: 11.5px; font-weight: 700; color: #10B981;">● Safe Harbor Active</div>
+                        <div style="font-size: 11.5px; font-weight: 700; color: #10B981; display: flex; align-items: center;">
+                            <span class="status-beacon-green"></span>Safe Harbor Active
+                        </div>
                     </div>
                 </div>
             </div>
@@ -172,11 +221,15 @@ def box(kind: str, items: list):
 
 
 def card(title: str, sub: str, color: str):
-    """Render a custom clinical dark card with clean surgical styling."""
+    """Render a custom clinical dark card with clean surgical styling and laser glow accent."""
     st.markdown(
         f'<div class="card" style="background: linear-gradient(135deg, #0E1726 0%, #090D16 100%);'
-        f'border: 1.5px solid {color}; border-left: 4px solid {color}; box-shadow: 0 10px 28px rgba(0,0,0,0.8), 0 0 15px rgba(14,165,233,0.15);'
+        f'border: 1.5px solid {color}; border-left: 5px solid {color}; border-radius: 12px; padding: 18px 20px;'
+        f'margin-bottom: 14px; position: relative; overflow: hidden;'
+        f'box-shadow: 0 10px 28px rgba(0,0,0,0.8), 0 0 15px rgba(14,165,233,0.12);'
         f'transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);">'
+        f'<div style="position: absolute; top: 0; left: 0; right: 0; height: 1.5px;'
+        f'background: linear-gradient(90deg, transparent, {color}, transparent); opacity: 0.8;"></div>'
         f'<h2 style="font-family: \'Plus Jakarta Sans\', sans-serif; color:#ffffff; margin:0; font-size:1.35rem; font-weight:700;">{title}</h2>'
         f'<p style="color:#94A3B8; margin:6px 0 0 0; font-size:1.02rem;">{sub}</p></div>',
         unsafe_allow_html=True,

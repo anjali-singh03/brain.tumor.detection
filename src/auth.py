@@ -111,16 +111,20 @@ def render_login_page():
 
     screen = st.session_state["auth_screen"]
 
-    # Global CSS injection for Centered Clinical PACS Login
+    # Global CSS injection for Centered Clinical PACS Login with High-Tech Animations
     st.markdown(
         textwrap.dedent("""
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
 
-        /* Deep Surgical Slate Canvas */
+        /* Deep Surgical Slate Canvas with Cyber-Grid Matrix */
         .stApp {
-            background-color: #090D16 !important;
-            background: #090D16 !important;
+            background-color: #070B14 !important;
+            background-image:
+                radial-gradient(circle at 50% 12%, rgba(14, 165, 233, 0.12) 0%, transparent 60%),
+                linear-gradient(rgba(56, 189, 248, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.035) 1px, transparent 1px) !important;
+            background-size: 100% 100%, 32px 32px, 32px 32px !important;
             color: #F1F5F9 !important;
             font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
             min-height: 100vh !important;
@@ -131,6 +135,26 @@ def render_login_page():
             display: none !important;
         }
 
+        /* Floating Ambient Synaptic Telemetry Nodes */
+        @keyframes ambientFloat {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.35; }
+            50% { transform: translateY(-16px) scale(1.15); opacity: 0.75; filter: drop-shadow(0 0 10px #38BDF8); }
+        }
+        .ambient-node {
+            position: fixed;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.16) 0%, rgba(56, 189, 248, 0.03) 50%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: ambientFloat 7s ease-in-out infinite;
+        }
+        .node-top-left { top: 6%; left: 8%; animation-delay: 0s; }
+        .node-top-right { top: 10%; right: 8%; animation-delay: 2.2s; }
+        .node-bottom-left { bottom: 8%; left: 10%; animation-delay: 4.5s; }
+        .node-bottom-right { bottom: 6%; right: 10%; animation-delay: 1.8s; }
+
         /* Centered login form container */
         .block-container {
             max-width: 520px !important;
@@ -139,9 +163,11 @@ def render_login_page():
             padding-left: 1.5rem !important;
             padding-right: 1.5rem !important;
             margin: 0 auto !important;
+            position: relative !important;
+            z-index: 2 !important;
         }
 
-        /* Hospital Brand Header */
+        /* Hospital Brand Header with Pulsing Version Tag */
         .clinical-login-header {
             text-align: center;
             margin-bottom: 20px;
@@ -161,6 +187,12 @@ def render_login_page():
             letter-spacing: -0.3px;
             margin: 0;
             display: inline;
+            text-shadow: 0 0 16px rgba(14, 165, 233, 0.35);
+        }
+
+        @keyframes badgeGlow {
+            0%, 100% { box-shadow: 0 0 4px rgba(14, 165, 233, 0.3); border-color: rgba(56, 189, 248, 0.3); }
+            50% { box-shadow: 0 0 12px rgba(56, 189, 248, 0.65); border-color: #38BDF8; }
         }
 
         .clinical-brand-badge span.version-tag {
@@ -172,6 +204,7 @@ def render_login_page():
             padding: 2px 7px;
             border-radius: 4px;
             letter-spacing: 0.5px;
+            animation: badgeGlow 2.5s ease-in-out infinite;
         }
 
         .clinical-kicker-sub {
@@ -189,7 +222,18 @@ def render_login_page():
             margin-top: 4px;
         }
 
-        /* Form Container for Login & Sign Up */
+        /* Form Container with Entrance Fade-in and Holographic Laser Sweep */
+        @keyframes cardEntrance {
+            0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes cardLaserBeam {
+            0% { left: -100%; opacity: 0; }
+            25% { opacity: 1; }
+            75% { opacity: 1; }
+            100% { left: 100%; opacity: 0; }
+        }
+
         div[data-testid="stForm"] {
             background: linear-gradient(145deg, #0E1726 0%, #090D16 100%) !important;
             border-radius: 14px !important;
@@ -197,9 +241,25 @@ def render_login_page():
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 20px rgba(14, 165, 233, 0.12) !important;
             border: 1.5px solid rgba(56, 189, 248, 0.22) !important;
             margin-top: 8px !important;
+            animation: cardEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+            position: relative !important;
+            overflow: hidden !important;
         }
 
-        /* Input Fields */
+        div[data-testid="stForm"]::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 75%;
+            height: 2.5px;
+            background: linear-gradient(90deg, transparent, #0EA5E9, #38BDF8, #0EA5E9, transparent);
+            animation: cardLaserBeam 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            box-shadow: 0 0 14px #38BDF8;
+            z-index: 10;
+        }
+
+        /* Input Fields with Smooth Focus Transition */
         div[data-testid="stTextInput"] label p,
         div[data-testid="stSelectbox"] label p {
             color: #F1F5F9 !important;
@@ -218,10 +278,11 @@ def render_login_page():
         div[data-testid="stTextInput"] div[data-baseweb="input"] {
             border: 1.5px solid rgba(56, 189, 248, 0.22) !important;
             border-radius: 8px !important;
+            transition: all 0.2s ease !important;
         }
         div[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within {
             border-color: #0EA5E9 !important;
-            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.22) !important;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25), 0 0 15px rgba(14, 165, 233, 0.2) !important;
         }
         div[data-testid="stTextInput"] input {
             font-size: 13.5px !important;
@@ -234,6 +295,7 @@ def render_login_page():
             border: 1.5px solid rgba(56, 189, 248, 0.22) !important;
             border-radius: 8px !important;
             color: #FFFFFF !important;
+            transition: all 0.2s ease !important;
         }
         div[data-testid="stSelectbox"] div[data-baseweb="select"] span {
             color: #FFFFFF !important;
@@ -247,7 +309,7 @@ def render_login_page():
             font-weight: 600 !important;
         }
 
-        /* Primary Action Buttons */
+        /* Primary Action Buttons with Glow Shimmer */
         div[data-testid="stButton"] button[kind="primary"],
         div[data-testid="stForm"] button[kind="primary"] {
             background: linear-gradient(135deg, #0284C7 0%, #0EA5E9 100%) !important;
@@ -259,15 +321,15 @@ def render_login_page():
             letter-spacing: 0.4px !important;
             padding: 10px 20px !important;
             box-shadow: 0 6px 18px rgba(14, 165, 233, 0.35) !important;
-            transition: all 0.2s ease !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
         div[data-testid="stButton"] button[kind="primary"]:hover,
         div[data-testid="stForm"] button[kind="primary"]:hover {
-            box-shadow: 0 8px 24px rgba(14, 165, 233, 0.6) !important;
-            transform: translateY(-1.5px) !important;
+            box-shadow: 0 10px 28px rgba(14, 165, 233, 0.65) !important;
+            transform: translateY(-2px) scale(1.01) !important;
         }
 
-        /* Secondary Buttons */
+        /* Secondary Buttons with Smooth Lift & Cyan Rim Glow */
         div[data-testid="stButton"] button[kind="secondary"],
         div[data-testid="stButton"] button:not([kind="primary"]) {
             background: #0E1726 !important;
@@ -276,15 +338,20 @@ def render_login_page():
             border-radius: 8px !important;
             font-weight: 700 !important;
             font-size: 12px !important;
-            transition: all 0.2s ease !important;
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
         div[data-testid="stButton"] button:not([kind="primary"]):hover {
             border-color: #38BDF8 !important;
             color: #38BDF8 !important;
             background: #142033 !important;
-            box-shadow: 0 4px 14px rgba(14, 165, 233, 0.2) !important;
+            box-shadow: 0 6px 16px rgba(14, 165, 233, 0.25) !important;
+            transform: translateY(-2px) !important;
         }
         </style>
+        <div class="ambient-node node-top-left"></div>
+        <div class="ambient-node node-top-right"></div>
+        <div class="ambient-node node-bottom-left"></div>
+        <div class="ambient-node node-bottom-right"></div>
         """),
         unsafe_allow_html=True
     )
