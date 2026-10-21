@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - **Docker**: Added `Dockerfile` for containerized deployments.
 
 ### Changed
+- **Editorial Bioluminescent Iris & Obsidian Theme**: Redesigned authentication showcase and clinical workstation adhering to the high-fashion editorial aesthetic ("A Deeper Kind of Precision"). Includes deep obsidian midnight palette (`#030206`), electric cyan (`#00D2FF`) and royal iris violet (`#8A2BE2`) glowing telemetry, `Playfair Display` serif typography with italic ligatures, numbered editorial indices (`01 ——`, `02 ——`, `03 ——`), minimalist outline pill buttons (`EXPLORE WORKSTATION ——>`), and animated laser scanlines.
 - **Architecture Refactor**: Split the monolithic `braintumorapp.py` into distinct logical modules (`inference.py`, `ui_components.py`, `content.py`, etc.).
 - **UI Refresh**: Modernized CSS with better color contrast, shadows, and spacing for accessibility.
 

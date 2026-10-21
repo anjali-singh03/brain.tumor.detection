@@ -59,15 +59,18 @@ if not is_authenticated():
 if "lang_code" not in st.session_state:
     st.session_state["lang_code"] = "en"
 
-# Clinical Workstation Stylesheet — Deep Dark Purple & Luminous Cyber-Cyan
+# Clinical Workstation Stylesheet — "A Deeper Kind of Precision" Bioluminescent Iris Theme
 st.markdown(
     """
 <style>
-/* Base Theme Canvas */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+/* Base Theme Canvas — Ethereal Obsidian & Bioluminescent Flora */
 .stApp {
-    background-color: #0B0616 !important;
-    background: radial-gradient(circle at 50% 12%, #1C0F38 0%, #0D071E 50%, #05020B 100%) !important;
+    background-color: #030206 !important;
+    background: radial-gradient(circle at 68% 12%, rgba(138, 43, 226, 0.26) 0%, rgba(0, 210, 255, 0.12) 32%, #030206 72%) !important;
     color: #F8FAFC !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
     min-height: 100vh !important;
     height: 100vh !important;
 }
@@ -77,37 +80,37 @@ st.markdown(
     height: 100% !important;
 }
 
-/* Ambient Horizon Dome Animation with Deep Amethyst Glow */
+/* Ambient Horizon Dome Animation with Deep Bioluminescent Aura */
 .ambient-horizon-main {
     position: fixed;
     bottom: -280px;
     left: 50%;
     transform: translateX(-50%);
-    width: 900px;
+    width: 950px;
     height: 520px;
     border-radius: 50%;
-    background: radial-gradient(circle at 50% 20%, rgba(168, 85, 247, 0.28) 0%, rgba(0, 245, 212, 0.08) 35%, transparent 70%);
+    background: radial-gradient(circle at 50% 20%, rgba(138, 43, 226, 0.32) 0%, rgba(0, 210, 255, 0.12) 38%, transparent 72%);
     pointer-events: none;
-    filter: blur(16px);
+    filter: blur(18px);
     z-index: 0;
     animation: horizonGlow 7s ease-in-out infinite alternate;
 }
 
 @keyframes horizonGlow {
-    0% { opacity: 0.6; transform: translateX(-50%) scale(0.96); }
+    0% { opacity: 0.65; transform: translateX(-50%) scale(0.96); }
     100% { opacity: 1; transform: translateX(-50%) scale(1.04); }
 }
 
-/* Global Bottom Animated ECG Pulse Ticker */
+/* Global Bottom Animated ECG Pulse Ticker in Electric Cyan & Violet */
 .global-ecg-ticker {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 32px;
-    background: rgba(11, 6, 22, 0.96);
+    background: rgba(3, 2, 6, 0.98);
     backdrop-filter: blur(8px);
-    border-top: 1px solid rgba(0, 245, 212, 0.3);
+    border-top: 1px solid rgba(0, 210, 255, 0.3);
     z-index: 999;
     overflow: hidden;
     pointer-events: none;
@@ -124,20 +127,20 @@ st.markdown(
     100% { transform: translateX(-50%); }
 }
 
-/* Highlighted Sidebar Clinical Navigation */
+/* Highlighted Sidebar Clinical Navigation — Editorial Numbered Index Style */
 .nav-header-pill {
-    background: rgba(168, 85, 247, 0.2);
-    border: 1px solid #A855F7;
-    color: #00F5D4;
+    background: rgba(138, 43, 226, 0.2);
+    border: 1px solid rgba(138, 43, 226, 0.45);
+    color: #00D2FF;
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 11px;
     font-weight: 800;
-    letter-spacing: 0.8px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     display: inline-block;
     margin-bottom: 12px;
-    box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
+    box-shadow: 0 0 16px rgba(138, 43, 226, 0.35);
 }
 
 div[data-testid="stRadio"] > div {
@@ -145,26 +148,26 @@ div[data-testid="stRadio"] > div {
 }
 
 div[data-testid="stRadio"] label {
-    background: rgba(22, 14, 44, 0.85) !important;
-    border: 1px solid rgba(168, 85, 247, 0.25) !important;
+    background: rgba(11, 6, 22, 0.85) !important;
+    border: 1px solid rgba(138, 43, 226, 0.25) !important;
     border-radius: 12px !important;
     padding: 10px 14px !important;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
     cursor: pointer !important;
 }
 
 div[data-testid="stRadio"] label:hover {
-    border-color: #00F5D4 !important;
-    background: rgba(30, 18, 60, 0.9) !important;
+    border-color: #00D2FF !important;
+    background: rgba(22, 12, 44, 0.92) !important;
     transform: translateX(6px) !important;
-    box-shadow: 0 6px 20px rgba(0, 245, 212, 0.25) !important;
+    box-shadow: 0 6px 20px rgba(0, 210, 255, 0.25) !important;
 }
 
 div[data-testid="stRadio"] label:has(input:checked) {
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.45) 0%, rgba(0, 245, 212, 0.2) 100%) !important;
-    border: 1.5px solid #00F5D4 !important;
-    box-shadow: 0 0 22px rgba(0, 245, 212, 0.45) !important;
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.45) 0%, rgba(0, 210, 255, 0.18) 100%) !important;
+    border: 1.5px solid #00D2FF !important;
+    box-shadow: 0 0 24px rgba(0, 210, 255, 0.45) !important;
     transform: translateX(4px) !important;
 }
 
@@ -175,73 +178,73 @@ div[data-testid="stRadio"] label span p {
     letter-spacing: 0.2px !important;
 }
 
-/* Card Styling with Interactive Elevation */
+/* Card Styling with Interactive Elevation & Iris Rim Glow */
 .card {
-    padding: 20px;
-    border-radius: 14px;
+    padding: 22px;
+    border-radius: 16px;
     color: #F8FAFC;
     margin-bottom: 14px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .card:hover {
     transform: translateY(-4px) scale(1.006);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 245, 212, 0.25);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.95), 0 0 28px rgba(0, 210, 255, 0.25);
 }
 
 /* DICOM Inspector Box */
 .dicom-box {
-    background: #0E0720;
-    border: 1px solid rgba(168, 85, 247, 0.35);
+    background: #06030F;
+    border: 1px solid rgba(138, 43, 226, 0.35);
     border-radius: 10px;
     padding: 12px 16px;
-    font-family: monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
-    color: #00F5D4;
+    color: #00D2FF;
     margin-bottom: 14px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
 }
 
 /* Streamlit Tabs Dark Styling with Glowing Indicator */
 .stTabs [data-baseweb="tab-list"] {
     gap: 8px;
-    background-color: rgba(18, 11, 38, 0.95);
+    background-color: rgba(11, 6, 22, 0.95);
     padding: 6px;
     border-radius: 14px;
-    border: 1px solid rgba(168, 85, 247, 0.25);
+    border: 1px solid rgba(138, 43, 226, 0.25);
 }
 
 .stTabs [data-baseweb="tab"] {
     border-radius: 9px;
-    color: #A5B4FC;
+    color: #B3B0C6;
     font-weight: 700;
     transition: all 0.2s ease;
 }
 .stTabs [data-baseweb="tab"]:hover {
-    color: #00F5D4;
-    background-color: rgba(168, 85, 247, 0.25);
+    color: #00D2FF;
+    background-color: rgba(138, 43, 226, 0.25);
 }
 
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.5) 0%, rgba(0, 245, 212, 0.25) 100%) !important;
-    border: 1.5px solid #00F5D4 !important;
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.5) 0%, rgba(0, 210, 255, 0.22) 100%) !important;
+    border: 1.5px solid #00D2FF !important;
     color: #ffffff !important;
-    box-shadow: 0 0 18px rgba(0, 245, 212, 0.4) !important;
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.4) !important;
 }
 
 /* Animated Scanline on MRI Viewports */
 div[data-testid="stImage"] {
     position: relative !important;
-    border: 2px solid rgba(168, 85, 247, 0.45) !important;
+    border: 2px solid rgba(138, 43, 226, 0.45) !important;
     border-radius: 14px !important;
     overflow: hidden !important;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75), 0 0 20px rgba(168, 85, 247, 0.3) !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), 0 0 20px rgba(138, 43, 226, 0.3) !important;
     transition: all 0.3s ease !important;
 }
 
 div[data-testid="stImage"]:hover {
-    border-color: #00F5D4 !important;
-    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 35px rgba(0, 245, 212, 0.45) !important;
+    border-color: #00D2FF !important;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.95), 0 0 35px rgba(0, 210, 255, 0.45) !important;
     transform: translateY(-2px) !important;
 }
 
@@ -252,8 +255,8 @@ div[data-testid="stImage"]::after {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, transparent, #00F5D4, #A855F7, #00F5D4, transparent);
-    box-shadow: 0 0 14px #00F5D4, 0 0 24px #A855F7;
+    background: linear-gradient(90deg, transparent, #00D2FF, #8A2BE2, #00D2FF, transparent);
+    box-shadow: 0 0 16px #00D2FF, 0 0 26px #8A2BE2;
     z-index: 5;
     pointer-events: none;
     animation: laserScan 4s ease-in-out infinite alternate;
@@ -262,11 +265,11 @@ div[data-testid="stImage"]::after {
 /* Animated Laser Scanner Viewport Frame */
 .mri-viewport-container {
     position: relative;
-    border: 2px solid rgba(168, 85, 247, 0.45);
+    border: 2px solid rgba(138, 43, 226, 0.45);
     border-radius: 16px;
     overflow: hidden;
-    background: #0E0720;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(168, 85, 247, 0.3);
+    background: #06030F;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(138, 43, 226, 0.3);
 }
 
 .laser-scan-bar {
@@ -274,8 +277,8 @@ div[data-testid="stImage"]::after {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, transparent, #00F5D4, #A855F7, #00F5D4, transparent);
-    box-shadow: 0 0 14px #00F5D4, 0 0 24px #A855F7;
+    background: linear-gradient(90deg, transparent, #00D2FF, #8A2BE2, #00D2FF, transparent);
+    box-shadow: 0 0 16px #00D2FF, 0 0 26px #8A2BE2;
     z-index: 5;
     pointer-events: none;
     animation: laserScan 3.5s ease-in-out infinite alternate;
@@ -287,38 +290,40 @@ div[data-testid="stImage"]::after {
     100% { top: 96%; opacity: 0.85; }
 }
 
-/* Primary Action Buttons */
+/* Primary Action Buttons — Iris to Bioluminescent Cyan */
 .stButton > button[kind="primary"] {
-    background: linear-gradient(135deg, #A855F7 0%, #00F5D4 100%) !important;
-    color: #090514 !important;
+    background: linear-gradient(135deg, #8A2BE2 0%, #00D2FF 100%) !important;
+    color: #030006 !important;
     border: none !important;
-    border-radius: 20px !important;
+    border-radius: 24px !important;
     font-weight: 900 !important;
-    box-shadow: 0 4px 18px rgba(0, 245, 212, 0.45) !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 6px 22px rgba(0, 210, 255, 0.45) !important;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 .stButton > button[kind="primary"]:hover {
-    box-shadow: 0 8px 28px rgba(0, 245, 212, 0.65) !important;
+    box-shadow: 0 10px 30px rgba(0, 210, 255, 0.7) !important;
     transform: translateY(-2px) scale(1.02) !important;
 }
 
 /* Preset Buttons */
 .preset-btn {
     display: inline-block;
-    padding: 4px 10px;
-    background: rgba(168, 85, 247, 0.2);
-    border: 1px solid #A855F7;
+    padding: 5px 12px;
+    background: rgba(138, 43, 226, 0.2);
+    border: 1px solid rgba(138, 43, 226, 0.4);
     border-radius: 12px;
-    color: #00F5D4;
+    color: #00D2FF;
     font-size: 11px;
     font-weight: 700;
+    letter-spacing: 0.4px;
     cursor: pointer;
     transition: all 0.2s;
 }
 .preset-btn:hover {
-    background: #A855F7;
-    border-color: #00F5D4;
-    color: #090514;
+    background: #8A2BE2;
+    border-color: #00D2FF;
+    color: #030006;
 }
 </style>
 
@@ -330,11 +335,11 @@ div[data-testid="stImage"]::after {
     <svg class="global-ecg-svg" viewBox="0 0 2400 120" preserveAspectRatio="none">
         <defs>
             <linearGradient id="ecgGlobalGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#A855F7" stop-opacity="0.2"/>
-                <stop offset="30%" stop-color="#00F5D4" stop-opacity="0.95"/>
+                <stop offset="0%" stop-color="#8A2BE2" stop-opacity="0.2"/>
+                <stop offset="30%" stop-color="#00D2FF" stop-opacity="0.95"/>
                 <stop offset="50%" stop-color="#ffffff" stop-opacity="0.95"/>
-                <stop offset="70%" stop-color="#00F5D4" stop-opacity="0.9"/>
-                <stop offset="100%" stop-color="#A855F7" stop-opacity="0.2"/>
+                <stop offset="70%" stop-color="#00D2FF" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#8A2BE2" stop-opacity="0.2"/>
             </linearGradient>
         </defs>
         <path d="
