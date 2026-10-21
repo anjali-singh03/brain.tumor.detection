@@ -59,15 +59,15 @@ if not is_authenticated():
 if "lang_code" not in st.session_state:
     st.session_state["lang_code"] = "en"
 
-# Clinical Workstation Stylesheet with New Palette (#2A2539, #353044, #5E5373, #DBD8E3)
+# Clinical Workstation Stylesheet — Deep Dark Purple & Luminous Cyber-Cyan
 st.markdown(
     """
 <style>
 /* Base Theme Canvas */
 .stApp {
-    background-color: #2A2539 !important;
-    background: radial-gradient(circle at 50% 12%, #353044 0%, #2A2539 50%, #1c1827 100%) !important;
-    color: #DBD8E3 !important;
+    background-color: #0B0616 !important;
+    background: radial-gradient(circle at 50% 12%, #1C0F38 0%, #0D071E 50%, #05020B 100%) !important;
+    color: #F8FAFC !important;
     min-height: 100vh !important;
     height: 100vh !important;
 }
@@ -77,7 +77,7 @@ st.markdown(
     height: 100% !important;
 }
 
-/* Ambient Horizon Dome Animation with Soft Lilac Glow */
+/* Ambient Horizon Dome Animation with Deep Amethyst Glow */
 .ambient-horizon-main {
     position: fixed;
     bottom: -280px;
@@ -86,9 +86,9 @@ st.markdown(
     width: 900px;
     height: 520px;
     border-radius: 50%;
-    background: radial-gradient(circle at 50% 20%, rgba(94, 83, 115, 0.4) 0%, rgba(53, 48, 68, 0.15) 45%, transparent 75%);
+    background: radial-gradient(circle at 50% 20%, rgba(168, 85, 247, 0.28) 0%, rgba(0, 245, 212, 0.08) 35%, transparent 70%);
     pointer-events: none;
-    filter: blur(14px);
+    filter: blur(16px);
     z-index: 0;
     animation: horizonGlow 7s ease-in-out infinite alternate;
 }
@@ -105,9 +105,9 @@ st.markdown(
     left: 0;
     width: 100%;
     height: 32px;
-    background: rgba(42, 37, 57, 0.95);
+    background: rgba(11, 6, 22, 0.96);
     backdrop-filter: blur(8px);
-    border-top: 1px solid rgba(219, 216, 227, 0.2);
+    border-top: 1px solid rgba(0, 245, 212, 0.3);
     z-index: 999;
     overflow: hidden;
     pointer-events: none;
@@ -126,9 +126,9 @@ st.markdown(
 
 /* Highlighted Sidebar Clinical Navigation */
 .nav-header-pill {
-    background: rgba(94, 83, 115, 0.35);
-    border: 1px solid #8E82A6;
-    color: #DBD8E3;
+    background: rgba(168, 85, 247, 0.2);
+    border: 1px solid #A855F7;
+    color: #00F5D4;
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 11px;
@@ -137,7 +137,7 @@ st.markdown(
     text-transform: uppercase;
     display: inline-block;
     margin-bottom: 12px;
-    box-shadow: 0 0 12px rgba(94, 83, 115, 0.3);
+    box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
 }
 
 div[data-testid="stRadio"] > div {
@@ -145,26 +145,26 @@ div[data-testid="stRadio"] > div {
 }
 
 div[data-testid="stRadio"] label {
-    background: rgba(53, 48, 68, 0.85) !important;
-    border: 1px solid rgba(219, 216, 227, 0.15) !important;
+    background: rgba(22, 14, 44, 0.85) !important;
+    border: 1px solid rgba(168, 85, 247, 0.25) !important;
     border-radius: 12px !important;
     padding: 10px 14px !important;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
     cursor: pointer !important;
 }
 
 div[data-testid="stRadio"] label:hover {
-    border-color: #DBD8E3 !important;
-    background: rgba(94, 83, 115, 0.45) !important;
+    border-color: #00F5D4 !important;
+    background: rgba(30, 18, 60, 0.9) !important;
     transform: translateX(6px) !important;
-    box-shadow: 0 6px 20px rgba(94, 83, 115, 0.35) !important;
+    box-shadow: 0 6px 20px rgba(0, 245, 212, 0.25) !important;
 }
 
 div[data-testid="stRadio"] label:has(input:checked) {
-    background: linear-gradient(135deg, rgba(94, 83, 115, 0.75) 0%, rgba(53, 48, 68, 0.95) 100%) !important;
-    border: 1.5px solid #DBD8E3 !important;
-    box-shadow: 0 0 20px rgba(94, 83, 115, 0.5) !important;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.45) 0%, rgba(0, 245, 212, 0.2) 100%) !important;
+    border: 1.5px solid #00F5D4 !important;
+    box-shadow: 0 0 22px rgba(0, 245, 212, 0.45) !important;
     transform: translateX(4px) !important;
 }
 
@@ -179,69 +179,69 @@ div[data-testid="stRadio"] label span p {
 .card {
     padding: 20px;
     border-radius: 14px;
-    color: #DBD8E3;
+    color: #F8FAFC;
     margin-bottom: 14px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .card:hover {
     transform: translateY(-4px) scale(1.006);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 24px rgba(94, 83, 115, 0.3);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 245, 212, 0.25);
 }
 
 /* DICOM Inspector Box */
 .dicom-box {
-    background: #2A2539;
-    border: 1px solid rgba(219, 216, 227, 0.25);
+    background: #0E0720;
+    border: 1px solid rgba(168, 85, 247, 0.35);
     border-radius: 10px;
     padding: 12px 16px;
     font-family: monospace;
     font-size: 12px;
-    color: #DBD8E3;
+    color: #00F5D4;
     margin-bottom: 14px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
 }
 
 /* Streamlit Tabs Dark Styling with Glowing Indicator */
 .stTabs [data-baseweb="tab-list"] {
     gap: 8px;
-    background-color: rgba(42, 37, 57, 0.9);
+    background-color: rgba(18, 11, 38, 0.95);
     padding: 6px;
     border-radius: 14px;
-    border: 1px solid rgba(219, 216, 227, 0.2);
+    border: 1px solid rgba(168, 85, 247, 0.25);
 }
 
 .stTabs [data-baseweb="tab"] {
     border-radius: 9px;
-    color: #a49cb5;
+    color: #A5B4FC;
     font-weight: 700;
     transition: all 0.2s ease;
 }
 .stTabs [data-baseweb="tab"]:hover {
-    color: #DBD8E3;
-    background-color: rgba(94, 83, 115, 0.2);
+    color: #00F5D4;
+    background-color: rgba(168, 85, 247, 0.25);
 }
 
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, rgba(94, 83, 115, 0.6) 0%, rgba(53, 48, 68, 0.85) 100%) !important;
-    border: 1px solid #DBD8E3 !important;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.5) 0%, rgba(0, 245, 212, 0.25) 100%) !important;
+    border: 1.5px solid #00F5D4 !important;
     color: #ffffff !important;
-    box-shadow: 0 0 14px rgba(94, 83, 115, 0.4) !important;
+    box-shadow: 0 0 18px rgba(0, 245, 212, 0.4) !important;
 }
 
 /* Animated Scanline on MRI Viewports */
 div[data-testid="stImage"] {
     position: relative !important;
-    border: 2px solid rgba(94, 83, 115, 0.6) !important;
+    border: 2px solid rgba(168, 85, 247, 0.45) !important;
     border-radius: 14px !important;
     overflow: hidden !important;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(94, 83, 115, 0.25) !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75), 0 0 20px rgba(168, 85, 247, 0.3) !important;
     transition: all 0.3s ease !important;
 }
 
 div[data-testid="stImage"]:hover {
-    border-color: #DBD8E3 !important;
-    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 35px rgba(94, 83, 115, 0.45) !important;
+    border-color: #00F5D4 !important;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 35px rgba(0, 245, 212, 0.45) !important;
     transform: translateY(-2px) !important;
 }
 
@@ -252,8 +252,8 @@ div[data-testid="stImage"]::after {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, transparent, #DBD8E3, #8E82A6, #DBD8E3, transparent);
-    box-shadow: 0 0 12px #DBD8E3, 0 0 22px #8E82A6;
+    background: linear-gradient(90deg, transparent, #00F5D4, #A855F7, #00F5D4, transparent);
+    box-shadow: 0 0 14px #00F5D4, 0 0 24px #A855F7;
     z-index: 5;
     pointer-events: none;
     animation: laserScan 4s ease-in-out infinite alternate;
@@ -262,11 +262,11 @@ div[data-testid="stImage"]::after {
 /* Animated Laser Scanner Viewport Frame */
 .mri-viewport-container {
     position: relative;
-    border: 2px solid rgba(94, 83, 115, 0.5);
+    border: 2px solid rgba(168, 85, 247, 0.45);
     border-radius: 16px;
     overflow: hidden;
-    background: #1B1726;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(94, 83, 115, 0.3);
+    background: #0E0720;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(168, 85, 247, 0.3);
 }
 
 .laser-scan-bar {
@@ -274,8 +274,8 @@ div[data-testid="stImage"]::after {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, transparent, #DBD8E3, #8E82A6, #DBD8E3, transparent);
-    box-shadow: 0 0 14px #DBD8E3, 0 0 24px #8E82A6;
+    background: linear-gradient(90deg, transparent, #00F5D4, #A855F7, #00F5D4, transparent);
+    box-shadow: 0 0 14px #00F5D4, 0 0 24px #A855F7;
     z-index: 5;
     pointer-events: none;
     animation: laserScan 3.5s ease-in-out infinite alternate;
@@ -289,36 +289,36 @@ div[data-testid="stImage"]::after {
 
 /* Primary Action Buttons */
 .stButton > button[kind="primary"] {
-    background: linear-gradient(135deg, #5E5373 0%, #3e364f 100%) !important;
-    color: #ffffff !important;
-    border: 1px solid #DBD8E3 !important;
+    background: linear-gradient(135deg, #A855F7 0%, #00F5D4 100%) !important;
+    color: #090514 !important;
+    border: none !important;
     border-radius: 20px !important;
-    font-weight: 800 !important;
-    box-shadow: 0 4px 18px rgba(94, 83, 115, 0.5) !important;
+    font-weight: 900 !important;
+    box-shadow: 0 4px 18px rgba(0, 245, 212, 0.45) !important;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 .stButton > button[kind="primary"]:hover {
-    box-shadow: 0 6px 26px rgba(219, 216, 227, 0.6) !important;
-    transform: translateY(-2px) scale(1.01) !important;
+    box-shadow: 0 8px 28px rgba(0, 245, 212, 0.65) !important;
+    transform: translateY(-2px) scale(1.02) !important;
 }
 
 /* Preset Buttons */
 .preset-btn {
     display: inline-block;
     padding: 4px 10px;
-    background: rgba(94, 83, 115, 0.35);
-    border: 1px solid #8E82A6;
+    background: rgba(168, 85, 247, 0.2);
+    border: 1px solid #A855F7;
     border-radius: 12px;
-    color: #DBD8E3;
+    color: #00F5D4;
     font-size: 11px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
 }
 .preset-btn:hover {
-    background: #5E5373;
-    border-color: #DBD8E3;
-    color: #ffffff;
+    background: #A855F7;
+    border-color: #00F5D4;
+    color: #090514;
 }
 </style>
 
@@ -330,11 +330,11 @@ div[data-testid="stImage"]::after {
     <svg class="global-ecg-svg" viewBox="0 0 2400 120" preserveAspectRatio="none">
         <defs>
             <linearGradient id="ecgGlobalGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#5E5373" stop-opacity="0.2"/>
-                <stop offset="30%" stop-color="#ffffff" stop-opacity="0.95"/>
-                <stop offset="50%" stop-color="#DBD8E3" stop-opacity="0.9"/>
-                <stop offset="70%" stop-color="#8E82A6" stop-opacity="0.7"/>
-                <stop offset="100%" stop-color="#5E5373" stop-opacity="0.2"/>
+                <stop offset="0%" stop-color="#A855F7" stop-opacity="0.2"/>
+                <stop offset="30%" stop-color="#00F5D4" stop-opacity="0.95"/>
+                <stop offset="50%" stop-color="#ffffff" stop-opacity="0.95"/>
+                <stop offset="70%" stop-color="#00F5D4" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#A855F7" stop-opacity="0.2"/>
             </linearGradient>
         </defs>
         <path d="
@@ -344,7 +344,7 @@ div[data-testid="stImage"]::after {
             L1320,60 L1340,60 L1355,45 L1370,75 L1385,15 L1400,105 L1415,50 L1430,68 L1445,60 L1620,60
             L1680,60 L1700,60 L1715,45 L1730,75 L1745,15 L1760,105 L1775,50 L1790,68 L1805,60 L1980,60
             L2040,60 L2060,60 L2075,45 L2090,75 L2105,15 L2120,105 L2135,50 L2150,68 L2165,60 L2400,60
-        " fill="none" stroke="url(#ecgGlobalGlow)" stroke-width="2.2" />
+        " fill="none" stroke="url(#ecgGlobalGlow)" stroke-width="2.4" />
     </svg>
 </div>
 """,

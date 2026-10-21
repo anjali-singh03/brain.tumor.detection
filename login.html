@@ -9,23 +9,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #5E5373;
-      --primary-hover: #71648a;
-      --accent-neon: #DBD8E3;
-      --accent-glow: rgba(94, 83, 115, 0.45);
-      --bg-dark-1: #1c1827;
-      --bg-dark-2: #2A2539;
-      --bg-dark-3: #353044;
-      --card-bg: rgba(53, 48, 68, 0.9);
-      --card-border: rgba(219, 216, 227, 0.25);
-      --card-shadow: 0 16px 45px rgba(0, 0, 0, 0.75), 0 0 30px rgba(94, 83, 115, 0.2);
+      --primary: #A855F7;
+      --primary-hover: #c084fc;
+      --accent-neon: #00F5D4;
+      --accent-glow: rgba(0, 245, 212, 0.45);
+      --bg-dark-1: #05020B;
+      --bg-dark-2: #0B0616;
+      --bg-dark-3: #181033;
+      --card-bg: rgba(22, 14, 44, 0.95);
+      --card-border: rgba(168, 85, 247, 0.35);
+      --card-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(168, 85, 247, 0.25);
       --text-highlight: #ffffff;
-      --text-secondary: #DBD8E3;
-      --text-sub: #b8aec9;
-      --label-color: #DBD8E3;
-      --input-bg: rgba(42, 37, 57, 0.9);
-      --input-border: rgba(219, 216, 227, 0.25);
-      --input-focus: #DBD8E3;
+      --text-secondary: #CBD5E1;
+      --text-sub: #A5B4FC;
+      --label-color: #00F5D4;
+      --input-bg: rgba(16, 9, 36, 0.95);
+      --input-border: rgba(168, 85, 247, 0.35);
+      --input-focus: #00F5D4;
       --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
@@ -42,7 +42,7 @@
       max-height: 100vh;
       overflow: hidden; /* Zero vertical scrolling */
       font-family: var(--font-sans);
-      background: radial-gradient(circle at 50% 20%, #0d2836 0%, var(--bg-dark-2) 45%, var(--bg-dark-1) 100%);
+      background: radial-gradient(circle at 50% 20%, #1A0E35 0%, var(--bg-dark-2) 45%, var(--bg-dark-1) 100%);
       color: var(--text-highlight);
       display: flex;
       flex-direction: column;
@@ -60,9 +60,9 @@
       width: 900px;
       height: 520px;
       border-radius: 50%;
-      background: radial-gradient(circle at 50% 20%, rgba(45, 212, 191, 0.28) 0%, rgba(14, 165, 233, 0.12) 45%, transparent 75%);
+      background: radial-gradient(circle at 50% 20%, rgba(168, 85, 247, 0.3) 0%, rgba(0, 245, 212, 0.12) 45%, transparent 75%);
       pointer-events: none;
-      filter: blur(10px);
+      filter: blur(12px);
       z-index: 1;
       animation: horizonGlow 6s ease-in-out infinite alternate;
     }
@@ -100,11 +100,11 @@
     .floating-orb {
       position: absolute;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(45, 212, 191, 0.22) 0%, rgba(10, 25, 35, 0.5) 60%, rgba(5, 12, 18, 0.85) 100%);
+      background: radial-gradient(circle at 30% 30%, rgba(168, 85, 247, 0.3) 0%, rgba(22, 14, 44, 0.6) 60%, rgba(11, 6, 22, 0.9) 100%);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border: 1.5px solid rgba(45, 212, 191, 0.45);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 16px rgba(45, 212, 191, 0.25);
+      border: 1.5px solid rgba(0, 245, 212, 0.5);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), inset 0 0 16px rgba(0, 245, 212, 0.25);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -116,18 +116,18 @@
 
     .floating-orb:hover {
       transform: scale(1.1) translateY(-4px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(45, 212, 191, 0.5);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 245, 212, 0.6);
     }
 
     .floating-orb svg {
       width: 48%;
       height: 48%;
       fill: none;
-      stroke: #5eead4;
+      stroke: #00F5D4;
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
-      filter: drop-shadow(0 0 8px rgba(94, 234, 212, 0.6));
+      filter: drop-shadow(0 0 8px rgba(0, 245, 212, 0.7));
     }
 
     /* Orb 1: Left DNA Double Helix */

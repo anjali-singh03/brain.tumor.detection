@@ -110,8 +110,8 @@ def render_risk_radar(risk_dict: dict) -> go.Figure:
         r=values,
         theta=categories,
         fill='toself',
-        fillcolor='rgba(94, 83, 115, 0.35)',
-        line=dict(color='#DBD8E3', width=2.5),
+        fillcolor='rgba(168, 85, 247, 0.35)',
+        line=dict(color='#00F5D4', width=2.8),
         name='Surgical Complexity Index'
     ))
 
@@ -120,14 +120,14 @@ def render_risk_radar(risk_dict: dict) -> go.Figure:
             radialaxis=dict(
                 visible=True,
                 range=[0, 10],
-                tickfont=dict(color='#a59cb8', size=9),
-                gridcolor='rgba(219, 216, 227, 0.15)'
+                tickfont=dict(color='#A5B4FC', size=9),
+                gridcolor='rgba(168, 85, 247, 0.2)'
             ),
             angularaxis=dict(
-                tickfont=dict(color='#DBD8E3', size=11, family="Plus Jakarta Sans"),
-                gridcolor='rgba(219, 216, 227, 0.15)'
+                tickfont=dict(color='#F8FAFC', size=11, family="Plus Jakarta Sans"),
+                gridcolor='rgba(168, 85, 247, 0.2)'
             ),
-            bgcolor='rgba(42, 37, 57, 0.9)'
+            bgcolor='rgba(14, 7, 32, 0.95)'
         ),
         paper_bgcolor='rgba(0, 0, 0, 0)',
         plot_bgcolor='rgba(0, 0, 0, 0)',
@@ -165,15 +165,15 @@ def render_survival_trajectory(tumor_class: str, resectability_pct: float) -> go
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=months, y=gtr_curve, mode='lines+markers', name='Gross Total Resection (GTR) + Adjuvant',
-        line=dict(color='#10b981', width=3)
+        line=dict(color='#00F5D4', width=3)
     ))
     fig.add_trace(go.Scatter(
         x=months, y=str_curve, mode='lines+markers', name='Subtotal Resection (STR) + Radiotherapy',
-        line=dict(color='#38bdf8', width=2.5, dash='dash')
+        line=dict(color='#A855F7', width=2.5, dash='dash')
     ))
     fig.add_trace(go.Scatter(
         x=months, y=biopsy_curve, mode='lines', name='Stereotactic Biopsy Only',
-        line=dict(color='#ef4444', width=2, dash='dot')
+        line=dict(color='#FF3366', width=2, dash='dot')
     ))
 
     fig.update_layout(
@@ -182,11 +182,11 @@ def render_survival_trajectory(tumor_class: str, resectability_pct: float) -> go
         yaxis_title="Progression-Free Probability (%)",
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
-        font=dict(color="#cbd5e1"),
+        font=dict(color="#F8FAFC"),
         height=300,
         margin=dict(l=10, r=10, t=40, b=10),
-        xaxis=dict(gridcolor="rgba(148, 163, 184, 0.1)"),
-        yaxis=dict(gridcolor="rgba(148, 163, 184, 0.1)", range=[0, 105]),
+        xaxis=dict(gridcolor="rgba(168, 85, 247, 0.15)"),
+        yaxis=dict(gridcolor="rgba(168, 85, 247, 0.15)", range=[0, 105]),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
     )
 
