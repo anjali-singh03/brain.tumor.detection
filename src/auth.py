@@ -86,17 +86,38 @@ def render_user_profile_sidebar():
     user = get_current_user()
     logo_b64 = _get_logo_base64()
     if logo_b64:
-        sidebar_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 9px;" alt="NeuroScan Logo" />'
+        sidebar_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 16px;" alt="NeuroScan Logo" />'
     else:
-        sidebar_logo_img = '<span style="font-size: 20px;">🧠</span>'
+        sidebar_logo_img = '<span style="font-size: 34px;">🧠</span>'
 
     st.sidebar.markdown(
         textwrap.dedent(f"""
-        <!-- Top-Left Sidebar App Logo Above Clinician Profile (Logo Only, No App Name) -->
-        <div style="margin-bottom: 14px; padding: 2px 4px 12px 4px; border-bottom: 1px solid rgba(56, 189, 248, 0.16); display: flex; align-items: center;">
-            <div style="width: 48px; height: 48px; border-radius: 13px; background: #080D18;
-                        border: 1.5px solid #0EA5E9; box-shadow: 0 0 16px rgba(14, 165, 233, 0.4);
-                        overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+        <!-- Top Centered Sidebar App Logo Above Clinician Profile -->
+        <style>
+        @keyframes sidebarLogoGlow {{
+            0%, 100% {{ border-color: #0EA5E9; box-shadow: 0 0 16px rgba(14, 165, 233, 0.4), 0 8px 20px rgba(0, 0, 0, 0.6); }}
+            50% {{ border-color: #38BDF8; box-shadow: 0 0 24px rgba(56, 189, 248, 0.65), 0 10px 26px rgba(0, 0, 0, 0.8); }}
+        }}
+        .sidebar-centered-logo {{
+            width: 74px;
+            height: 74px;
+            border-radius: 18px;
+            background: #080D18;
+            border: 2px solid #0EA5E9;
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.45), 0 8px 24px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: sidebarLogoGlow 3.5s ease-in-out infinite;
+            transition: transform 0.25s ease;
+        }}
+        .sidebar-centered-logo:hover {{
+            transform: scale(1.05);
+        }}
+        </style>
+        <div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 16px; padding: 4px 0 14px 0; border-bottom: 1px solid rgba(56, 189, 248, 0.16);">
+            <div class="sidebar-centered-logo">
                 {sidebar_logo_img}
             </div>
         </div>
