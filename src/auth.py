@@ -170,30 +170,16 @@ def render_login_page():
         .node-bottom-left { bottom: 8%; left: 10%; animation-delay: 3.5s; }
         .node-bottom-right { bottom: 6%; right: 10%; animation-delay: 1.5s; }
 
-        /* Centered compact login form container — reveals smoothly after 10s pure logo splash */
+        /* Centered compact login form container */
         .block-container {
             max-width: 400px !important;
-            padding-top: 1rem !important;
-            padding-bottom: 1rem !important;
+            padding-top: 1.5rem !important;
+            padding-bottom: 1.5rem !important;
             padding-left: 1rem !important;
             padding-right: 1rem !important;
             margin: 0 auto !important;
             position: relative !important;
             z-index: 2 !important;
-            animation: loginRevealTiming 10.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
-        }
-
-        @keyframes loginRevealTiming {
-            0%, 93% {
-                opacity: 0;
-                transform: translateY(16px) scale(0.96);
-                pointer-events: none;
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                pointer-events: auto;
-            }
         }
 
         /* Hospital Brand Header with Centered Emblem */
@@ -422,7 +408,9 @@ def render_login_page():
             box-shadow: 0 5px 14px rgba(14, 165, 233, 0.25) !important;
             transform: translateY(-1.5px) !important;
         }
-        /* 10-Second Pure Logo Opening Splash Overlay (Zero Text, Absolute Mathematical Center) */
+        /* =========================================================================
+           FIRST: Pure Opening Logo Splash (Full Viewport, Absolute Mathematical Center)
+           ========================================================================= */
         .neuroscan-splash-overlay {
             position: fixed !important;
             top: 0 !important;
@@ -431,50 +419,42 @@ def render_login_page():
             bottom: 0 !important;
             width: 100vw !important;
             height: 100vh !important;
-            background: radial-gradient(circle at 50% 48%, #101F3B 0%, #080D18 55%, #03060B 100%) !important;
-            z-index: 9999999 !important;
+            background: radial-gradient(circle at 50% 48%, #101F3B 0%, #070B14 55%, #02050A 100%) !important;
+            z-index: 99999999 !important;
             display: flex !important;
+            flex-direction: column !important;
             align-items: center !important;
             justify-content: center !important;
             cursor: pointer;
-            animation: splashFadeDissolve 10.2s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
             margin: 0 !important;
             padding: 0 !important;
-        }
-
-        @keyframes splashFadeDissolve {
-            0%, 93% { opacity: 1; visibility: visible; }
-            98% { opacity: 0; visibility: visible; }
-            100% { opacity: 0; visibility: hidden; pointer-events: none; display: none; }
+            opacity: 1;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .splash-center-content {
-            position: absolute !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) !important;
             display: flex !important;
             flex-direction: column !important;
             align-items: center !important;
             justify-content: center !important;
             margin: 0 !important;
             padding: 0 !important;
-            animation: splashContentRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: splashContentRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes splashContentRise {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            0% { opacity: 0; transform: scale(0.92); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         /* Large squircle app logo dominating the full page, matching user reference */
         .splash-logo-box {
             position: relative;
-            width: clamp(280px, 72vmin, 520px);
-            height: clamp(280px, 72vmin, 520px);
+            width: clamp(260px, 68vmin, 460px);
+            height: clamp(260px, 68vmin, 460px);
             border-radius: 22%;
             background: #080D18;
             border: 2px solid rgba(56, 189, 248, 0.35);
@@ -487,19 +467,19 @@ def render_login_page():
             justify-content: center;
             overflow: hidden;
             z-index: 5;
-            animation: logoBreathSplash 4s ease-in-out infinite;
+            animation: logoBreathSplash 3.5s ease-in-out infinite;
             transition: all 0.3s ease;
         }
 
         .splash-floor-shadow {
-            width: clamp(200px, 55vmin, 400px);
-            height: 28px;
+            width: clamp(200px, 55vmin, 380px);
+            height: 26px;
             margin-top: 18px;
-            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.9) 0%, rgba(14, 165, 233, 0.15) 40%, transparent 70%);
+            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.95) 0%, rgba(14, 165, 233, 0.25) 40%, transparent 70%);
             border-radius: 50%;
             filter: blur(8px);
             pointer-events: none;
-            animation: floorShadowPulse 4s ease-in-out infinite;
+            animation: floorShadowPulse 3.5s ease-in-out infinite;
         }
 
         @keyframes floorShadowPulse {
@@ -520,36 +500,46 @@ def render_login_page():
             }
         }
 
-        /* Ambient full-page squircle logo backdrop behind login workstation */
-        .login-fullpage-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-            z-index: 0;
+        .splash-progress-track {
+            width: 220px;
+            height: 3px;
+            background: rgba(56, 189, 248, 0.15);
+            border-radius: 999px;
             overflow: hidden;
+            margin-top: 24px;
+            position: relative;
+            box-shadow: 0 0 10px rgba(14, 165, 233, 0.2);
         }
-        .login-fullpage-squircle {
-            width: clamp(280px, 72vmin, 520px);
-            height: clamp(280px, 72vmin, 520px);
-            border-radius: 22%;
-            opacity: 0.22;
-            border: 1.5px solid rgba(56, 189, 248, 0.25);
-            box-shadow: 0 0 70px rgba(14, 165, 233, 0.25);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: backdropBreath 5s ease-in-out infinite alternate;
+
+        .splash-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #0284C7, #38BDF8, #FFFFFF);
+            border-radius: 999px;
+            box-shadow: 0 0 8px #38BDF8;
+            animation: splashProgressFill 3.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes backdropBreath {
-            0% { transform: scale(0.98); opacity: 0.18; }
-            100% { transform: scale(1.02); opacity: 0.26; }
+
+        @keyframes splashProgressFill {
+            0% { width: 0%; }
+            50% { width: 65%; }
+            100% { width: 100%; }
+        }
+
+        .splash-enter-hint {
+            margin-top: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #64748B;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+            animation: pulseHint 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseHint {
+            0% { opacity: 0.45; transform: translateY(0); }
+            100% { opacity: 0.95; color: #38BDF8; transform: translateY(-2px); }
         }
         </style>
         <div class="ambient-node node-top-left"></div>
@@ -560,66 +550,87 @@ def render_login_page():
         unsafe_allow_html=True
     )
 
-    # 10-Second Pure Logo Opening Splash (No Text, Logo Only in Absolute Center)
+    # First show logo (Opening Splash), then show login page
     logo_b64 = _get_logo_base64()
     if logo_b64:
         splash_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 22%; display: block;" alt="NeuroScan Logo" />'
-        backdrop_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 22%; display: block;" alt="NeuroScan Backdrop" />'
         login_center_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px; display: block;" alt="NeuroScan PACS Logo" />'
     else:
         splash_logo_img = '<span style="font-size: 110px;">🧠</span>'
-        backdrop_logo_img = '<span style="font-size: 110px;">🧠</span>'
         login_center_logo_img = '<span style="font-size: 32px;">🧠</span>'
 
     st.markdown(
         textwrap.dedent(f"""
-        <!-- 10-Second Pure Logo Opening Splash Screen (Visible on Whole Page, Matching Squircle Reference) -->
-        <div id="neuroscan-splash-overlay" class="neuroscan-splash-overlay" onclick="dismissSplash()">
+        <!-- 1. FIRST: Pure Centered NeuroScan Squircle Logo Opening Screen -->
+        <div id="neuroscan-splash-overlay" class="neuroscan-splash-overlay" onclick="dismissSplashImmediately()">
             <div class="splash-center-content">
                 <div class="splash-logo-box">
                     {splash_logo_img}
                 </div>
                 <div class="splash-floor-shadow"></div>
+                <div class="splash-progress-track">
+                    <div class="splash-progress-fill"></div>
+                </div>
+                <div class="splash-enter-hint">CLICK ANYWHERE TO ENTER WORKSTATION ⟶</div>
             </div>
         </div>
 
         <script>
-        function dismissSplash() {{
+        function dismissSplashImmediately() {{
             var el = document.getElementById('neuroscan-splash-overlay');
             if (el) {{
-                el.style.transition = 'opacity 0.45s ease, visibility 0.45s ease';
+                el.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
                 el.style.opacity = '0';
+                el.style.transform = 'scale(1.04)';
+                el.style.pointerEvents = 'none';
                 setTimeout(function() {{
-                    el.style.visibility = 'hidden';
-                    el.style.pointerEvents = 'none';
-                    el.style.display = 'none';
-                    var loginBox = document.querySelector('.block-container');
-                    if (loginBox) {{
-                        loginBox.style.animation = 'none';
-                        loginBox.style.opacity = '1';
-                        loginBox.style.transform = 'translateY(0) scale(1)';
-                        loginBox.style.pointerEvents = 'auto';
-                    }}
+                    try {{ el.remove(); }} catch(e) {{ el.style.display = 'none'; }}
                 }}, 450);
             }}
+            try {{
+                sessionStorage.setItem('neuroscan_splash_seen', 'true');
+            }} catch(e) {{}}
         }}
-        setTimeout(function() {{
+
+        (function() {{
+            try {{
+                if (performance && performance.getEntriesByType) {{
+                    var nav = performance.getEntriesByType("navigation")[0];
+                    if (nav && nav.type === "reload") {{
+                        sessionStorage.removeItem('neuroscan_splash_seen');
+                    }}
+                }}
+            }} catch(e) {{}}
+
+            var isSeen = false;
+            try {{
+                isSeen = sessionStorage.getItem('neuroscan_splash_seen') === 'true';
+            }} catch(e) {{}}
+
             var el = document.getElementById('neuroscan-splash-overlay');
             if (el) {{
-                el.addEventListener('touchstart', dismissSplash, {{once: true, passive: true}});
-                el.addEventListener('click', dismissSplash, {{once: true}});
+                if (isSeen) {{
+                    el.style.display = 'none';
+                    try {{ el.remove(); }} catch(e) {{}}
+                }} else {{
+                    if (document.body && el.parentElement !== document.body) {{
+                        document.body.appendChild(el);
+                    }}
+                    setTimeout(dismissSplashImmediately, 3200);
+                    setTimeout(function() {{
+                        el.addEventListener('touchstart', dismissSplashImmediately, {{once: true, passive: true}});
+                        el.addEventListener('click', dismissSplashImmediately, {{once: true}});
+                        document.addEventListener('keydown', function onKey(e) {{
+                            dismissSplashImmediately();
+                            document.removeEventListener('keydown', onKey);
+                        }}, {{once: true}});
+                    }}, 50);
+                }}
             }}
-        }}, 50);
+        }})();
         </script>
 
-        <!-- Ambient Full-Page Logo Squircle Backdrop Behind Login Form -->
-        <div class="login-fullpage-backdrop">
-            <div class="login-fullpage-squircle">
-                {backdrop_logo_img}
-            </div>
-        </div>
-
-        <!-- Hospital Brand Header on Login Page (Centered Logo & Typography) -->
+        <!-- 2. THEN: Hospital Staff Login Header (Clean Centered Emblem & Typography) -->
         <div class="clinical-login-header">
             <div class="clinical-logo-centered-wrapper">
                 <div class="clinical-logo-centered-box">
