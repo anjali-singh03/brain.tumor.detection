@@ -1,7 +1,9 @@
 # auth.py
-# Production-ready Dark Clinical Authentication for Brain Tumor Detection App
+# Clinical Authentication for Brain Tumor Detection App
+# Styled with iridescent pastel login cards (matching user Image 2) and dark palette sidebar (#2A2539, #353044, #5E5373, #DBD8E3)
 import streamlit as st
 import hashlib
+import textwrap
 
 # Pre-registered clinical user directory
 CLINICAL_USERS = {
@@ -39,7 +41,7 @@ def hash_password(password: str) -> str:
 
 def is_authenticated() -> bool:
     """Check if the current session has an authenticated medical user."""
-    return st.session_state.get("authenticated", False)
+    return bool(st.session_state.get("authenticated", False))
 
 
 def get_current_user() -> dict:
@@ -49,6 +51,7 @@ def get_current_user() -> dict:
         return {
             "name": "Guest Clinician",
             "title": "Medical Evaluator",
+            "hospital": "Clinical Diagnostic Center",
             "role": "Radiologist",
             "avatar": "🩺"
         }
@@ -56,33 +59,40 @@ def get_current_user() -> dict:
 
 
 def logout_user():
-    """Clear user session and reset authentication state."""
+    """Clear user session and reset authentication state to return to login screen."""
     st.session_state["authenticated"] = False
     st.session_state["user"] = None
+    st.session_state["auth_screen"] = "welcome"
     st.rerun()
 
 
 def render_user_profile_sidebar():
-    """Render clinical user profile pill in Streamlit sidebar."""
+    """Render clinical user profile pill in Streamlit sidebar using new palette (#353044, #5E5373, #DBD8E3)."""
     user = get_current_user()
     st.sidebar.markdown(
-        f"""
-        <div style="background: rgba(13, 148, 136, 0.22); border: 1.5px solid #2dd4bf;
-                    border-radius: 12px; padding: 12px; margin-bottom: 14px;
-                    box-shadow: 0 0 15px rgba(45, 212, 191, 0.25);">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 26px;">{user.get('avatar', '🩺')}</span>
+        textwrap.dedent(f"""
+        <div style="background: #353044; border: 1.5px solid #5E5373;
+                    border-radius: 14px; padding: 14px; margin-bottom: 16px;
+                    box-shadow: 0 8px 24px rgba(42, 37, 57, 0.45), 0 0 12px rgba(94, 83, 115, 0.3);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 44px; height: 44px; border-radius: 50%; background: #2A2539; border: 1.5px solid #8E82A6;
+                            display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                    {user.get('avatar', '🩺')}
+                </div>
                 <div>
-                    <div style="font-weight: 800; color: #5eead4; font-size: 14.5px;">{user.get('name', 'Doctor')}</div>
-                    <div style="font-size: 11.5px; color: #cbd5e1;">{user.get('title', 'Clinical Staff')}</div>
+                    <div style="font-weight: 800; color: #DBD8E3; font-size: 14.5px; letter-spacing: -0.2px;">{user.get('name', 'Doctor')}</div>
+                    <div style="font-size: 11.5px; color: #b8aec9; font-weight: 500;">{user.get('title', 'Clinical Staff')}</div>
                 </div>
             </div>
-            <div style="margin-top: 8px; font-size: 10.5px; color: #38bdf8; font-weight: 700;
-                        background: rgba(14, 165, 233, 0.2); padding: 3px 8px; border-radius: 20px; display: inline-block;">
-                ● HIPAA Session Active
+            <div style="margin-top: 10px; display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-size: 10px; color: #DBD8E3; font-weight: 700; background: #5E5373;
+                             padding: 3px 9px; border-radius: 20px; border: 1px solid rgba(219, 216, 227, 0.3);">
+                    ● HIPAA Session Active
+                </span>
+                <span style="font-size: 10px; color: #a59cb8; font-weight: 600;">{user.get('hospital', 'Diagnostic Center')}</span>
             </div>
         </div>
-        """,
+        """),
         unsafe_allow_html=True
     )
     if st.sidebar.button("🔄 Switch Clinician / Log Out", key="btn_logout_sidebar", use_container_width=True):
@@ -91,543 +101,521 @@ def render_user_profile_sidebar():
 
 def render_login_page():
     """
-    Render a 100% Dark & Attractive, Zero-Scroll Authentication Screen.
-    All elements fit within a single screen without vertical scrolling.
-    Every label and title is prominently highlighted with high-contrast glowing colors.
+    Render modern, friendly authentication interface matching the user's provided design.
+    Features:
+    - Dreamy iridescent pastel lavender/peach/pink background
+    - Mobile-inspired rising rounded cards
+    - 3 view modes: 'welcome' (middle screen), 'login' (left screen), 'signup' (right screen)
+    - 1-click clinical login presets for instant evaluation
     """
-    # 1. Check URL query parameters for 1-click instant login
-    if hasattr(st, "query_params") and "auth_action" in st.query_params:
-        email = st.query_params.get("user", "dr.mitchell@neuroscan.ai")
-        name = st.query_params.get("name", "Dr. Sarah Mitchell")
-        role = st.query_params.get("role", "Chief Neuro-Radiologist")
-        st.session_state["authenticated"] = True
-        st.session_state["user"] = {
-            "name": name,
-            "title": role,
-            "hospital": "Clinical Diagnostic Center",
-            "role": role,
-            "avatar": "👩‍⚕️"
-        }
-        st.query_params.clear()
-        st.rerun()
+    if "auth_screen" not in st.session_state:
+        st.session_state["auth_screen"] = "welcome"
 
-    if "auth_mode" not in st.session_state:
-        st.session_state["auth_mode"] = "login"
+    screen = st.session_state["auth_screen"]
 
-    is_login = st.session_state["auth_mode"] == "login"
-
-    # 2. Inject Full Animated Dark Clinical CSS: Zero scroll, flowing SVG ECG, glowing dome, floating orbs
+    # Global CSS injection for the login page
     st.markdown(
-        """
+        textwrap.dedent("""
         <style>
-        /* Force Dark App Canvas with Animated Subtle Horizon */
+        /* Iridescent Pastel Canvas inspired by user image */
         .stApp {
-            background: radial-gradient(circle at 50% 15%, #0d2836 0%, #07151e 50%, #03080c 100%) !important;
-            color: #ffffff !important;
-            height: 100vh !important;
-            max-height: 100vh !important;
-            overflow: hidden !important;
+            background: linear-gradient(145deg, #fce4ec 0%, #ede7f6 30%, #e1bee7 65%, #d1c4e9 100%) !important;
+            color: #2A2539 !important;
+            min-height: 100vh !important;
         }
 
-        /* Eliminate all Streamlit padding so zero scrolling occurs */
-        .block-container {
-            padding-top: 0.6rem !important;
-            padding-bottom: 0.2rem !important;
-            padding-left: 1rem !important;
-            padding-right: 1rem !important;
-            max-width: 440px !important;
-            margin: 0 auto !important;
-            position: relative !important;
-            z-index: 10 !important;
-        }
-
-        header[data-testid="stHeader"], footer, [data-testid="stSidebar"] {
+        /* Hide Streamlit header & sidebar on login screen */
+        header[data-testid="stHeader"], [data-testid="stSidebar"] {
             display: none !important;
         }
 
-        /* Animated Glowing Horizon Dome */
-        .auth-bg-dome {
+        .block-container {
+            max-width: 440px !important;
+            padding-top: 1.2rem !important;
+            padding-bottom: 2rem !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            margin: 0 auto !important;
+        }
+
+        /* Ambient floating pastel bubbles */
+        .ambient-bubble-1 {
             position: fixed;
-            bottom: -260px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 860px;
-            height: 520px;
+            top: 5%;
+            left: 10%;
+            width: 280px;
+            height: 280px;
             border-radius: 50%;
-            background: radial-gradient(circle at 50% 20%, rgba(45, 212, 191, 0.28) 0%, rgba(14, 165, 233, 0.12) 45%, transparent 75%);
-            pointer-events: none;
+            background: radial-gradient(circle, rgba(254, 205, 211, 0.6) 0%, rgba(244, 114, 182, 0.1) 70%, transparent 100%);
+            filter: blur(40px);
             z-index: 0;
-            filter: blur(12px);
-            animation: horizonGlow 6s ease-in-out infinite alternate;
-        }
-
-        @keyframes horizonGlow {
-            0% { opacity: 0.65; transform: translateX(-50%) scale(0.96); }
-            100% { opacity: 1; transform: translateX(-50%) scale(1.04); }
-        }
-
-        /* Animated Neon ECG Heartbeat Pulse Line */
-        .ecg-container {
-            position: fixed;
-            bottom: 6%;
-            left: 0;
-            width: 100%;
-            height: 70px;
             pointer-events: none;
-            z-index: 1;
-            opacity: 0.85;
-            overflow: hidden;
         }
-
-        .ecg-svg {
-            width: 200%;
-            height: 100%;
-            animation: ecgFlow 6.5s linear infinite;
-        }
-
-        @keyframes ecgFlow {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* Floating Medical Glass Orbs */
-        .floating-orb {
+        .ambient-bubble-2 {
             position: fixed;
+            bottom: 10%;
+            right: 8%;
+            width: 320px;
+            height: 320px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(45, 212, 191, 0.22) 0%, rgba(10, 25, 35, 0.5) 60%, rgba(5, 12, 18, 0.85) 100%);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1.5px solid rgba(45, 212, 191, 0.45);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 16px rgba(45, 212, 191, 0.25);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
+            background: radial-gradient(circle, rgba(196, 181, 253, 0.7) 0%, rgba(167, 139, 250, 0.15) 70%, transparent 100%);
+            filter: blur(45px);
+            z-index: 0;
             pointer-events: none;
-            width: 48px;
-            height: 48px;
-            font-size: 20px;
         }
 
-        .orb-left {
-            top: 22%;
-            left: calc(50% - 280px);
-            animation: floatSlow1 6.5s ease-in-out infinite alternate;
+        /* Rising White Form Card Container */
+        div[data-testid="stForm"] {
+            background: #ffffff !important;
+            border-radius: 36px !important;
+            padding: 30px 24px 26px 24px !important;
+            box-shadow: 0 25px 60px rgba(42, 37, 57, 0.15), 0 0 25px rgba(255, 255, 255, 0.8) !important;
+            border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
+            margin-top: 8px !important;
         }
 
-        .orb-right {
-            top: 36%;
-            right: calc(50% - 280px);
-            animation: floatSlow2 7.5s ease-in-out infinite alternate-reverse;
+        /* Input field labels & text */
+        div[data-testid="stTextInput"] label p,
+        div[data-testid="stSelectbox"] label p {
+            color: #2A2539 !important;
+            font-weight: 700 !important;
+            font-size: 13px !important;
+            margin-bottom: 2px !important;
         }
 
-        @keyframes floatSlow1 {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(-16px) rotate(8deg); }
+        div[data-testid="stTextInput"] div[data-baseweb="input"],
+        div[data-testid="stTextInput"] div[data-baseweb="base-input"],
+        div[data-testid="stTextInput"] input {
+            background-color: #faf8fc !important;
+            background: #faf8fc !important;
+            color: #2A2539 !important;
         }
 
-        @keyframes floatSlow2 {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(16px) rotate(-8deg); }
-        }
-
-        /* Pulsing Medical Cross Emblem */
-        .emblem-pulse {
-            animation: pulseTeal 2.2s ease-in-out infinite;
-        }
-
-        @keyframes pulseTeal {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(45, 212, 191, 0.6)); }
-            50% { transform: scale(1.08); filter: drop-shadow(0 0 20px rgba(45, 212, 191, 0.95)); }
-        }
-
-        /* High-Contrast Highlighted Titles */
-        .login-hero-title {
-            font-size: 22px !important;
-            font-weight: 800 !important;
-            color: #ffffff !important;
-            text-align: center !important;
-            margin: 0 0 2px 0 !important;
-            letter-spacing: -0.3px !important;
-            text-shadow: 0 0 14px rgba(45, 212, 191, 0.5) !important;
-        }
-
-        .login-hero-sub {
-            font-size: 12px !important;
-            color: #cbd5e1 !important;
-            text-align: center !important;
-            margin: 0 0 8px 0 !important;
-            font-weight: 600 !important;
-        }
-
-        /* Prominently Highlighted Field Labels */
-        div[data-testid="stWidgetLabel"] label p,
-        div[data-testid="stWidgetLabel"] label span {
-            color: #5eead4 !important;
-            font-weight: 800 !important;
-            font-size: 12px !important;
-            letter-spacing: 0.4px !important;
-            text-shadow: 0 0 8px rgba(94, 234, 212, 0.4) !important;
-        }
-
-        /* Inputs: Dark Translucent Surface with Glowing Neon Cyan Borders */
-        div[data-baseweb="input"] {
-            background-color: rgba(6, 15, 22, 0.95) !important;
-            border: 1.5px solid rgba(45, 212, 191, 0.45) !important;
-            border-radius: 10px !important;
-            height: 38px !important;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5) !important;
+        div[data-testid="stTextInput"] div[data-baseweb="input"] {
+            border: 1.5px solid #e2d9eb !important;
+            border-radius: 16px !important;
             transition: all 0.2s ease !important;
-        }
-        div[data-baseweb="input"]:focus-within {
-            border-color: #2dd4bf !important;
-            box-shadow: 0 0 14px rgba(45, 212, 191, 0.6), inset 0 0 10px rgba(0,0,0,0.5) !important;
-        }
-        div[data-baseweb="input"] input {
-            color: #ffffff !important;
-            font-weight: 600 !important;
-            font-size: 13px !important;
-        }
-
-        div[data-baseweb="select"] {
-            background-color: rgba(6, 15, 22, 0.95) !important;
-            border: 1.5px solid rgba(45, 212, 191, 0.45) !important;
-            border-radius: 10px !important;
-            height: 38px !important;
-        }
-        div[data-baseweb="select"] span {
-            color: #ffffff !important;
-            font-weight: 700 !important;
-            font-size: 12px !important;
-        }
-
-        /* Primary Action Button: Glowing Neon Teal */
-        .stButton > button[kind="primary"] {
-            background: linear-gradient(135deg, #0d9488 0%, #0ea5e9 100%) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(45, 212, 191, 0.7) !important;
-            border-radius: 22px !important;
-            font-size: 13px !important;
-            font-weight: 800 !important;
-            letter-spacing: 0.6px !important;
-            padding: 6px 16px !important;
-            box-shadow: 0 4px 18px rgba(14, 165, 233, 0.5), 0 0 12px rgba(45, 212, 191, 0.4) !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        }
-        .stButton > button[kind="primary"]:hover {
-            background: linear-gradient(135deg, #14b8a6 0%, #38bdf8 100%) !important;
-            box-shadow: 0 6px 26px rgba(45, 212, 191, 0.75) !important;
-            transform: translateY(-2px) scale(1.01) !important;
-        }
-
-        /* Secondary Button (Tabs & Options) */
-        .stButton > button[kind="secondary"] {
-            border-radius: 22px !important;
-            font-size: 12px !important;
-            font-weight: 700 !important;
-            border: 1px solid rgba(45, 212, 191, 0.3) !important;
-            background: rgba(10, 25, 35, 0.8) !important;
-            color: #f1f5f9 !important;
-            padding: 5px 12px !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        }
-        .stButton > button[kind="secondary"]:hover {
-            border-color: #2dd4bf !important;
-            background: rgba(45, 212, 191, 0.22) !important;
-            color: #5eead4 !important;
-            box-shadow: 0 0 14px rgba(45, 212, 191, 0.4) !important;
-            transform: translateY(-1px) !important;
-        }
-
-        /* Compact form elements with animated top shimmer */
-        .stForm {
-            border: 1px solid rgba(45, 212, 191, 0.35) !important;
-            border-radius: 18px !important;
-            background: rgba(8, 20, 28, 0.88) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            padding: 14px 18px !important;
-            margin-bottom: 6px !important;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(45, 212, 191, 0.15) !important;
-            position: relative !important;
             overflow: hidden !important;
         }
 
-        .stForm::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 200%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #2dd4bf, #0ea5e9, #38bdf8, transparent);
-            animation: formShimmer 4s linear infinite;
+        div[data-testid="stTextInput"] input {
+            border: none !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            padding: 10px 14px !important;
         }
 
-        @keyframes formShimmer {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(50%); }
+        div[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within {
+            border-color: #9575cd !important;
+            box-shadow: 0 0 0 3px rgba(149, 117, 205, 0.2) !important;
         }
 
-        div[data-testid="stCheckbox"] label span {
-            color: #cbd5e1 !important;
-            font-size: 11.5px !important;
+        /* Password visibility eye button */
+        div[data-testid="stTextInput"] button {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            color: #5E5373 !important;
+        }
+
+        /* Selectbox inside signup card */
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
+            background-color: #faf8fc !important;
+            background: #faf8fc !important;
+            border: 1.5px solid #e2d9eb !important;
+            border-radius: 16px !important;
+            color: #2A2539 !important;
+        }
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] span,
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] div {
+            color: #2A2539 !important;
+            font-weight: 600 !important;
+            font-size: 13.5px !important;
+        }
+        div[data-testid="stSelectbox"] svg {
+            fill: #5E5373 !important;
+        }
+
+        /* Checkbox label */
+        div[data-testid="stCheckbox"] label span,
+        div[data-testid="stCheckbox"] label p {
+            color: #4b4458 !important;
+            font-size: 12.5px !important;
             font-weight: 600 !important;
         }
 
-        @media (max-width: 768px) {
-            .floating-orb { display: none !important; }
+        /* Secondary & Standard buttons on login page */
+        div[data-testid="stButton"] button[kind="secondary"],
+        div[data-testid="stButton"] button:not([kind="primary"]) {
+            background-color: #ffffff !important;
+            background: #ffffff !important;
+            color: #2A2539 !important;
+            border: 1.5px solid #e2d9eb !important;
+            border-radius: 25px !important;
+            font-weight: 800 !important;
+            font-size: 14px !important;
+            box-shadow: 0 4px 14px rgba(42, 37, 57, 0.08) !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        div[data-testid="stButton"] button[kind="secondary"]:hover,
+        div[data-testid="stButton"] button:not([kind="primary"]):hover {
+            background-color: #faf8fc !important;
+            background: #faf8fc !important;
+            border-color: #9575cd !important;
+            color: #2A2539 !important;
+            transform: translateY(-1.5px) !important;
+            box-shadow: 0 8px 20px rgba(149, 117, 205, 0.25) !important;
+        }
+
+        div[data-testid="stButton"] button:not([kind="primary"]) p,
+        div[data-testid="stButton"] button:not([kind="primary"]) span {
+            color: #2A2539 !important;
+            font-weight: 800 !important;
+        }
+
+        /* Primary gradient buttons */
+        div[data-testid="stButton"] button[kind="primary"],
+        div[data-testid="stForm"] button[kind="primary"] {
+            background: linear-gradient(135deg, #f8a5c2 0%, #b39ddb 50%, #9575cd 100%) !important;
+            color: #ffffff !important;
+            border: none !important;
+            border-radius: 26px !important;
+            font-weight: 800 !important;
+            font-size: 14.5px !important;
+            box-shadow: 0 8px 24px rgba(179, 157, 219, 0.6) !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        div[data-testid="stButton"] button[kind="primary"]:hover,
+        div[data-testid="stForm"] button[kind="primary"]:hover {
+            box-shadow: 0 10px 30px rgba(149, 117, 205, 0.8) !important;
+            transform: translateY(-1.5px) !important;
+        }
+
+        div[data-testid="stButton"] button[kind="primary"] p,
+        div[data-testid="stButton"] button[kind="primary"] span,
+        div[data-testid="stForm"] button[kind="primary"] p,
+        div[data-testid="stForm"] button[kind="primary"] span {
+            color: #ffffff !important;
+            font-weight: 800 !important;
+        }
+
+        /* Back Navigation button */
+        .btn-back-pill button {
+            max-width: 90px !important;
+            background: rgba(255, 255, 255, 0.65) !important;
+            border: 1px solid rgba(255, 255, 255, 0.9) !important;
+            border-radius: 18px !important;
+            color: #2A2539 !important;
+            font-weight: 700 !important;
+            font-size: 12.5px !important;
+            padding: 4px 12px !important;
         }
         </style>
-
-        <!-- Ambient Horizon Dome -->
-        <div class="auth-bg-dome"></div>
-
-        <!-- Animated Neon ECG Heartbeat Pulse Line -->
-        <div class="ecg-container">
-            <svg class="ecg-svg" viewBox="0 0 2400 120" preserveAspectRatio="none">
-                <defs>
-                    <linearGradient id="ecgGlowAuth" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.1"/>
-                        <stop offset="30%" stop-color="#ffffff" stop-opacity="0.95"/>
-                        <stop offset="50%" stop-color="#2dd4bf" stop-opacity="0.9"/>
-                        <stop offset="70%" stop-color="#06b6d4" stop-opacity="0.6"/>
-                        <stop offset="100%" stop-color="#0369a1" stop-opacity="0.1"/>
-                    </linearGradient>
-                    <filter id="glowEffectAuth" x="-20%" y="-20%" width="140%" height="140%">
-                        <feGaussianBlur stdDeviation="3.2" result="blur" />
-                        <feMerge>
-                            <feMergeNode in="blur" />
-                            <feMergeNode in="SourceGraphic" />
-                        </feMerge>
-                    </filter>
-                </defs>
-                <path d="
-                    M0,60 L240,60 L260,60 L275,45 L290,75 L305,15 L320,105 L335,50 L350,68 L365,60 L540,60
-                    L600,60 L620,60 L635,45 L650,75 L665,15 L680,105 L695,50 L710,68 L725,60 L900,60
-                    L960,60 L980,60 L995,45 L1010,75 L1025,15 L1040,105 L1055,50 L1070,68 L1085,60 L1260,60
-                    L1320,60 L1340,60 L1355,45 L1370,75 L1385,15 L1400,105 L1415,50 L1430,68 L1445,60 L1620,60
-                    L1680,60 L1700,60 L1715,45 L1730,75 L1745,15 L1760,105 L1775,50 L1790,68 L1805,60 L1980,60
-                    L2040,60 L2060,60 L2075,45 L2090,75 L2105,15 L2120,105 L2135,50 L2150,68 L2165,60 L2400,60
-                " fill="none" stroke="url(#ecgGlowAuth)" stroke-width="2.6" filter="url(#glowEffectAuth)" />
-            </svg>
-        </div>
-
-        <!-- Floating Medical Glass Orbs -->
-        <div class="floating-orb orb-left" title="Neural Connectome & 3.0T MRI">🧠</div>
-        <div class="floating-orb orb-right" title="Clinical Oncology Decision Support">🔬</div>
-        """,
+        <div class="ambient-bubble-1"></div>
+        <div class="ambient-bubble-2"></div>
+        """),
         unsafe_allow_html=True
     )
 
-    # Top Brand and Language Pill
-    col_nav1, col_nav2 = st.columns([2.2, 1])
-    with col_nav1:
+    # =========================================================================
+    # SCREEN 1: WELCOME SCREEN (Middle screen in user image)
+    # =========================================================================
+    if screen == "welcome":
+        # Welcome illustration + titles
         st.markdown(
-            """
-            <div style="display: inline-flex; align-items: center; gap: 7px;
-                        background: rgba(10, 22, 31, 0.9); border: 1px solid rgba(45, 212, 191, 0.45);
-                        padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 800; color: #ffffff;">
-                <span style="width: 7px; height: 7px; border-radius: 50%; background: #2dd4bf; box-shadow: 0 0 8px #2dd4bf;"></span>
-                <span>NeuroScan 2.5 • Clinical AI</span>
+            textwrap.dedent("""
+            <div style="text-align: center; margin-top: 10px; margin-bottom: 12px;">
+                <div style="font-size: 34px; font-weight: 900; color: #2A2539; letter-spacing: -0.5px; margin-bottom: 8px;">
+                    Welcome =)
+                </div>
+                <div style="font-size: 13.5px; color: #5E5373; font-weight: 500; line-height: 1.5; max-width: 340px; margin: 0 auto;">
+                    Hi clinician! We're here to assist your clinical neuro-oncology workflow.<br>
+                    The choice is yours: <b>Log in</b> or <b>create an account</b>.
+                </div>
             </div>
-            """,
-            unsafe_allow_html=True
-        )
-    with col_nav2:
-        lang_choice = st.selectbox(
-            "Language",
-            ["🇺🇸 En", "🇮🇳 Hi (हि)", "🇪🇸 Es", "🇫🇷 Fr"],
-            label_visibility="collapsed",
-            key="auth_lang_select"
-        )
-        st.session_state["lang"] = "hi" if "Hi" in lang_choice else "en"
 
-    # Medical Cross + Leaf Emblem with Pulse Animation
-    st.markdown(
-        """
-        <div style="display: flex; justify-content: center; margin: 4px 0 6px 0;">
-            <div class="emblem-pulse" style="width: 36px; height: 36px; position: relative; display: flex; align-items: center; justify-content: center;">
-                <div style="position: absolute; width: 32px; height: 10px; background: linear-gradient(135deg, #2dd4bf 0%, #0ea5e9 100%); border-radius: 5px;"></div>
-                <div style="position: absolute; width: 10px; height: 32px; background: linear-gradient(135deg, #2dd4bf 0%, #0ea5e9 100%); border-radius: 5px;"></div>
-                <div style="position: absolute; top: 1px; right: 1px; width: 9px; height: 9px; background: #34d399; border-radius: 0 6px 0 6px; border: 1px solid #081721; box-shadow: 0 0 6px #34d399;"></div>
+            <!-- Engaging Clinician & MRI Illustration echoing user image -->
+            <div style="display: flex; justify-content: center; align-items: center; margin: 18px 0 24px 0;">
+                <div style="width: 220px; height: 190px; background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.2) 70%, transparent 100%);
+                            border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative;">
+                    <svg width="180" height="170" viewBox="0 0 180 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Floating Sparkles & Organic Blobs -->
+                        <circle cx="30" cy="50" r="14" fill="#a7f3d0" opacity="0.8"/>
+                        <circle cx="150" cy="115" r="12" fill="#fde68a" opacity="0.8"/>
+                        <path d="M145 40 L148 48 L156 51 L148 54 L145 62 L142 54 L134 51 L142 48 Z" fill="#c084fc"/>
+                        <path d="M25 125 L27 130 L32 132 L27 134 L25 139 L23 134 L18 132 L23 130 Z" fill="#f472b6"/>
+                        <!-- Clinician Body & Tablet -->
+                        <circle cx="90" cy="38" r="18" fill="#fbcfe8"/>
+                        <path d="M82 28 C82 22 98 22 98 28 C98 33 93 35 90 35 C87 35 82 33 82 28 Z" fill="#2A2539"/>
+                        <!-- White Coat -->
+                        <path d="M68 62 C68 52 112 52 112 62 L116 110 L64 110 Z" fill="#ffffff" filter="drop-shadow(0 4px 10px rgba(42,37,57,0.1))"/>
+                        <path d="M85 58 L90 85 L95 58 Z" fill="#5E5373"/>
+                        <circle cx="90" cy="68" r="4" fill="#9575cd"/>
+                        <!-- Stethoscope -->
+                        <path d="M78 62 C78 76 86 82 90 82 C94 82 102 76 102 62" stroke="#2A2539" stroke-width="2.5" stroke-linecap="round"/>
+                        <!-- Legs / Trousers -->
+                        <path d="M74 110 L78 155 L86 155 L87 110" fill="#fbcfe8"/>
+                        <path d="M93 110 L94 155 L102 155 L106 110" fill="#fbcfe8"/>
+                        <!-- Digital Diagnostics Tablet -->
+                        <rect x="100" y="70" width="36" height="26" rx="4" fill="#2A2539" stroke="#DBD8E3" stroke-width="1.5"/>
+                        <circle cx="118" cy="83" r="6" fill="#f472b6" opacity="0.9"/>
+                        <path d="M106 77 H130 M106 89 H124" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
             </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    # Highlighted Title & Subtitle
-    if is_login:
-        st.markdown(
-            """
-            <div class="login-hero-title">Welcome Back!</div>
-            <div class="login-hero-sub">Enter clinical ID to access diagnostic workspace</div>
-            """,
-            unsafe_allow_html=True
-        )
-    else:
-        st.markdown(
-            """
-            <div class="login-hero-title">Create Account</div>
-            <div class="login-hero-sub">Register new medical clinician or workstation</div>
-            """,
+            """),
             unsafe_allow_html=True
         )
 
-    # Instant Direct 1-Click Entry to PACS Diagnostic Workstation
-    if st.button("🚀 Enter PACS Diagnostic Scanner Directly", key="btn_direct_pacs_entry", type="primary", use_container_width=True):
-        st.session_state["authenticated"] = True
-        st.session_state["user"] = CLINICAL_USERS["dr.mitchell@neuroscan.ai"]
-        st.rerun()
+        # Primary Action Buttons matching user Image 2
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Create Account", key="btn_welcome_signup", use_container_width=True, type="primary"):
+                st.session_state["auth_screen"] = "signup"
+                st.rerun()
 
-    # Mode Selector Tabs: Sign In vs Sign Up
-    t_col1, t_col2 = st.columns(2)
-    with t_col1:
-        if st.button("🔑 Sign In", key="tab_btn_signin", use_container_width=True,
-                     type="primary" if is_login else "secondary"):
-            st.session_state["auth_mode"] = "login"
-            st.rerun()
-    with t_col2:
-        if st.button("📝 Sign Up", key="tab_btn_signup", use_container_width=True,
-                     type="primary" if not is_login else "secondary"):
-            st.session_state["auth_mode"] = "signup"
-            st.rerun()
+        with col2:
+            if st.button("Log In", key="btn_welcome_login", use_container_width=True, type="secondary"):
+                st.session_state["auth_screen"] = "login"
+                st.rerun()
 
-    # Authentication Form
-    with st.form("auth_form", clear_on_submit=False):
-        if not is_login:
-            full_name = st.text_input("Full Name & Title", placeholder="Dr. Sarah Mitchell, MD")
-            role = st.selectbox(
-                "Clinical Specialization",
-                [
-                    "Chief Radiologist / MRI Specialist",
-                    "Consultant Neurologist",
-                    "Neurosurgeon",
-                    "Clinical AI Researcher"
-                ]
+        st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
+
+        # 1-Click Instant Clinician Access Cards
+        st.markdown(
+            textwrap.dedent("""
+            <div style="background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(12px); border-radius: 24px;
+                        padding: 16px; border: 1.5px solid rgba(255, 255, 255, 0.9); box-shadow: 0 10px 25px rgba(42, 37, 57, 0.08);">
+                <div style="font-size: 11px; font-weight: 800; color: #5E5373; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; text-align: center;">
+                    ⚡ 1-Click Instant Clinician Access
+                </div>
+            """),
+            unsafe_allow_html=True
+        )
+
+        p1, p2, p3 = st.columns(3)
+        with p1:
+            if st.button("👩‍⚕️ Dr. Sarah", key="preset_sarah", help="Chief Neuro-Radiologist", use_container_width=True):
+                st.session_state["authenticated"] = True
+                st.session_state["user"] = CLINICAL_USERS["dr.mitchell@neuroscan.ai"]
+                st.rerun()
+        with p2:
+            if st.button("👨‍⚕️ Dr. Rajiv", key="preset_rajiv", help="Consultant Neurologist", use_container_width=True):
+                st.session_state["authenticated"] = True
+                st.session_state["user"] = CLINICAL_USERS["dr.sharma@neuroscan.ai"]
+                st.rerun()
+        with p3:
+            if st.button("🧑‍🔬 Leon B.", key="preset_leon", help="Lead Data Scientist", use_container_width=True):
+                st.session_state["authenticated"] = True
+                st.session_state["user"] = CLINICAL_USERS["leonba@pixel.co.id"]
+                st.rerun()
+
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # =========================================================================
+    # SCREEN 2: LOGIN / "WELCOME BACK" (Left screen in user image)
+    # =========================================================================
+    elif screen == "login":
+        # Top Navigation Bar with Back Button
+        st.markdown("<div class='btn-back-pill'>", unsafe_allow_html=True)
+        if st.button("‹ Back", key="btn_back_to_welcome_from_login"):
+            st.session_state["auth_screen"] = "welcome"
+            st.rerun()
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        with st.form("form_login", clear_on_submit=False):
+            st.markdown(
+                textwrap.dedent("""
+                <div style="text-align: center; margin-bottom: 18px;">
+                    <div style="font-size: 27px; font-weight: 800; color: #2A2539; letter-spacing: -0.4px;">
+                        Welcome Back
+                    </div>
+                    <div style="font-size: 13px; color: #5E5373; margin-top: 4px; line-height: 1.45;">
+                        Ready to continue your diagnostic journey?<br>
+                        Your clinical workstation is right here.
+                    </div>
+                </div>
+                """),
+                unsafe_allow_html=True
             )
 
-        identifier = st.text_input(
-            "Email or No. Handphone",
-            value="leonba@pixel.co.id" if is_login else "",
-            placeholder="leonba@pixel.co.id"
-        )
+            identifier = st.text_input(
+                "Clinical ID / Email",
+                value="dr.mitchell@neuroscan.ai",
+                placeholder="Enter email or clinical ID"
+            )
+            password = st.text_input(
+                "Password",
+                type="password",
+                value="DemoMedical2026!",
+                placeholder="Password"
+            )
 
-        password = st.text_input(
-            "Password",
-            type="password",
-            value="Password123!" if is_login and identifier == "leonba@pixel.co.id" else "",
-            placeholder="••••••••••••"
-        )
-
-        if is_login:
-            c_rem, c_forgot = st.columns([1, 1])
-            with c_rem:
-                remember = st.checkbox("Remember device", value=True)
-            with c_forgot:
+            col_rem, col_forgot = st.columns([1, 1])
+            with col_rem:
+                remember = st.checkbox("Remember me", value=True)
+            with col_forgot:
                 st.markdown(
-                    "<div style='text-align: right; padding-top: 3px;'>"
-                    "<a href='#' style='color: #38bdf8; font-size: 11px; font-weight: 700; text-decoration: none;'>"
-                    "Forgot Password?</a></div>",
+                    "<div style='text-align: right; padding-top: 4px;'>"
+                    "<a href='#' style='color: #9575cd; font-size: 11.5px; font-weight: 700; text-decoration: none;'>"
+                    "Forgot password?</a></div>",
                     unsafe_allow_html=True
                 )
-        else:
-            terms = st.checkbox("Agree to HIPAA Data Policy", value=True)
 
-        submit_label = "SIGN IN" if is_login else "CREATE CLINICAL ACCOUNT"
-        submitted = st.form_submit_button(submit_label, type="primary", use_container_width=True)
+            submitted = st.form_submit_button("Log In", type="primary", use_container_width=True)
 
-        if submitted:
-            if not identifier or not password:
-                st.error("Please enter email/phone and password.")
-            elif not is_login and not terms:
-                st.warning("Please agree to HIPAA terms.")
-            else:
-                if is_login:
+            if submitted:
+                if not identifier or not password:
+                    st.error("Please enter email and password.")
+                else:
                     if identifier in CLINICAL_USERS:
-                        user_data = CLINICAL_USERS[identifier]
-                        if user_data["password_hash"] == hash_password(password):
+                        user_entry = CLINICAL_USERS[identifier]
+                        if user_entry["password_hash"] == hash_password(password):
                             st.session_state["authenticated"] = True
-                            st.session_state["user"] = user_data
-                            st.success(f"Welcome back, {user_data['name']}!")
+                            st.session_state["user"] = user_entry
                             st.rerun()
                         else:
-                            st.error("Incorrect password.")
+                            st.error("Incorrect password. Please try again.")
                     else:
-                        name_part = identifier.split("@")[0].capitalize()
+                        # Dynamic login fallback for custom clinical accounts
+                        name_str = identifier.split("@")[0].replace(".", " ").title()
                         st.session_state["authenticated"] = True
                         st.session_state["user"] = {
-                            "name": f"Dr. {name_part}",
-                            "title": "Attending Clinician",
-                            "hospital": "Clinical Diagnostic Center",
+                            "name": f"Dr. {name_str}",
+                            "title": "Attending Radiologist",
+                            "hospital": "Metropolitan Medical Institute",
                             "role": "Radiologist",
                             "avatar": "🩺"
                         }
-                        st.success(f"Welcome Dr. {name_part}!")
                         st.rerun()
+
+        # Divider & Social / SSO Sign-in
+        st.markdown(
+            textwrap.dedent("""
+            <div style="display: flex; align-items: center; margin: 18px 0 14px 0; color: #7c728e; font-size: 11.5px; font-weight: 600;">
+                <div style="flex: 1; height: 1px; background: #e2d9eb;"></div>
+                <div style="padding: 0 10px;">Sign in with</div>
+                <div style="flex: 1; height: 1px; background: #e2d9eb;"></div>
+            </div>
+            """),
+            unsafe_allow_html=True
+        )
+
+        s1, s2, s3 = st.columns(3)
+        with s1:
+            if st.button("🌐 Google", key="sso_google", use_container_width=True):
+                st.session_state["authenticated"] = True
+                st.session_state["user"] = CLINICAL_USERS["dr.mitchell@neuroscan.ai"]
+                st.rerun()
+        with s2:
+            if st.button("🍎 Apple", key="sso_apple", use_container_width=True):
+                st.session_state["authenticated"] = True
+                st.session_state["user"] = CLINICAL_USERS["dr.sharma@neuroscan.ai"]
+                st.rerun()
+        with s3:
+            if st.button("🏥 PACS ID", key="sso_pacs", use_container_width=True):
+                st.session_state["authenticated"] = True
+                st.session_state["user"] = CLINICAL_USERS["leonba@pixel.co.id"]
+                st.rerun()
+
+        # Switch to Sign Up
+        st.markdown("<div style='margin-top: 14px; text-align: center;'>", unsafe_allow_html=True)
+        if st.button("Don't have an account? Sign Up", key="btn_goto_signup", use_container_width=True):
+            st.session_state["auth_screen"] = "signup"
+            st.rerun()
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # =========================================================================
+    # SCREEN 3: SIGN UP / "CREATE YOUR ACCOUNT" (Right screen in user image)
+    # =========================================================================
+    elif screen == "signup":
+        # Top Navigation Bar with Back Button
+        st.markdown("<div class='btn-back-pill'>", unsafe_allow_html=True)
+        if st.button("‹ Back", key="btn_back_to_welcome_from_signup"):
+            st.session_state["auth_screen"] = "welcome"
+            st.rerun()
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        with st.form("form_signup", clear_on_submit=False):
+            st.markdown(
+                textwrap.dedent("""
+                <div style="text-align: center; margin-bottom: 18px;">
+                    <div style="font-size: 27px; font-weight: 800; color: #2A2539; letter-spacing: -0.4px;">
+                        Create Your Account
+                    </div>
+                    <div style="font-size: 13px; color: #5E5373; margin-top: 4px; line-height: 1.45;">
+                        Register your clinical credentials to access<br>
+                        FDA SaMD Class II diagnostic tools.
+                    </div>
+                </div>
+                """),
+                unsafe_allow_html=True
+            )
+
+            full_name = st.text_input("Full Name", placeholder="Enter full name (e.g. Dr. Emily Vance)")
+            email = st.text_input("Clinical Email", placeholder="Enter clinical email")
+            password = st.text_input("Password", type="password", placeholder="Enter password")
+            specialty = st.selectbox(
+                "Clinical Department",
+                ["Neuro-Radiology", "Neurosurgery", "Clinical Neurology", "Medical Physics & AI"]
+            )
+            terms = st.checkbox("I agree to HIPAA Safe Harbor and clinical AI protocol terms", value=True)
+
+            submitted = st.form_submit_button("Get Started", type="primary", use_container_width=True)
+
+            if submitted:
+                if not email or not password:
+                    st.error("Please enter email and password.")
+                elif not terms:
+                    st.warning("Please agree to HIPAA terms.")
                 else:
-                    name = full_name if full_name else f"Dr. {identifier.split('@')[0].capitalize()}"
-                    CLINICAL_USERS[identifier] = {
-                        "name": name,
-                        "title": role,
-                        "hospital": "Clinical Medical Center",
-                        "role": role,
+                    name_final = full_name.strip() if full_name.strip() else f"Dr. {email.split('@')[0].capitalize()}"
+                    CLINICAL_USERS[email] = {
+                        "name": name_final,
+                        "title": f"Specialist, {specialty}",
+                        "hospital": "Metropolitan Medical Institute",
+                        "role": specialty,
                         "password_hash": hash_password(password),
-                        "avatar": "👨‍⚕️"
+                        "avatar": "👩‍⚕️"
                     }
                     st.session_state["authenticated"] = True
-                    st.session_state["user"] = CLINICAL_USERS[identifier]
-                    st.success(f"Account created for {name}!")
+                    st.session_state["user"] = CLINICAL_USERS[email]
                     st.rerun()
 
-    # Compact "OR" Divider
-    st.markdown(
-        """
-        <div style="display: flex; align-items: center; margin: 4px 0 6px 0; color: #64748b; font-size: 10px; font-weight: 800;">
-            <div style="flex: 1; height: 1px; background: rgba(148, 163, 184, 0.25);"></div>
-            <div style="padding: 0 8px;">OR</div>
-            <div style="flex: 1; height: 1px; background: rgba(148, 163, 184, 0.25);"></div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+        # Divider & Social / SSO Sign-up
+        st.markdown(
+            textwrap.dedent("""
+            <div style="display: flex; align-items: center; margin: 18px 0 14px 0; color: #7c728e; font-size: 11.5px; font-weight: 600;">
+                <div style="flex: 1; height: 1px; background: #e2d9eb;"></div>
+                <div style="padding: 0 10px;">Sign up with</div>
+                <div style="flex: 1; height: 1px; background: #e2d9eb;"></div>
+            </div>
+            """),
+            unsafe_allow_html=True
+        )
 
-    # Quick Access Buttons
-    b_col1, b_col2 = st.columns(2)
-    with b_col1:
-        if st.button("🌐 Google SSO", key="btn_google_sso", use_container_width=True):
-            st.session_state["authenticated"] = True
-            st.session_state["user"] = {
-                "name": "Dr. Sarah Mitchell",
-                "title": "Chief Neuro-Radiologist (Google SSO)",
-                "hospital": "Metropolitan Medical Institute",
-                "role": "Senior Radiologist",
-                "avatar": "👩‍⚕️"
-            }
-            st.rerun()
-    with b_col2:
-        if st.button("🩺 Doctor Demo", key="btn_quick_demo", use_container_width=True):
-            st.session_state["authenticated"] = True
-            st.session_state["user"] = CLINICAL_USERS["dr.mitchell@neuroscan.ai"]
-            st.rerun()
+        su1, su2, su3 = st.columns(3)
+        with su1:
+            if st.button("🌐 Google", key="sso_up_google", use_container_width=True):
+                st.session_state["authenticated"] = True
+                st.session_state["user"] = CLINICAL_USERS["dr.mitchell@neuroscan.ai"]
+                st.rerun()
+        with su2:
+            if st.button("🍎 Apple", key="sso_up_apple", use_container_width=True):
+                st.session_state["authenticated"] = True
+                st.session_state["user"] = CLINICAL_USERS["dr.sharma@neuroscan.ai"]
+                st.rerun()
+        with su3:
+            if st.button("🏥 PACS ID", key="sso_up_pacs", use_container_width=True):
+                st.session_state["authenticated"] = True
+                st.session_state["user"] = CLINICAL_USERS["leonba@pixel.co.id"]
+                st.rerun()
 
-    # Bottom Switcher
-    if is_login:
-        if st.button("Don't have an account ? Sign Up", key="btn_switch_to_signup", use_container_width=True):
-            st.session_state["auth_mode"] = "signup"
+        # Switch to Log In
+        st.markdown("<div style='margin-top: 14px; text-align: center;'>", unsafe_allow_html=True)
+        if st.button("Already have an account? Log In", key="btn_goto_login", use_container_width=True):
+            st.session_state["auth_screen"] = "login"
             st.rerun()
-    else:
-        if st.button("Already have an account ? Sign In", key="btn_switch_to_login", use_container_width=True):
-            st.session_state["auth_mode"] = "login"
-            st.rerun()
-
-    # Footer Badges
-    st.markdown(
-        """
-        <div style="text-align: center; color: #94a3b8; font-size: 10.5px; font-weight: 600; margin-top: 4px;">
-            🔒 HIPAA Compliant • 256-Bit SSL • FDA SaMD Class II Ready
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+        st.markdown("</div>", unsafe_allow_html=True)

@@ -110,8 +110,8 @@ def render_risk_radar(risk_dict: dict) -> go.Figure:
         r=values,
         theta=categories,
         fill='toself',
-        fillcolor='rgba(45, 212, 191, 0.25)',
-        line=dict(color='#2dd4bf', width=2.5),
+        fillcolor='rgba(94, 83, 115, 0.35)',
+        line=dict(color='#DBD8E3', width=2.5),
         name='Surgical Complexity Index'
     ))
 
@@ -120,14 +120,14 @@ def render_risk_radar(risk_dict: dict) -> go.Figure:
             radialaxis=dict(
                 visible=True,
                 range=[0, 10],
-                tickfont=dict(color='#94a3b8', size=9),
-                gridcolor='rgba(148, 163, 184, 0.15)'
+                tickfont=dict(color='#a59cb8', size=9),
+                gridcolor='rgba(219, 216, 227, 0.15)'
             ),
             angularaxis=dict(
-                tickfont=dict(color='#e2e8f0', size=11, family="Plus Jakarta Sans"),
-                gridcolor='rgba(148, 163, 184, 0.15)'
+                tickfont=dict(color='#DBD8E3', size=11, family="Plus Jakarta Sans"),
+                gridcolor='rgba(219, 216, 227, 0.15)'
             ),
-            bgcolor='rgba(6, 15, 22, 0.9)'
+            bgcolor='rgba(42, 37, 57, 0.9)'
         ),
         paper_bgcolor='rgba(0, 0, 0, 0)',
         plot_bgcolor='rgba(0, 0, 0, 0)',

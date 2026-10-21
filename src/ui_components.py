@@ -38,53 +38,53 @@ def render_top_masthead(lang_code: str = "en"):
             100% {{ background-position: 200% 0; }}
         }}
         @keyframes beaconPulse {{
-            0%, 100% {{ opacity: 1; transform: scale(1); filter: drop-shadow(0 0 6px #2dd4bf); }}
-            50% {{ opacity: 0.6; transform: scale(0.92); filter: drop-shadow(0 0 2px #2dd4bf); }}
+            0%, 100% {{ opacity: 1; transform: scale(1); filter: drop-shadow(0 0 6px #DBD8E3); }}
+            50% {{ opacity: 0.6; transform: scale(0.92); filter: drop-shadow(0 0 2px #DBD8E3); }}
         }}
         .masthead-beacon {{
             display: inline-block;
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #2dd4bf;
+            background: #DBD8E3;
             animation: beaconPulse 1.8s ease-in-out infinite;
             margin-right: 6px;
         }}
         </style>
-        <div style="background: linear-gradient(135deg, rgba(13, 38, 52, 0.95) 0%, rgba(6, 16, 24, 0.98) 100%);
-                    border: 1.5px solid #2dd4bf; border-radius: 18px; padding: 22px 28px;
-                    margin-bottom: 22px; box-shadow: 0 16px 45px rgba(0, 0, 0, 0.8), 0 0 30px rgba(45, 212, 191, 0.25);
+        <div style="background: linear-gradient(135deg, #353044 0%, #2A2539 100%);
+                    border: 1.5px solid #5E5373; border-radius: 18px; padding: 22px 28px;
+                    margin-bottom: 22px; box-shadow: 0 16px 45px rgba(0, 0, 0, 0.7), 0 0 30px rgba(94, 83, 115, 0.3);
                     position: relative; overflow: hidden;">
             <div style="position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
-                        background: linear-gradient(90deg, #0ea5e9, #2dd4bf, #06b6d4, #10b981, #0ea5e9);
+                        background: linear-gradient(90deg, #5E5373, #DBD8E3, #8E82A6, #DBD8E3, #5E5373);
                         background-size: 200% 100%;
                         animation: mastheadBeam 4s linear infinite;
-                        box-shadow: 0 0 16px #2dd4bf;"></div>
+                        box-shadow: 0 0 16px #DBD8E3;"></div>
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
                 <div>
                     <h1 style="font-size: 28px; font-weight: 900; color: #ffffff; margin: 0;
-                               letter-spacing: -0.5px; text-shadow: 0 0 20px rgba(45, 212, 191, 0.6);
+                               letter-spacing: -0.5px; text-shadow: 0 0 20px rgba(219, 216, 227, 0.5);
                                display: flex; align-items: center; gap: 10px;">
                         <span>{app_name}</span>
                     </h1>
-                    <div style="font-size: 13.5px; font-weight: 700; color: #5eead4; margin-top: 4px; letter-spacing: 0.8px;">
+                    <div style="font-size: 13.5px; font-weight: 700; color: #DBD8E3; margin-top: 4px; letter-spacing: 0.8px;">
                         {app_sub}
                     </div>
                 </div>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                    <span style="background: rgba(45, 212, 191, 0.15); border: 1px solid #2dd4bf; color: #5eead4;
+                    <span style="background: rgba(94, 83, 115, 0.45); border: 1px solid #8E82A6; color: #DBD8E3;
                                  padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; display: flex; align-items: center;">
                         <span class="masthead-beacon"></span>{b1}
                     </span>
-                    <span style="background: rgba(14, 165, 233, 0.15); border: 1px solid #38bdf8; color: #38bdf8;
+                    <span style="background: rgba(53, 48, 68, 0.7); border: 1px solid #5E5373; color: #DBD8E3;
                                  padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800;">
                         {b2}
                     </span>
-                    <span style="background: rgba(16, 185, 129, 0.15); border: 1px solid #34d399; color: #4ade80;
+                    <span style="background: rgba(94, 83, 115, 0.35); border: 1px solid #8E82A6; color: #DBD8E3;
                                  padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800;">
                         {b3}
                     </span>
-                    <span style="background: rgba(245, 158, 11, 0.15); border: 1px solid #fbbf24; color: #fde047;
+                    <span style="background: rgba(53, 48, 68, 0.85); border: 1px solid #DBD8E3; color: #DBD8E3;
                                  padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800;">
                         {b4}
                     </span>
@@ -112,9 +112,9 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
             width: 100%;
             height: 38px;
             overflow: hidden;
-            background: rgba(4, 12, 18, 0.85);
+            background: #2A2539;
             border-radius: 8px;
-            border: 1px solid rgba(45, 212, 191, 0.2);
+            border: 1px solid #5E5373;
             position: relative;
             margin-top: 10px;
         }}
@@ -124,14 +124,14 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
             animation: telemetryEcg 5s linear infinite;
         }}
         </style>
-        <div style="background: linear-gradient(135deg, rgba(8, 24, 34, 0.95) 0%, rgba(5, 15, 22, 0.95) 100%);
-                    border: 1px solid rgba(45, 212, 191, 0.35); border-radius: 14px; padding: 16px 20px;
-                    margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(45, 212, 191, 0.15);">
+        <div style="background: linear-gradient(135deg, #353044 0%, #2A2539 100%);
+                    border: 1px solid #5E5373; border-radius: 14px; padding: 16px 20px;
+                    margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(94, 83, 115, 0.25);">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
                 <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(45, 212, 191, 0.15);
-                                border: 1.5px solid #2dd4bf; display: flex; align-items: center; justify-content: center; font-size: 22px;
-                                box-shadow: 0 0 15px rgba(45, 212, 191, 0.3);">
+                    <div style="width: 42px; height: 42px; border-radius: 10px; background: #2A2539;
+                                border: 1.5px solid #8E82A6; display: flex; align-items: center; justify-content: center; font-size: 22px;
+                                box-shadow: 0 0 15px rgba(94, 83, 115, 0.35);">
                         🧠
                     </div>
                     <div>
@@ -139,32 +139,32 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
                             <span style="font-size: 18px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px;">
                                 NeuroScan PACS Diagnostic Workstation
                             </span>
-                            <span style="background: rgba(45, 212, 191, 0.2); color: #2dd4bf; border: 1px solid #2dd4bf;
+                            <span style="background: #5E5373; color: #DBD8E3; border: 1px solid #DBD8E3;
                                          font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 20px;">
                                 3.0T MRI
                             </span>
-                            <span style="background: rgba(16, 185, 129, 0.2); color: #4ade80; border: 1px solid #34d399;
+                            <span style="background: rgba(94, 83, 115, 0.3); color: #DBD8E3; border: 1px solid #8E82A6;
                                          font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 20px;">
                                 72 BPM Normal
                             </span>
                         </div>
-                        <div style="font-size: 12px; color: #94a3b8; margin-top: 2px;">
+                        <div style="font-size: 12px; color: #a59cb8; margin-top: 2px;">
                             AI Computer Vision • MobileNetV2 + Grad-CAM XAI • RECIST 1.1 Volumetrics
                         </div>
                     </div>
                 </div>
                 <div style="display: flex; gap: 16px; align-items: center;">
-                    <div style="border-left: 1px solid rgba(148, 163, 184, 0.2); padding-left: 14px;">
-                        <div style="font-size: 10px; font-weight: 700; color: #5eead4; text-transform: uppercase;">Patient Token</div>
+                    <div style="border-left: 1px solid rgba(219, 216, 227, 0.2); padding-left: 14px;">
+                        <div style="font-size: 10px; font-weight: 700; color: #DBD8E3; text-transform: uppercase;">Patient Token</div>
                         <div style="font-size: 12.5px; font-weight: 700; color: #ffffff; font-family: monospace;">{patient_id}</div>
                     </div>
-                    <div style="border-left: 1px solid rgba(148, 163, 184, 0.2); padding-left: 14px;">
-                        <div style="font-size: 10px; font-weight: 700; color: #5eead4; text-transform: uppercase;">Active Protocol</div>
-                        <div style="font-size: 12px; font-weight: 600; color: #cbd5e1;">{sequence_name}</div>
+                    <div style="border-left: 1px solid rgba(219, 216, 227, 0.2); padding-left: 14px;">
+                        <div style="font-size: 10px; font-weight: 700; color: #DBD8E3; text-transform: uppercase;">Active Protocol</div>
+                        <div style="font-size: 12px; font-weight: 600; color: #b8aec9;">{sequence_name}</div>
                     </div>
-                    <div style="border-left: 1px solid rgba(148, 163, 184, 0.2); padding-left: 14px;">
-                        <div style="font-size: 10px; font-weight: 700; color: #5eead4; text-transform: uppercase;">HIPAA Security</div>
-                        <div style="font-size: 11.5px; font-weight: 700; color: #4ade80;">● Safe Harbor Active</div>
+                    <div style="border-left: 1px solid rgba(219, 216, 227, 0.2); padding-left: 14px;">
+                        <div style="font-size: 10px; font-weight: 700; color: #DBD8E3; text-transform: uppercase;">HIPAA Security</div>
+                        <div style="font-size: 11.5px; font-weight: 700; color: #DBD8E3;">● Safe Harbor Active</div>
                     </div>
                 </div>
             </div>
@@ -172,11 +172,11 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
                 <svg class="telemetry-ecg-svg" viewBox="0 0 2400 120" preserveAspectRatio="none">
                     <defs>
                         <linearGradient id="ecgTelemGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.2"/>
-                            <stop offset="30%" stop-color="#ffffff" stop-opacity="0.95"/>
-                            <stop offset="50%" stop-color="#2dd4bf" stop-opacity="0.9"/>
-                            <stop offset="70%" stop-color="#06b6d4" stop-opacity="0.6"/>
-                            <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.2"/>
+                            <stop offset="0%" stop-color="#5E5373" stop-opacity="0.3"/>
+                            <stop offset="30%" stop-color="#DBD8E3" stop-opacity="0.95"/>
+                            <stop offset="50%" stop-color="#8E82A6" stop-opacity="0.9"/>
+                            <stop offset="70%" stop-color="#DBD8E3" stop-opacity="0.8"/>
+                            <stop offset="100%" stop-color="#5E5373" stop-opacity="0.3"/>
                         </linearGradient>
                     </defs>
                     <path d="M0,60 L240,60 L260,60 L275,45 L290,75 L305,15 L320,105 L335,50 L350,68 L365,60 L540,60 L600,60 L620,60 L635,45 L650,75 L665,15 L680,105 L695,50 L710,68 L725,60 L900,60 L960,60 L980,60 L995,45 L1010,75 L1025,15 L1040,105 L1055,50 L1070,68 L1085,60 L1260,60 L1320,60 L1340,60 L1355,45 L1370,75 L1385,15 L1400,105 L1415,50 L1430,68 L1445,60 L1620,60 L1680,60 L1700,60 L1715,45 L1730,75 L1745,15 L1760,105 L1775,50 L1790,68 L1805,60 L1980,60 L2040,60 L2060,60 L2075,45 L2090,75 L2105,15 L2120,105 L2135,50 L2150,68 L2165,60 L2400,60" fill="none" stroke="url(#ecgTelemGlow)" stroke-width="2.5" />
@@ -198,11 +198,11 @@ def box(kind: str, items: list):
 def card(title: str, sub: str, color: str):
     """Render a custom clinical dark card with animated left-glow and smooth hover transition."""
     st.markdown(
-        f'<div class="card" style="background: linear-gradient(135deg, rgba(10,25,35,0.95), #060e14);'
-        f'border: 1.5px solid {color}; border-left: 5px solid {color}; box-shadow: 0 10px 28px rgba(0,0,0,0.6), 0 0 15px rgba(45,212,191,0.15);'
+        f'<div class="card" style="background: linear-gradient(135deg, #353044, #2A2539);'
+        f'border: 1.5px solid {color}; border-left: 5px solid {color}; box-shadow: 0 10px 28px rgba(0,0,0,0.6), 0 0 15px rgba(94,83,115,0.25);'
         f'transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);">'
-        f'<h2 style="color:#ffffff; margin:0; font-size:1.4rem; text-shadow: 0 0 12px rgba(45,212,191,0.4);">{title}</h2>'
-        f'<p style="color:#cbd5e1; margin:6px 0 0 0; font-size:1.05rem;">{sub}</p></div>',
+        f'<h2 style="color:#ffffff; margin:0; font-size:1.4rem; text-shadow: 0 0 12px rgba(219,216,227,0.3);">{title}</h2>'
+        f'<p style="color:#DBD8E3; margin:6px 0 0 0; font-size:1.05rem;">{sub}</p></div>',
         unsafe_allow_html=True,
     )
 
@@ -214,9 +214,9 @@ def style(fig, height: int = 300):
         margin=dict(l=10, r=10, t=30, b=10),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="#cbd5e1", family="Plus Jakarta Sans, sans-serif"),
-        xaxis=dict(gridcolor="rgba(148, 163, 184, 0.1)"),
-        yaxis=dict(gridcolor="rgba(148, 163, 184, 0.1)")
+        font=dict(color="#DBD8E3", family="Plus Jakarta Sans, sans-serif"),
+        xaxis=dict(gridcolor="rgba(219, 216, 227, 0.1)"),
+        yaxis=dict(gridcolor="rgba(219, 216, 227, 0.1)")
     )
     return fig
 
@@ -228,7 +228,7 @@ def gauge(conf: float, color: str):
         value=conf,
         number={"suffix": "%", "font": {"color": "#ffffff", "size": 36}},
         gauge={
-            "axis": {"range": [0, 100], "tickcolor": "#94a3b8", "tickfont": {"color": "#94a3b8"}},
+            "axis": {"range": [0, 100], "tickcolor": "#a59cb8", "tickfont": {"color": "#a59cb8"}},
             "bar": {"color": color, "thickness": 0.28},
             "steps": [
                 {"range": [0, 50], "color": "rgba(239, 68, 68, 0.25)"},
@@ -236,7 +236,7 @@ def gauge(conf: float, color: str):
                 {"range": [70, 100], "color": "rgba(16, 185, 129, 0.25)"}
             ],
             "threshold": {
-                "line": {"color": "#2dd4bf", "width": 4},
+                "line": {"color": "#DBD8E3", "width": 4},
                 "thickness": 0.85,
                 "value": conf
             }

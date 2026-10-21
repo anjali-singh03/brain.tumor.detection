@@ -47,30 +47,27 @@ st.set_page_config(
 )
 setup_app_state(st)
 
-# Direct Clinical Access: Always ensure active session so app opens directly to PACS workstation
-st.session_state["authenticated"] = True
-if "user" not in st.session_state or not st.session_state["user"]:
-    st.session_state["user"] = {
-        "name": "Dr. Sarah Mitchell",
-        "title": "Chief Neuro-Radiologist",
-        "hospital": "Metropolitan Neurological Institute",
-        "role": "Senior Radiologist",
-        "avatar": "👩‍⚕️"
-    }
+# Authentication Guard: Enforce modern login screen if user is unauthenticated
+if "authenticated" not in st.session_state:
+    st.session_state["authenticated"] = False
+
+if not is_authenticated():
+    render_login_page()
+    st.stop()
 
 # Initialize Global Language Session State
 if "lang_code" not in st.session_state:
     st.session_state["lang_code"] = "en"
 
-# Clinical Obsidian Dark Workstation Animated Stylesheet
+# Clinical Workstation Stylesheet with New Palette (#2A2539, #353044, #5E5373, #DBD8E3)
 st.markdown(
     """
 <style>
-/* Base Dark Theme Canvas */
+/* Base Theme Canvas */
 .stApp {
-    background-color: #050c12 !important;
-    background: radial-gradient(circle at 50% 12%, #0a2230 0%, #061520 40%, #03080e 100%) !important;
-    color: #f8fafc !important;
+    background-color: #2A2539 !important;
+    background: radial-gradient(circle at 50% 12%, #353044 0%, #2A2539 50%, #1c1827 100%) !important;
+    color: #DBD8E3 !important;
     min-height: 100vh !important;
     height: 100vh !important;
 }
@@ -80,7 +77,7 @@ st.markdown(
     height: 100% !important;
 }
 
-/* Ambient Horizon Dome Animation */
+/* Ambient Horizon Dome Animation with Soft Lilac Glow */
 .ambient-horizon-main {
     position: fixed;
     bottom: -280px;
@@ -89,7 +86,7 @@ st.markdown(
     width: 900px;
     height: 520px;
     border-radius: 50%;
-    background: radial-gradient(circle at 50% 20%, rgba(45, 212, 191, 0.22) 0%, rgba(14, 165, 233, 0.08) 45%, transparent 75%);
+    background: radial-gradient(circle at 50% 20%, rgba(94, 83, 115, 0.4) 0%, rgba(53, 48, 68, 0.15) 45%, transparent 75%);
     pointer-events: none;
     filter: blur(14px);
     z-index: 0;
@@ -108,9 +105,9 @@ st.markdown(
     left: 0;
     width: 100%;
     height: 32px;
-    background: rgba(4, 12, 18, 0.92);
+    background: rgba(42, 37, 57, 0.95);
     backdrop-filter: blur(8px);
-    border-top: 1px solid rgba(45, 212, 191, 0.25);
+    border-top: 1px solid rgba(219, 216, 227, 0.2);
     z-index: 999;
     overflow: hidden;
     pointer-events: none;
@@ -127,11 +124,11 @@ st.markdown(
     100% { transform: translateX(-50%); }
 }
 
-/* Prominently Highlighted Sidebar Clinical Navigation */
+/* Highlighted Sidebar Clinical Navigation */
 .nav-header-pill {
-    background: rgba(45, 212, 191, 0.15);
-    border: 1px solid #2dd4bf;
-    color: #5eead4;
+    background: rgba(94, 83, 115, 0.35);
+    border: 1px solid #8E82A6;
+    color: #DBD8E3;
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 11px;
@@ -140,7 +137,7 @@ st.markdown(
     text-transform: uppercase;
     display: inline-block;
     margin-bottom: 12px;
-    box-shadow: 0 0 12px rgba(45, 212, 191, 0.25);
+    box-shadow: 0 0 12px rgba(94, 83, 115, 0.3);
 }
 
 div[data-testid="stRadio"] > div {
@@ -148,8 +145,8 @@ div[data-testid="stRadio"] > div {
 }
 
 div[data-testid="stRadio"] label {
-    background: rgba(10, 25, 35, 0.85) !important;
-    border: 1px solid rgba(45, 212, 191, 0.25) !important;
+    background: rgba(53, 48, 68, 0.85) !important;
+    border: 1px solid rgba(219, 216, 227, 0.15) !important;
     border-radius: 12px !important;
     padding: 10px 14px !important;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -158,16 +155,16 @@ div[data-testid="stRadio"] label {
 }
 
 div[data-testid="stRadio"] label:hover {
-    border-color: #2dd4bf !important;
-    background: rgba(15, 38, 52, 0.95) !important;
+    border-color: #DBD8E3 !important;
+    background: rgba(94, 83, 115, 0.45) !important;
     transform: translateX(6px) !important;
-    box-shadow: 0 6px 20px rgba(45, 212, 191, 0.35) !important;
+    box-shadow: 0 6px 20px rgba(94, 83, 115, 0.35) !important;
 }
 
 div[data-testid="stRadio"] label:has(input:checked) {
-    background: linear-gradient(135deg, rgba(13, 148, 136, 0.45) 0%, rgba(14, 165, 233, 0.45) 100%) !important;
-    border: 1.5px solid #2dd4bf !important;
-    box-shadow: 0 0 20px rgba(45, 212, 191, 0.5) !important;
+    background: linear-gradient(135deg, rgba(94, 83, 115, 0.75) 0%, rgba(53, 48, 68, 0.95) 100%) !important;
+    border: 1.5px solid #DBD8E3 !important;
+    box-shadow: 0 0 20px rgba(94, 83, 115, 0.5) !important;
     transform: translateX(4px) !important;
 }
 
@@ -182,25 +179,25 @@ div[data-testid="stRadio"] label span p {
 .card {
     padding: 20px;
     border-radius: 14px;
-    color: white;
+    color: #DBD8E3;
     margin-bottom: 14px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .card:hover {
     transform: translateY(-4px) scale(1.006);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 24px rgba(45, 212, 191, 0.25);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 24px rgba(94, 83, 115, 0.3);
 }
 
 /* DICOM Inspector Box */
 .dicom-box {
-    background: rgba(10, 25, 35, 0.95);
-    border: 1px solid rgba(45, 212, 191, 0.3);
+    background: #2A2539;
+    border: 1px solid rgba(219, 216, 227, 0.25);
     border-radius: 10px;
     padding: 12px 16px;
     font-family: monospace;
     font-size: 12px;
-    color: #cbd5e1;
+    color: #DBD8E3;
     margin-bottom: 14px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
 }
@@ -208,43 +205,43 @@ div[data-testid="stRadio"] label span p {
 /* Streamlit Tabs Dark Styling with Glowing Indicator */
 .stTabs [data-baseweb="tab-list"] {
     gap: 8px;
-    background-color: rgba(6, 15, 22, 0.85);
+    background-color: rgba(42, 37, 57, 0.9);
     padding: 6px;
     border-radius: 14px;
-    border: 1px solid rgba(45, 212, 191, 0.25);
+    border: 1px solid rgba(219, 216, 227, 0.2);
 }
 
 .stTabs [data-baseweb="tab"] {
     border-radius: 9px;
-    color: #94a3b8;
+    color: #a49cb5;
     font-weight: 700;
     transition: all 0.2s ease;
 }
 .stTabs [data-baseweb="tab"]:hover {
-    color: #5eead4;
-    background-color: rgba(45, 212, 191, 0.08);
+    color: #DBD8E3;
+    background-color: rgba(94, 83, 115, 0.2);
 }
 
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, rgba(13, 148, 136, 0.35) 0%, rgba(14, 165, 233, 0.35) 100%) !important;
-    border: 1px solid #2dd4bf !important;
-    color: #5eead4 !important;
-    box-shadow: 0 0 14px rgba(45, 212, 191, 0.35) !important;
+    background: linear-gradient(135deg, rgba(94, 83, 115, 0.6) 0%, rgba(53, 48, 68, 0.85) 100%) !important;
+    border: 1px solid #DBD8E3 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 14px rgba(94, 83, 115, 0.4) !important;
 }
 
-/* Animated Scanline Directly on All MRI Viewports */
+/* Animated Scanline on MRI Viewports */
 div[data-testid="stImage"] {
     position: relative !important;
-    border: 2px solid rgba(45, 212, 191, 0.45) !important;
+    border: 2px solid rgba(94, 83, 115, 0.6) !important;
     border-radius: 14px !important;
     overflow: hidden !important;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(45, 212, 191, 0.18) !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(94, 83, 115, 0.25) !important;
     transition: all 0.3s ease !important;
 }
 
 div[data-testid="stImage"]:hover {
-    border-color: #2dd4bf !important;
-    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 35px rgba(45, 212, 191, 0.4) !important;
+    border-color: #DBD8E3 !important;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 35px rgba(94, 83, 115, 0.45) !important;
     transform: translateY(-2px) !important;
 }
 
@@ -255,8 +252,8 @@ div[data-testid="stImage"]::after {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, transparent, #2dd4bf, #38bdf8, #2dd4bf, transparent);
-    box-shadow: 0 0 12px #2dd4bf, 0 0 22px #38bdf8;
+    background: linear-gradient(90deg, transparent, #DBD8E3, #8E82A6, #DBD8E3, transparent);
+    box-shadow: 0 0 12px #DBD8E3, 0 0 22px #8E82A6;
     z-index: 5;
     pointer-events: none;
     animation: laserScan 4s ease-in-out infinite alternate;
@@ -265,11 +262,11 @@ div[data-testid="stImage"]::after {
 /* Animated Laser Scanner Viewport Frame */
 .mri-viewport-container {
     position: relative;
-    border: 2px solid rgba(45, 212, 191, 0.4);
+    border: 2px solid rgba(94, 83, 115, 0.5);
     border-radius: 16px;
     overflow: hidden;
-    background: #000000;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(45, 212, 191, 0.2);
+    background: #1B1726;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(94, 83, 115, 0.3);
 }
 
 .laser-scan-bar {
@@ -277,8 +274,8 @@ div[data-testid="stImage"]::after {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, transparent, #2dd4bf, #38bdf8, #2dd4bf, transparent);
-    box-shadow: 0 0 14px #2dd4bf, 0 0 24px #38bdf8;
+    background: linear-gradient(90deg, transparent, #DBD8E3, #8E82A6, #DBD8E3, transparent);
+    box-shadow: 0 0 14px #DBD8E3, 0 0 24px #8E82A6;
     z-index: 5;
     pointer-events: none;
     animation: laserScan 3.5s ease-in-out infinite alternate;
@@ -292,16 +289,16 @@ div[data-testid="stImage"]::after {
 
 /* Primary Action Buttons */
 .stButton > button[kind="primary"] {
-    background: linear-gradient(135deg, #0d9488 0%, #0ea5e9 100%) !important;
+    background: linear-gradient(135deg, #5E5373 0%, #3e364f 100%) !important;
     color: #ffffff !important;
-    border: 1px solid #2dd4bf !important;
+    border: 1px solid #DBD8E3 !important;
     border-radius: 20px !important;
     font-weight: 800 !important;
-    box-shadow: 0 4px 18px rgba(14, 165, 233, 0.5), 0 0 14px rgba(45, 212, 191, 0.4) !important;
+    box-shadow: 0 4px 18px rgba(94, 83, 115, 0.5) !important;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 .stButton > button[kind="primary"]:hover {
-    box-shadow: 0 6px 26px rgba(45, 212, 191, 0.8) !important;
+    box-shadow: 0 6px 26px rgba(219, 216, 227, 0.6) !important;
     transform: translateY(-2px) scale(1.01) !important;
 }
 
@@ -309,19 +306,19 @@ div[data-testid="stImage"]::after {
 .preset-btn {
     display: inline-block;
     padding: 4px 10px;
-    background: rgba(14, 165, 233, 0.15);
-    border: 1px solid #38bdf8;
+    background: rgba(94, 83, 115, 0.35);
+    border: 1px solid #8E82A6;
     border-radius: 12px;
-    color: #38bdf8;
+    color: #DBD8E3;
     font-size: 11px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
 }
 .preset-btn:hover {
-    background: rgba(45, 212, 191, 0.25);
-    border-color: #2dd4bf;
-    color: #5eead4;
+    background: #5E5373;
+    border-color: #DBD8E3;
+    color: #ffffff;
 }
 </style>
 
@@ -333,11 +330,11 @@ div[data-testid="stImage"]::after {
     <svg class="global-ecg-svg" viewBox="0 0 2400 120" preserveAspectRatio="none">
         <defs>
             <linearGradient id="ecgGlobalGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.2"/>
+                <stop offset="0%" stop-color="#5E5373" stop-opacity="0.2"/>
                 <stop offset="30%" stop-color="#ffffff" stop-opacity="0.95"/>
-                <stop offset="50%" stop-color="#2dd4bf" stop-opacity="0.9"/>
-                <stop offset="70%" stop-color="#06b6d4" stop-opacity="0.6"/>
-                <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.2"/>
+                <stop offset="50%" stop-color="#DBD8E3" stop-opacity="0.9"/>
+                <stop offset="70%" stop-color="#8E82A6" stop-opacity="0.7"/>
+                <stop offset="100%" stop-color="#5E5373" stop-opacity="0.2"/>
             </linearGradient>
         </defs>
         <path d="
@@ -512,7 +509,7 @@ def analyze_page():
         st.markdown(f"### {t['pacs_processing']}")
         # 1-Click Interactive Window Presets
         st.markdown(
-            "<div style='font-size:11px; font-weight:800; color:#5eead4; margin-bottom:6px; letter-spacing:0.4px;'>"
+            "<div style='font-size:11px; font-weight:800; color:#DBD8E3; margin-bottom:6px; letter-spacing:0.4px;'>"
             "⚡ 1-CLICK WINDOW PRESETS</div>",
             unsafe_allow_html=True
         )
@@ -678,14 +675,14 @@ def analyze_page():
 
             st.markdown(
                 f"""
-                <div style="background: rgba(10, 25, 35, 0.85); border: 1px solid #2dd4bf; border-radius: 10px; padding: 12px; margin-top: 10px;">
-                    <div style="color: #5eead4; font-weight: 800; font-size: 13px;">📊 RECIST 1.1 ONCOLOGY VOLUMETRICS</div>
-                    <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 12.5px;">
+                <div style="background: #353044; border: 1.5px solid #5E5373; border-radius: 12px; padding: 14px; margin-top: 10px; box-shadow: 0 4px 15px rgba(42,37,57,0.35);">
+                    <div style="color: #DBD8E3; font-weight: 800; font-size: 13px;">📊 RECIST 1.1 ONCOLOGY VOLUMETRICS</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 12.5px; color: #DBD8E3;">
                         <span>{t['est_volume']}: <b>{recist_res['volume_cm3']} cm³</b></span>
                         <span>{t['max_diam']}: <b>{recist_res['max_diameter_mm']} mm</b></span>
                     </div>
-                    <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">
-                        {t['mass_effect']}: <b style="color: #f8fafc;">{recist_res['mass_effect']}</b>
+                    <div style="font-size: 12px; color: #b8aec9; margin-top: 4px;">
+                        {t['mass_effect']}: <b style="color: #ffffff;">{recist_res['mass_effect']}</b>
                     </div>
                 </div>
                 """,
@@ -812,12 +809,12 @@ def neuro_copilot_page():
 
         st.markdown(
             f"""
-            <div style="background: rgba(10, 25, 35, 0.95); border: 2px solid {score_color};
+            <div style="background: #353044; border: 2px solid {score_color};
                         border-radius: 14px; padding: 18px 22px; margin-bottom: 16px;
                         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px {score_color}33;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div>
-                        <div style="font-size: 11px; font-weight: 800; color: #5eead4; text-transform: uppercase;">
+                        <div style="font-size: 11px; font-weight: 800; color: #DBD8E3; text-transform: uppercase;">
                             Gross Total Resection (GTR) Feasibility Index
                         </div>
                         <div style="font-size: 26px; font-weight: 900; color: {score_color}; margin-top: 2px;">
@@ -827,10 +824,10 @@ def neuro_copilot_page():
                             Strategy: {risk_res['resectability_class']}
                         </div>
                     </div>
-                    <div style="text-align: right; border-left: 1px solid rgba(148, 163, 184, 0.2); padding-left: 18px;">
-                        <div style="font-size: 11px; font-weight: 800; color: #5eead4;">WHO CNS STAGING</div>
+                    <div style="text-align: right; border-left: 1px solid rgba(219, 216, 227, 0.2); padding-left: 18px;">
+                        <div style="font-size: 11px; font-weight: 800; color: #DBD8E3;">WHO CNS STAGING</div>
                         <div style="font-size: 13.5px; font-weight: 800; color: #ffffff;">{risk_res['who_grade']}</div>
-                        <div style="font-size: 11.5px; color: #cbd5e1; margin-top: 3px;">Projected Post-Op KPS: <b>{risk_res['projected_postop_kps']}</b></div>
+                        <div style="font-size: 11.5px; color: #b8aec9; margin-top: 3px;">Projected Post-Op KPS: <b>{risk_res['projected_postop_kps']}</b></div>
                     </div>
                 </div>
             </div>
