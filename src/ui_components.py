@@ -4,10 +4,24 @@ import streamlit as st
 import plotly.graph_objects as go
 import os
 import textwrap
+import base64
 from PIL import Image
 from src.config import CLASSES, COLORS, SAMPLES
 from src.content import DATA, CASES
 from src.inference import validate_image
+
+
+def _get_logo_base64() -> str:
+    """Return base64 encoded string of the NeuroScan logo for inline embedding."""
+    try:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        logo_path = os.path.join(os.path.dirname(current_dir), "assets", "neuroscan_logo.png")
+        if os.path.exists(logo_path):
+            with open(logo_path, "rb") as f:
+                return base64.b64encode(f.read()).decode("utf-8")
+    except Exception:
+        pass
+    return ""
 
 
 def render_top_masthead(lang_code: str = "en"):
@@ -29,6 +43,13 @@ def render_top_masthead(lang_code: str = "en"):
         b2 = "02 —— FDA SaMD Class II"
         b3 = "03 —— HL7 / FHIR R4 Standard"
         b4 = "04 —— HIPAA Safe Harbor Enforced"
+
+    logo_b64 = _get_logo_base64()
+    if logo_b64:
+        logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid #0EA5E9; box-shadow: 0 0 10px rgba(14, 165, 233, 0.45); object-fit: cover;" alt="Logo" />'
+        display_title = f"{logo_img} <span>{app_name.replace('🧠 ', '')}</span>"
+    else:
+        display_title = f"<span>{app_name}</span>"
 
     st.markdown(
         textwrap.dedent(f"""
@@ -62,12 +83,12 @@ def render_top_masthead(lang_code: str = "en"):
                         box-shadow: 0 0 12px #0EA5E9;"></div>
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
                 <div>
-                    <h1 style="font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-size: 26px; font-weight: 800; color: #ffffff; margin: 0;
+                    <h1 style="font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-size: 24px; font-weight: 800; color: #ffffff; margin: 0;
                                letter-spacing: -0.3px; text-shadow: 0 0 16px rgba(14, 165, 233, 0.3);
                                display: flex; align-items: center; gap: 10px;">
-                        <span>{app_name}</span>
+                        {display_title}
                     </h1>
-                    <div style="font-size: 11.5px; font-weight: 700; color: #38BDF8; margin-top: 4px; letter-spacing: 1.2px; text-transform: uppercase;">
+                    <div style="font-size: 11px; font-weight: 700; color: #38BDF8; margin-top: 4px; letter-spacing: 1.2px; text-transform: uppercase;">
                         {app_sub}
                     </div>
                 </div>
@@ -101,6 +122,12 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
     Render high-precision PACS scanner telemetry bar with clinical laser animations.
     Displays realistic scanner parameters, field strength, physiological status, and HIPAA security.
     """
+    logo_b64 = _get_logo_base64()
+    if logo_b64:
+        telemetry_icon = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 9px;" alt="Logo" />'
+    else:
+        telemetry_icon = '🧠'
+
     st.markdown(
         textwrap.dedent(f"""
         <style>
@@ -158,7 +185,7 @@ def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: s
                     <div class="icon-workstation-pulse"
                          style="width: 42px; height: 42px; border-radius: 10px; background: #090D16;
                                 border: 1.5px solid #0EA5E9; display: flex; align-items: center; justify-content: center; font-size: 22px;">
-                        🧠
+                        {telemetry_icon}
                     </div>
                     <div>
                         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">

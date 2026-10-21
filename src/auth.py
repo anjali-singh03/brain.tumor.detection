@@ -4,6 +4,21 @@
 import streamlit as st
 import hashlib
 import textwrap
+import os
+import base64
+
+
+def _get_logo_base64() -> str:
+    """Return base64 encoded string of the NeuroScan logo for inline embedding."""
+    try:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        logo_path = os.path.join(os.path.dirname(current_dir), "assets", "neuroscan_logo.png")
+        if os.path.exists(logo_path):
+            with open(logo_path, "rb") as f:
+                return base64.b64encode(f.read()).decode("utf-8")
+    except Exception:
+        pass
+    return ""
 
 # Pre-registered clinical user directory
 CLINICAL_USERS = {
@@ -360,11 +375,17 @@ def render_login_page():
     )
 
     # Hospital Brand Header (Always Visible at Top of Login)
+    logo_b64 = _get_logo_base64()
+    if logo_b64:
+        logo_html = f'<img src="data:image/png;base64,{logo_b64}" style="width: 36px; height: 36px; border-radius: 9px; border: 1.5px solid #0EA5E9; box-shadow: 0 0 10px rgba(14, 165, 233, 0.45); object-fit: cover;" alt="Logo" />'
+    else:
+        logo_html = '<span style="font-size: 22px;">🧠</span>'
+
     st.markdown(
-        textwrap.dedent("""
+        textwrap.dedent(f"""
         <div class="clinical-login-header">
             <div class="clinical-brand-badge">
-                <span style="font-size: 22px;">🧠</span>
+                {logo_html}
                 <h1>NEUROSCAN</h1>
                 <span class="version-tag">PACS v4.2</span>
             </div>
