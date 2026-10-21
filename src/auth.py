@@ -137,31 +137,31 @@ def render_login_page():
 
         /* Floating Ambient Synaptic Telemetry Nodes */
         @keyframes ambientFloat {
-            0%, 100% { transform: translateY(0) scale(1); opacity: 0.35; }
-            50% { transform: translateY(-16px) scale(1.15); opacity: 0.75; filter: drop-shadow(0 0 10px #38BDF8); }
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+            50% { transform: translateY(-10px) scale(1.1); opacity: 0.6; filter: drop-shadow(0 0 6px #38BDF8); }
         }
         .ambient-node {
             position: fixed;
-            width: 140px;
-            height: 140px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(14, 165, 233, 0.16) 0%, rgba(56, 189, 248, 0.03) 50%, transparent 70%);
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.14) 0%, rgba(56, 189, 248, 0.02) 50%, transparent 70%);
             pointer-events: none;
             z-index: 0;
-            animation: ambientFloat 7s ease-in-out infinite;
+            animation: ambientFloat 6s ease-in-out infinite;
         }
         .node-top-left { top: 6%; left: 8%; animation-delay: 0s; }
-        .node-top-right { top: 10%; right: 8%; animation-delay: 2.2s; }
-        .node-bottom-left { bottom: 8%; left: 10%; animation-delay: 4.5s; }
-        .node-bottom-right { bottom: 6%; right: 10%; animation-delay: 1.8s; }
+        .node-top-right { top: 8%; right: 8%; animation-delay: 2s; }
+        .node-bottom-left { bottom: 8%; left: 10%; animation-delay: 3.5s; }
+        .node-bottom-right { bottom: 6%; right: 10%; animation-delay: 1.5s; }
 
-        /* Centered login form container */
+        /* Centered compact login form container */
         .block-container {
-            max-width: 520px !important;
-            padding-top: 2rem !important;
-            padding-bottom: 2rem !important;
-            padding-left: 1.5rem !important;
-            padding-right: 1.5rem !important;
+            max-width: 400px !important;
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
             margin: 0 auto !important;
             position: relative !important;
             z-index: 2 !important;
@@ -170,61 +170,61 @@ def render_login_page():
         /* Hospital Brand Header with Pulsing Version Tag */
         .clinical-login-header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .clinical-brand-badge {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 6px;
+            gap: 8px;
+            margin-bottom: 2px;
         }
 
         .clinical-brand-badge h1 {
-            font-size: 26px;
+            font-size: 20px;
             font-weight: 800;
             color: #FFFFFF;
             letter-spacing: -0.3px;
             margin: 0;
             display: inline;
-            text-shadow: 0 0 16px rgba(14, 165, 233, 0.35);
+            text-shadow: 0 0 12px rgba(14, 165, 233, 0.35);
         }
 
         @keyframes badgeGlow {
-            0%, 100% { box-shadow: 0 0 4px rgba(14, 165, 233, 0.3); border-color: rgba(56, 189, 248, 0.3); }
-            50% { box-shadow: 0 0 12px rgba(56, 189, 248, 0.65); border-color: #38BDF8; }
+            0%, 100% { box-shadow: 0 0 3px rgba(14, 165, 233, 0.3); border-color: rgba(56, 189, 248, 0.3); }
+            50% { box-shadow: 0 0 8px rgba(56, 189, 248, 0.65); border-color: #38BDF8; }
         }
 
         .clinical-brand-badge span.version-tag {
-            font-size: 11px;
+            font-size: 9.5px;
             font-weight: 700;
             color: #38BDF8;
             background: rgba(14, 165, 233, 0.15);
             border: 1px solid rgba(56, 189, 248, 0.3);
-            padding: 2px 7px;
+            padding: 1px 6px;
             border-radius: 4px;
             letter-spacing: 0.5px;
             animation: badgeGlow 2.5s ease-in-out infinite;
         }
 
         .clinical-kicker-sub {
-            font-size: 11.5px;
+            font-size: 10px;
             font-weight: 700;
-            letter-spacing: 1.2px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             color: #38BDF8;
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .clinical-meta-sub {
-            font-size: 11px;
+            font-size: 9px;
             color: #94A3B8;
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         /* Form Container with Entrance Fade-in and Holographic Laser Sweep */
         @keyframes cardEntrance {
-            0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+            0% { opacity: 0; transform: translateY(14px) scale(0.98); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
         }
         @keyframes cardLaserBeam {
@@ -236,12 +236,12 @@ def render_login_page():
 
         div[data-testid="stForm"] {
             background: linear-gradient(145deg, #0E1726 0%, #090D16 100%) !important;
-            border-radius: 14px !important;
-            padding: 26px 24px !important;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 20px rgba(14, 165, 233, 0.12) !important;
+            border-radius: 12px !important;
+            padding: 16px 18px !important;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.85), 0 0 16px rgba(14, 165, 233, 0.12) !important;
             border: 1.5px solid rgba(56, 189, 248, 0.22) !important;
-            margin-top: 8px !important;
-            animation: cardEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+            margin-top: 4px !important;
+            animation: cardEntrance 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
             position: relative !important;
             overflow: hidden !important;
         }
@@ -252,10 +252,10 @@ def render_login_page():
             top: 0;
             left: -100%;
             width: 75%;
-            height: 2.5px;
+            height: 2px;
             background: linear-gradient(90deg, transparent, #0EA5E9, #38BDF8, #0EA5E9, transparent);
             animation: cardLaserBeam 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-            box-shadow: 0 0 14px #38BDF8;
+            box-shadow: 0 0 10px #38BDF8;
             z-index: 10;
         }
 
@@ -264,8 +264,8 @@ def render_login_page():
         div[data-testid="stSelectbox"] label p {
             color: #F1F5F9 !important;
             font-weight: 700 !important;
-            font-size: 12.5px !important;
-            margin-bottom: 3px !important;
+            font-size: 11px !important;
+            margin-bottom: 2px !important;
         }
 
         div[data-testid="stTextInput"] div[data-baseweb="input"],
@@ -276,36 +276,38 @@ def render_login_page():
             color: #FFFFFF !important;
         }
         div[data-testid="stTextInput"] div[data-baseweb="input"] {
-            border: 1.5px solid rgba(56, 189, 248, 0.22) !important;
-            border-radius: 8px !important;
+            border: 1.2px solid rgba(56, 189, 248, 0.22) !important;
+            border-radius: 7px !important;
             transition: all 0.2s ease !important;
         }
         div[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within {
             border-color: #0EA5E9 !important;
-            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25), 0 0 15px rgba(14, 165, 233, 0.2) !important;
+            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.25), 0 0 10px rgba(14, 165, 233, 0.2) !important;
         }
         div[data-testid="stTextInput"] input {
-            font-size: 13.5px !important;
-            padding: 8px 12px !important;
+            font-size: 12px !important;
+            padding: 6px 10px !important;
             color: #FFFFFF !important;
         }
 
         div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
             background-color: #070B14 !important;
-            border: 1.5px solid rgba(56, 189, 248, 0.22) !important;
-            border-radius: 8px !important;
+            border: 1.2px solid rgba(56, 189, 248, 0.22) !important;
+            border-radius: 7px !important;
             color: #FFFFFF !important;
             transition: all 0.2s ease !important;
+            min-height: 34px !important;
         }
         div[data-testid="stSelectbox"] div[data-baseweb="select"] span {
             color: #FFFFFF !important;
             font-weight: 600 !important;
+            font-size: 12px !important;
         }
 
         div[data-testid="stCheckbox"] label span,
         div[data-testid="stCheckbox"] label p {
             color: #CBD5E1 !important;
-            font-size: 12px !important;
+            font-size: 11px !important;
             font-weight: 600 !important;
         }
 
@@ -315,18 +317,18 @@ def render_login_page():
             background: linear-gradient(135deg, #0284C7 0%, #0EA5E9 100%) !important;
             border: none !important;
             color: #FFFFFF !important;
-            border-radius: 8px !important;
+            border-radius: 7px !important;
             font-weight: 800 !important;
-            font-size: 13.5px !important;
-            letter-spacing: 0.4px !important;
-            padding: 10px 20px !important;
-            box-shadow: 0 6px 18px rgba(14, 165, 233, 0.35) !important;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            font-size: 12px !important;
+            letter-spacing: 0.3px !important;
+            padding: 8px 14px !important;
+            box-shadow: 0 5px 14px rgba(14, 165, 233, 0.35) !important;
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
         div[data-testid="stButton"] button[kind="primary"]:hover,
         div[data-testid="stForm"] button[kind="primary"]:hover {
-            box-shadow: 0 10px 28px rgba(14, 165, 233, 0.65) !important;
-            transform: translateY(-2px) scale(1.01) !important;
+            box-shadow: 0 8px 22px rgba(14, 165, 233, 0.65) !important;
+            transform: translateY(-1.5px) !important;
         }
 
         /* Secondary Buttons with Smooth Lift & Cyan Rim Glow */
@@ -335,17 +337,18 @@ def render_login_page():
             background: #0E1726 !important;
             border: 1px solid rgba(56, 189, 248, 0.25) !important;
             color: #E2E8F0 !important;
-            border-radius: 8px !important;
+            border-radius: 7px !important;
             font-weight: 700 !important;
-            font-size: 12px !important;
-            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            font-size: 11px !important;
+            padding: 5px 10px !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
         div[data-testid="stButton"] button:not([kind="primary"]):hover {
             border-color: #38BDF8 !important;
             color: #38BDF8 !important;
             background: #142033 !important;
-            box-shadow: 0 6px 16px rgba(14, 165, 233, 0.25) !important;
-            transform: translateY(-2px) !important;
+            box-shadow: 0 5px 14px rgba(14, 165, 233, 0.25) !important;
+            transform: translateY(-1.5px) !important;
         }
         </style>
         <div class="ambient-node node-top-left"></div>
@@ -361,7 +364,7 @@ def render_login_page():
         textwrap.dedent("""
         <div class="clinical-login-header">
             <div class="clinical-brand-badge">
-                <span style="font-size: 30px;">🧠</span>
+                <span style="font-size: 22px;">🧠</span>
                 <h1>NEUROSCAN</h1>
                 <span class="version-tag">PACS v4.2</span>
             </div>
@@ -379,12 +382,12 @@ def render_login_page():
         with st.form("form_login", clear_on_submit=False):
             st.markdown(
                 textwrap.dedent("""
-                <div style="text-align: center; margin-bottom: 18px;">
-                    <div style="font-size: 20px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.2px;">
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <div style="font-size: 15px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.2px;">
                         Hospital Staff Authentication
                     </div>
-                    <div style="font-size: 12px; color: #94A3B8; margin-top: 3px; line-height: 1.4;">
-                        Enter institutional credentials to access protected clinical data.
+                    <div style="font-size: 11px; color: #94A3B8; margin-top: 2px; line-height: 1.3;">
+                        Institutional credentials to access clinical PACS.
                     </div>
                 </div>
                 """),
@@ -409,7 +412,7 @@ def render_login_page():
             with col_forgot:
                 st.markdown(
                     "<div style='text-align: right; padding-top: 4px;'>"
-                    "<a href='#' style='color: #38BDF8; font-size: 11.5px; font-weight: 700; text-decoration: none;'>"
+                    "<a href='#' style='color: #38BDF8; font-size: 11px; font-weight: 700; text-decoration: none;'>"
                     "Forgot password?</a></div>",
                     unsafe_allow_html=True
                 )
@@ -443,9 +446,9 @@ def render_login_page():
         # 1-Click Fast Access Section Directly on Login Page
         st.markdown(
             textwrap.dedent("""
-            <div style="background: rgba(14, 23, 38, 0.85); border-radius: 12px; padding: 14px 16px; margin-top: 14px;
-                        border: 1px solid rgba(56, 189, 248, 0.2); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);">
-                <div style="font-size: 10.5px; font-weight: 800; color: #38BDF8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; text-align: center;">
+            <div style="background: rgba(14, 23, 38, 0.85); border-radius: 10px; padding: 10px 12px; margin-top: 10px;
+                        border: 1px solid rgba(56, 189, 248, 0.2); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);">
+                <div style="font-size: 9.5px; font-weight: 800; color: #38BDF8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; text-align: center;">
                     ⚡ 1-Click Instant Clinician Access
                 </div>
             """),
@@ -474,9 +477,9 @@ def render_login_page():
         # Institutional Single Sign-On
         st.markdown(
             textwrap.dedent("""
-            <div style="display: flex; align-items: center; margin: 16px 0 12px 0; color: #64748B; font-size: 11px; font-weight: 700;">
+            <div style="display: flex; align-items: center; margin: 10px 0 8px 0; color: #64748B; font-size: 9.5px; font-weight: 700;">
                 <div style="flex: 1; height: 1px; background: rgba(56, 189, 248, 0.2);"></div>
-                <div style="padding: 0 10px;">INSTITUTIONAL SSO</div>
+                <div style="padding: 0 8px;">INSTITUTIONAL SSO</div>
                 <div style="flex: 1; height: 1px; background: rgba(56, 189, 248, 0.2);"></div>
             </div>
             """),
@@ -501,7 +504,7 @@ def render_login_page():
                 st.rerun()
 
         # Switch to Register
-        st.markdown("<div style='margin-top: 14px; text-align: center;'>", unsafe_allow_html=True)
+        st.markdown("<div style='margin-top: 8px; text-align: center;'>", unsafe_allow_html=True)
         if st.button("Need clinical credentials? Register Account", key="btn_goto_signup", use_container_width=True):
             st.session_state["auth_screen"] = "signup"
             st.rerun()
@@ -520,12 +523,12 @@ def render_login_page():
         with st.form("form_signup", clear_on_submit=False):
             st.markdown(
                 textwrap.dedent("""
-                <div style="text-align: center; margin-bottom: 18px;">
-                    <div style="font-size: 20px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.2px;">
+                <div style="text-align: center; margin-bottom: 12px;">
+                    <div style="font-size: 16px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.2px;">
                         Register Institutional Credentials
                     </div>
-                    <div style="font-size: 12px; color: #94A3B8; margin-top: 3px; line-height: 1.4;">
-                        Establish a verified clinical seat for institutional decision support.
+                    <div style="font-size: 11px; color: #94A3B8; margin-top: 2px; line-height: 1.3;">
+                        Establish a verified clinical seat for decision support.
                     </div>
                 </div>
                 """),
@@ -563,7 +566,7 @@ def render_login_page():
                     st.rerun()
 
         # Switch to Log In
-        st.markdown("<div style='margin-top: 14px; text-align: center;'>", unsafe_allow_html=True)
+        st.markdown("<div style='margin-top: 8px; text-align: center;'>", unsafe_allow_html=True)
         if st.button("Already registered? Log In to Workstation", key="btn_goto_login", use_container_width=True):
             st.session_state["auth_screen"] = "login"
             st.rerun()
