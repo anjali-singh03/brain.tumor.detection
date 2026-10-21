@@ -63,14 +63,14 @@ if "lang_code" not in st.session_state:
 st.markdown(
     """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
 
-/* Base Theme Canvas — Ethereal Obsidian & Bioluminescent Flora */
+/* Base Theme Canvas — Deep Surgical Slate & Obsidian */
 .stApp {
-    background-color: #030206 !important;
-    background: radial-gradient(circle at 68% 12%, rgba(138, 43, 226, 0.26) 0%, rgba(0, 210, 255, 0.12) 32%, #030206 72%) !important;
-    color: #F8FAFC !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    background-color: #090D16 !important;
+    background: #090D16 !important;
+    color: #F1F5F9 !important;
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
     min-height: 100vh !important;
     height: 100vh !important;
 }
@@ -80,67 +80,20 @@ st.markdown(
     height: 100% !important;
 }
 
-/* Ambient Horizon Dome Animation with Deep Bioluminescent Aura */
-.ambient-horizon-main {
-    position: fixed;
-    bottom: -280px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 950px;
-    height: 520px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 50% 20%, rgba(138, 43, 226, 0.32) 0%, rgba(0, 210, 255, 0.12) 38%, transparent 72%);
-    pointer-events: none;
-    filter: blur(18px);
-    z-index: 0;
-    animation: horizonGlow 7s ease-in-out infinite alternate;
-}
-
-@keyframes horizonGlow {
-    0% { opacity: 0.65; transform: translateX(-50%) scale(0.96); }
-    100% { opacity: 1; transform: translateX(-50%) scale(1.04); }
-}
-
-/* Global Bottom Animated ECG Pulse Ticker in Electric Cyan & Violet */
-.global-ecg-ticker {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 32px;
-    background: rgba(3, 2, 6, 0.98);
-    backdrop-filter: blur(8px);
-    border-top: 1px solid rgba(0, 210, 255, 0.3);
-    z-index: 999;
-    overflow: hidden;
-    pointer-events: none;
-}
-
-.global-ecg-svg {
-    width: 200%;
-    height: 100%;
-    animation: ecgFlow 6s linear infinite;
-}
-
-@keyframes ecgFlow {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
-/* Highlighted Sidebar Clinical Navigation — Editorial Numbered Index Style */
+/* Sidebar Clinical Navigation Styling */
 .nav-header-pill {
-    background: rgba(138, 43, 226, 0.2);
-    border: 1px solid rgba(138, 43, 226, 0.45);
-    color: #00D2FF;
+    background: rgba(14, 165, 233, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #38BDF8;
     padding: 6px 14px;
-    border-radius: 20px;
+    border-radius: 8px;
     font-size: 11px;
     font-weight: 800;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
     display: inline-block;
     margin-bottom: 12px;
-    box-shadow: 0 0 16px rgba(138, 43, 226, 0.35);
+    box-shadow: 0 0 12px rgba(14, 165, 233, 0.15);
 }
 
 div[data-testid="stRadio"] > div {
@@ -148,104 +101,103 @@ div[data-testid="stRadio"] > div {
 }
 
 div[data-testid="stRadio"] label {
-    background: rgba(11, 6, 22, 0.85) !important;
-    border: 1px solid rgba(138, 43, 226, 0.25) !important;
-    border-radius: 12px !important;
+    background: #0E1726 !important;
+    border: 1px solid rgba(56, 189, 248, 0.18) !important;
+    border-radius: 10px !important;
     padding: 10px 14px !important;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
     cursor: pointer !important;
 }
 
 div[data-testid="stRadio"] label:hover {
-    border-color: #00D2FF !important;
-    background: rgba(22, 12, 44, 0.92) !important;
-    transform: translateX(6px) !important;
-    box-shadow: 0 6px 20px rgba(0, 210, 255, 0.25) !important;
+    border-color: #38BDF8 !important;
+    background: #142033 !important;
+    transform: translateX(4px) !important;
+    box-shadow: 0 6px 16px rgba(14, 165, 233, 0.2) !important;
 }
 
 div[data-testid="stRadio"] label:has(input:checked) {
-    background: linear-gradient(135deg, rgba(138, 43, 226, 0.45) 0%, rgba(0, 210, 255, 0.18) 100%) !important;
-    border: 1.5px solid #00D2FF !important;
-    box-shadow: 0 0 24px rgba(0, 210, 255, 0.45) !important;
-    transform: translateX(4px) !important;
+    background: rgba(14, 165, 233, 0.15) !important;
+    border: 1.5px solid #0EA5E9 !important;
+    box-shadow: 0 0 18px rgba(14, 165, 233, 0.3) !important;
+    transform: translateX(3px) !important;
 }
 
 div[data-testid="stRadio"] label span p {
     font-size: 13.5px !important;
-    font-weight: 800 !important;
+    font-weight: 700 !important;
     color: #ffffff !important;
-    letter-spacing: 0.2px !important;
+    letter-spacing: 0.1px !important;
 }
 
-/* Card Styling with Interactive Elevation & Iris Rim Glow */
+/* Card Styling with Clean Clinical Elevation */
 .card {
-    padding: 22px;
-    border-radius: 16px;
-    color: #F8FAFC;
+    padding: 20px;
+    border-radius: 12px;
+    color: #F1F5F9;
     margin-bottom: 14px;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .card:hover {
-    transform: translateY(-4px) scale(1.006);
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.95), 0 0 28px rgba(0, 210, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85), 0 0 16px rgba(14, 165, 233, 0.18);
 }
 
 /* DICOM Inspector Box */
 .dicom-box {
-    background: #06030F;
-    border: 1px solid rgba(138, 43, 226, 0.35);
-    border-radius: 10px;
+    background: #070B14;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 8px;
     padding: 12px 16px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
-    color: #00D2FF;
+    color: #38BDF8;
     margin-bottom: 14px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
 }
 
-/* Streamlit Tabs Dark Styling with Glowing Indicator */
+/* Streamlit Tabs Clinical Styling */
 .stTabs [data-baseweb="tab-list"] {
-    gap: 8px;
-    background-color: rgba(11, 6, 22, 0.95);
+    gap: 6px;
+    background-color: #0E1726;
     padding: 6px;
-    border-radius: 14px;
-    border: 1px solid rgba(138, 43, 226, 0.25);
+    border-radius: 10px;
+    border: 1px solid rgba(56, 189, 248, 0.18);
 }
 
 .stTabs [data-baseweb="tab"] {
-    border-radius: 9px;
-    color: #B3B0C6;
+    border-radius: 8px;
+    color: #94A3B8;
     font-weight: 700;
     transition: all 0.2s ease;
 }
 .stTabs [data-baseweb="tab"]:hover {
-    color: #00D2FF;
-    background-color: rgba(138, 43, 226, 0.25);
+    color: #38BDF8;
+    background-color: rgba(14, 165, 233, 0.12);
 }
 
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, rgba(138, 43, 226, 0.5) 0%, rgba(0, 210, 255, 0.22) 100%) !important;
-    border: 1.5px solid #00D2FF !important;
+    background: rgba(14, 165, 233, 0.2) !important;
+    border: 1.5px solid #0EA5E9 !important;
     color: #ffffff !important;
-    box-shadow: 0 0 20px rgba(0, 210, 255, 0.4) !important;
+    box-shadow: 0 0 14px rgba(14, 165, 233, 0.3) !important;
 }
 
 /* Animated Scanline on MRI Viewports */
 div[data-testid="stImage"] {
     position: relative !important;
-    border: 2px solid rgba(138, 43, 226, 0.45) !important;
-    border-radius: 14px !important;
+    border: 2px solid rgba(56, 189, 248, 0.3) !important;
+    border-radius: 12px !important;
     overflow: hidden !important;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), 0 0 20px rgba(138, 43, 226, 0.3) !important;
-    transition: all 0.3s ease !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+    transition: all 0.25s ease !important;
 }
 
 div[data-testid="stImage"]:hover {
-    border-color: #00D2FF !important;
-    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.95), 0 0 35px rgba(0, 210, 255, 0.45) !important;
-    transform: translateY(-2px) !important;
+    border-color: #0EA5E9 !important;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(14, 165, 233, 0.35) !important;
 }
 
 div[data-testid="stImage"]::after {
@@ -255,8 +207,8 @@ div[data-testid="stImage"]::after {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, transparent, #00D2FF, #8A2BE2, #00D2FF, transparent);
-    box-shadow: 0 0 16px #00D2FF, 0 0 26px #8A2BE2;
+    background: linear-gradient(90deg, transparent, #38BDF8, #0EA5E9, #38BDF8, transparent);
+    box-shadow: 0 0 14px #0EA5E9;
     z-index: 5;
     pointer-events: none;
     animation: laserScan 4s ease-in-out infinite alternate;
@@ -265,11 +217,11 @@ div[data-testid="stImage"]::after {
 /* Animated Laser Scanner Viewport Frame */
 .mri-viewport-container {
     position: relative;
-    border: 2px solid rgba(138, 43, 226, 0.45);
-    border-radius: 16px;
+    border: 2px solid rgba(56, 189, 248, 0.3);
+    border-radius: 12px;
     overflow: hidden;
-    background: #06030F;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(138, 43, 226, 0.3);
+    background: #070B14;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 
 .laser-scan-bar {
@@ -277,8 +229,8 @@ div[data-testid="stImage"]::after {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, transparent, #00D2FF, #8A2BE2, #00D2FF, transparent);
-    box-shadow: 0 0 16px #00D2FF, 0 0 26px #8A2BE2;
+    background: linear-gradient(90deg, transparent, #38BDF8, #0EA5E9, #38BDF8, transparent);
+    box-shadow: 0 0 14px #0EA5E9;
     z-index: 5;
     pointer-events: none;
     animation: laserScan 3.5s ease-in-out infinite alternate;
@@ -290,68 +242,42 @@ div[data-testid="stImage"]::after {
     100% { top: 96%; opacity: 0.85; }
 }
 
-/* Primary Action Buttons — Iris to Bioluminescent Cyan */
+/* Primary Action Buttons — Surgical Blue */
 .stButton > button[kind="primary"] {
-    background: linear-gradient(135deg, #8A2BE2 0%, #00D2FF 100%) !important;
-    color: #030006 !important;
+    background: linear-gradient(135deg, #0284C7 0%, #0EA5E9 100%) !important;
+    color: #ffffff !important;
     border: none !important;
-    border-radius: 24px !important;
-    font-weight: 900 !important;
-    letter-spacing: 0.5px !important;
-    box-shadow: 0 6px 22px rgba(0, 210, 255, 0.45) !important;
+    border-radius: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.4px !important;
+    box-shadow: 0 6px 18px rgba(14, 165, 233, 0.35) !important;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 .stButton > button[kind="primary"]:hover {
-    box-shadow: 0 10px 30px rgba(0, 210, 255, 0.7) !important;
-    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 8px 24px rgba(14, 165, 233, 0.55) !important;
+    transform: translateY(-1.5px) !important;
 }
 
 /* Preset Buttons */
 .preset-btn {
     display: inline-block;
     padding: 5px 12px;
-    background: rgba(138, 43, 226, 0.2);
-    border: 1px solid rgba(138, 43, 226, 0.4);
-    border-radius: 12px;
-    color: #00D2FF;
+    background: rgba(14, 165, 233, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 8px;
+    color: #38BDF8;
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.3px;
     cursor: pointer;
     transition: all 0.2s;
 }
 .preset-btn:hover {
-    background: #8A2BE2;
-    border-color: #00D2FF;
-    color: #030006;
+    background: #0EA5E9;
+    border-color: #38BDF8;
+    color: #ffffff;
 }
 </style>
-
-<!-- Ambient Glowing Horizon Dome -->
-<div class="ambient-horizon-main"></div>
-
-<!-- Global Animated SVG ECG Rhythm Ticker -->
-<div class="global-ecg-ticker">
-    <svg class="global-ecg-svg" viewBox="0 0 2400 120" preserveAspectRatio="none">
-        <defs>
-            <linearGradient id="ecgGlobalGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#8A2BE2" stop-opacity="0.2"/>
-                <stop offset="30%" stop-color="#00D2FF" stop-opacity="0.95"/>
-                <stop offset="50%" stop-color="#ffffff" stop-opacity="0.95"/>
-                <stop offset="70%" stop-color="#00D2FF" stop-opacity="0.9"/>
-                <stop offset="100%" stop-color="#8A2BE2" stop-opacity="0.2"/>
-            </linearGradient>
-        </defs>
-        <path d="
-            M0,60 L240,60 L260,60 L275,45 L290,75 L305,15 L320,105 L335,50 L350,68 L365,60 L540,60
-            L600,60 L620,60 L635,45 L650,75 L665,15 L680,105 L695,50 L710,68 L725,60 L900,60
-            L960,60 L980,60 L995,45 L1010,75 L1025,15 L1040,105 L1055,50 L1070,68 L1085,60 L1260,60
-            L1320,60 L1340,60 L1355,45 L1370,75 L1385,15 L1400,105 L1415,50 L1430,68 L1445,60 L1620,60
-            L1680,60 L1700,60 L1715,45 L1730,75 L1745,15 L1760,105 L1775,50 L1790,68 L1805,60 L1980,60
-            L2040,60 L2060,60 L2075,45 L2090,75 L2105,15 L2120,105 L2135,50 L2150,68 L2165,60 L2400,60
-        " fill="none" stroke="url(#ecgGlobalGlow)" stroke-width="2.4" />
-    </svg>
-</div>
 """,
     unsafe_allow_html=True,
 )

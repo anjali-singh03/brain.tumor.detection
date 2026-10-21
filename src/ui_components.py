@@ -23,8 +23,8 @@ def render_top_masthead(lang_code: str = "en"):
         b3 = "03 —— HL7 / FHIR R4 मानक"
         b4 = "04 —— HIPAA सुरक्षित"
     else:
-        app_name = "🧠 NEUROSCAN"
-        app_sub = "CLINICAL NEURO-ONCOLOGY & SURGICAL AI WORKSTATION"
+        app_name = "🧠 NEUROSCAN PACS"
+        app_sub = "CLINICAL NEURO-ONCOLOGY DECISION SUPPORT WORKSTATION"
         b1 = "01 —— 3.0T MRI Calibrated"
         b2 = "02 —— FDA SaMD Class II"
         b3 = "03 —— HL7 / FHIR R4 Standard"
@@ -38,54 +38,54 @@ def render_top_masthead(lang_code: str = "en"):
             100% {{ background-position: 200% 0; }}
         }}
         @keyframes beaconPulse {{
-            0%, 100% {{ opacity: 1; transform: scale(1); filter: drop-shadow(0 0 6px #00D2FF); }}
-            50% {{ opacity: 0.5; transform: scale(0.9); filter: drop-shadow(0 0 2px #00D2FF); }}
+            0%, 100% {{ opacity: 1; transform: scale(1); filter: drop-shadow(0 0 6px #0EA5E9); }}
+            50% {{ opacity: 0.5; transform: scale(0.9); filter: drop-shadow(0 0 2px #0EA5E9); }}
         }}
         .masthead-beacon {{
             display: inline-block;
             width: 7px;
             height: 7px;
             border-radius: 50%;
-            background: #00D2FF;
+            background: #0EA5E9;
             animation: beaconPulse 1.8s ease-in-out infinite;
             margin-right: 6px;
         }}
         </style>
-        <div style="background: linear-gradient(135deg, #0B0616 0%, #030206 100%);
-                    border: 1.5px solid rgba(138, 43, 226, 0.4); border-radius: 18px; padding: 22px 28px;
-                    margin-bottom: 22px; box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(138, 43, 226, 0.2);
+        <div style="background: linear-gradient(135deg, #0E1726 0%, #090D16 100%);
+                    border: 1.5px solid rgba(56, 189, 248, 0.25); border-radius: 14px; padding: 20px 24px;
+                    margin-bottom: 20px; box-shadow: 0 14px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(14, 165, 233, 0.12);
                     position: relative; overflow: hidden;">
             <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px;
-                        background: linear-gradient(90deg, #8A2BE2, #00D2FF, #9D4EDD, #00D2FF, #8A2BE2);
+                        background: linear-gradient(90deg, #0284C7, #0EA5E9, #38BDF8, #0EA5E9, #0284C7);
                         background-size: 200% 100%;
                         animation: mastheadBeam 4s linear infinite;
-                        box-shadow: 0 0 16px #00D2FF;"></div>
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                        box-shadow: 0 0 12px #0EA5E9;"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
                 <div>
-                    <h1 style="font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: #ffffff; margin: 0;
-                               letter-spacing: -0.3px; text-shadow: 0 0 20px rgba(0, 210, 255, 0.35);
+                    <h1 style="font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-size: 26px; font-weight: 800; color: #ffffff; margin: 0;
+                               letter-spacing: -0.3px; text-shadow: 0 0 16px rgba(14, 165, 233, 0.3);
                                display: flex; align-items: center; gap: 10px;">
                         <span>{app_name}</span>
                     </h1>
-                    <div style="font-size: 12px; font-weight: 700; color: #8A2BE2; margin-top: 4px; letter-spacing: 1.5px; text-transform: uppercase;">
+                    <div style="font-size: 11.5px; font-weight: 700; color: #38BDF8; margin-top: 4px; letter-spacing: 1.2px; text-transform: uppercase;">
                         {app_sub}
                     </div>
                 </div>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                    <span style="background: rgba(138, 43, 226, 0.2); border: 1px solid rgba(138, 43, 226, 0.45); color: #00D2FF;
-                                 padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 800; display: flex; align-items: center;">
+                    <span style="background: rgba(14, 165, 233, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #38BDF8;
+                                 padding: 4px 11px; border-radius: 8px; font-size: 11px; font-weight: 700; display: flex; align-items: center;">
                         <span class="masthead-beacon"></span>{b1}
                     </span>
-                    <span style="background: rgba(11, 6, 22, 0.85); border: 1px solid rgba(138, 43, 226, 0.3); color: #F8FAFC;
-                                 padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 800;">
+                    <span style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(56, 189, 248, 0.2); color: #E2E8F0;
+                                 padding: 4px 11px; border-radius: 8px; font-size: 11px; font-weight: 700;">
                         {b2}
                     </span>
-                    <span style="background: rgba(138, 43, 226, 0.2); border: 1px solid rgba(138, 43, 226, 0.35); color: #F8FAFC;
-                                 padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 800;">
+                    <span style="background: rgba(14, 165, 233, 0.12); border: 1px solid rgba(56, 189, 248, 0.25); color: #E2E8F0;
+                                 padding: 4px 11px; border-radius: 8px; font-size: 11px; font-weight: 700;">
                         {b3}
                     </span>
-                    <span style="background: rgba(11, 6, 22, 0.95); border: 1.5px solid #00D2FF; color: #00D2FF;
-                                 padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 800; box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);">
+                    <span style="background: rgba(15, 23, 42, 0.95); border: 1.5px solid #10B981; color: #34D399;
+                                 padding: 4px 11px; border-radius: 8px; font-size: 11px; font-weight: 700; box-shadow: 0 0 10px rgba(16, 185, 129, 0.25);">
                         {b4}
                     </span>
                 </div>
@@ -98,89 +98,65 @@ def render_top_masthead(lang_code: str = "en"):
 
 def render_scanner_telemetry(patient_id: str = "ANON-PX-84920", sequence_name: str = "Axial T1-Gd + FLAIR"):
     """
-    Render a high-tech PACS scanner telemetry bar with embedded real-time animated SVG ECG heartbeat waveform.
-    Displays realistic scanner parameters, field strength, physiological rhythm, and HIPAA status.
+    Render high-precision PACS scanner telemetry bar without waveform animations.
+    Displays realistic scanner parameters, field strength, physiological status, and HIPAA security.
     """
     st.markdown(
         textwrap.dedent(f"""
-        <style>
-        @keyframes telemetryEcg {{
-            0% {{ transform: translateX(0); }}
-            100% {{ transform: translateX(-50%); }}
-        }}
-        .telemetry-ecg-bar {{
-            width: 100%;
-            height: 38px;
-            overflow: hidden;
-            background: #030206;
-            border-radius: 8px;
-            border: 1px solid rgba(138, 43, 226, 0.3);
-            position: relative;
-            margin-top: 10px;
-        }}
-        .telemetry-ecg-svg {{
-            width: 200%;
-            height: 100%;
-            animation: telemetryEcg 5s linear infinite;
-        }}
-        </style>
-        <div style="background: linear-gradient(135deg, #0B0616 0%, #030206 100%);
-                    border: 1px solid rgba(138, 43, 226, 0.4); border-radius: 14px; padding: 16px 20px;
-                    margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(138, 43, 226, 0.25);">
+        <div style="background: linear-gradient(135deg, #0E1726 0%, #090D16 100%);
+                    border: 1.5px solid rgba(56, 189, 248, 0.25); border-radius: 12px; padding: 16px 20px;
+                    margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(14, 165, 233, 0.1);">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
                 <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="width: 42px; height: 42px; border-radius: 10px; background: #030206;
-                                border: 1.5px solid #8A2BE2; display: flex; align-items: center; justify-content: center; font-size: 22px;
-                                box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);">
+                    <div style="width: 42px; height: 42px; border-radius: 10px; background: #090D16;
+                                border: 1.5px solid #0EA5E9; display: flex; align-items: center; justify-content: center; font-size: 22px;
+                                box-shadow: 0 0 12px rgba(14, 165, 233, 0.3);">
                         🧠
                     </div>
                     <div>
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <span style="font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; color: #ffffff; letter-spacing: -0.2px;">
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 17.5px; font-weight: 800; color: #ffffff; letter-spacing: -0.2px;">
                                 NeuroScan PACS Diagnostic Workstation
                             </span>
-                            <span style="background: rgba(138, 43, 226, 0.25); color: #00D2FF; border: 1px solid #00D2FF;
-                                         font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 20px;">
+                            <span style="background: rgba(14, 165, 233, 0.18); color: #38BDF8; border: 1px solid #0EA5E9;
+                                         font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 6px;">
                                 3.0T MRI
                             </span>
-                            <span style="background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid #10B981;
-                                         font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 20px;">
-                                72 BPM Normal
+                            <span style="background: rgba(16, 185, 129, 0.18); color: #34D399; border: 1px solid #10B981;
+                                         font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 6px;">
+                                ● 72 BPM Normal
                             </span>
                         </div>
-                        <div style="font-size: 11.5px; color: #B3B0C6; margin-top: 2px; letter-spacing: 0.3px;">
+                        <div style="font-size: 11.5px; color: #94A3B8; margin-top: 3px; letter-spacing: 0.3px;">
                             AI Computer Vision • MobileNetV2 + Grad-CAM XAI • RECIST 1.1 Volumetrics
                         </div>
                     </div>
                 </div>
-                <div style="display: flex; gap: 16px; align-items: center;">
-                    <div style="border-left: 1px solid rgba(138, 43, 226, 0.3); padding-left: 14px;">
-                        <div style="font-size: 10px; font-weight: 700; color: #8A2BE2; text-transform: uppercase; letter-spacing: 0.8px;">Patient Token</div>
-                        <div style="font-size: 12.5px; font-weight: 700; color: #00D2FF; font-family: monospace;">{patient_id}</div>
+                <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+                    <div style="border-left: 1px solid rgba(56, 189, 248, 0.2); padding-left: 14px;">
+                        <div style="font-size: 10px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.8px;">Patient Token</div>
+                        <div style="font-size: 12.5px; font-weight: 700; color: #38BDF8; font-family: monospace;">{patient_id}</div>
                     </div>
-                    <div style="border-left: 1px solid rgba(138, 43, 226, 0.3); padding-left: 14px;">
-                        <div style="font-size: 10px; font-weight: 700; color: #8A2BE2; text-transform: uppercase; letter-spacing: 0.8px;">Active Protocol</div>
-                        <div style="font-size: 12px; font-weight: 600; color: #F8FAFC;">{sequence_name}</div>
+                    <div style="border-left: 1px solid rgba(56, 189, 248, 0.2); padding-left: 14px;">
+                        <div style="font-size: 10px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.8px;">Active Protocol</div>
+                        <div style="font-size: 12px; font-weight: 600; color: #F1F5F9;">{sequence_name}</div>
                     </div>
-                    <div style="border-left: 1px solid rgba(138, 43, 226, 0.3); padding-left: 14px;">
-                        <div style="font-size: 10px; font-weight: 700; color: #8A2BE2; text-transform: uppercase; letter-spacing: 0.8px;">HIPAA Security</div>
-                        <div style="font-size: 11.5px; font-weight: 700; color: #00D2FF;">● Safe Harbor Active</div>
+                    <div style="border-left: 1px solid rgba(56, 189, 248, 0.2); padding-left: 14px;">
+                        <div style="font-size: 10px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.8px;">HIPAA Security</div>
+                        <div style="font-size: 11.5px; font-weight: 700; color: #10B981;">● Safe Harbor Active</div>
                     </div>
                 </div>
             </div>
-            <div class="telemetry-ecg-bar">
-                <svg class="telemetry-ecg-svg" viewBox="0 0 2400 120" preserveAspectRatio="none">
-                    <defs>
-                        <linearGradient id="ecgTelemGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#8A2BE2" stop-opacity="0.2"/>
-                            <stop offset="30%" stop-color="#00D2FF" stop-opacity="0.95"/>
-                            <stop offset="50%" stop-color="#ffffff" stop-opacity="0.95"/>
-                            <stop offset="70%" stop-color="#00D2FF" stop-opacity="0.9"/>
-                            <stop offset="100%" stop-color="#8A2BE2" stop-opacity="0.2"/>
-                        </linearGradient>
-                    </defs>
-                    <path d="M0,60 L240,60 L260,60 L275,45 L290,75 L305,15 L320,105 L335,50 L350,68 L365,60 L540,60 L600,60 L620,60 L635,45 L650,75 L665,15 L680,105 L695,50 L710,68 L725,60 L900,60 L960,60 L980,60 L995,45 L1010,75 L1025,15 L1040,105 L1055,50 L1070,68 L1085,60 L1260,60 L1320,60 L1340,60 L1355,45 L1370,75 L1385,15 L1400,105 L1415,50 L1430,68 L1445,60 L1620,60 L1680,60 L1700,60 L1715,45 L1730,75 L1745,15 L1760,105 L1775,50 L1790,68 L1805,60 L1980,60 L2040,60 L2060,60 L2075,45 L2090,75 L2105,15 L2120,105 L2135,50 L2150,68 L2165,60 L2400,60" fill="none" stroke="url(#ecgTelemGlow)" stroke-width="2.5" />
-                </svg>
+            <!-- Clean Clinical Parameter Ribbon (No Wave) -->
+            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(56, 189, 248, 0.15);
+                        display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+                        font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #94A3B8;">
+                <div><span style="color: #38BDF8; font-weight: 700;">SCANNER:</span> MAGNETOM Skyra 3.0T</div>
+                <div><span style="color: #38BDF8; font-weight: 700;">COIL:</span> 64-Ch Neuro Matrix</div>
+                <div><span style="color: #38BDF8; font-weight: 700;">VOXEL:</span> 0.8 × 0.8 × 1.0 mm³</div>
+                <div><span style="color: #38BDF8; font-weight: 700;">SLICES:</span> 176 Axial</div>
+                <div><span style="color: #10B981; font-weight: 700;">● RECON:</span> Deep Resolve AI</div>
+                <div><span style="color: #38BDF8; font-weight: 700;">ARCHIVE:</span> PACS / DICOM 3.0</div>
             </div>
         </div>
         """),
@@ -196,13 +172,13 @@ def box(kind: str, items: list):
 
 
 def card(title: str, sub: str, color: str):
-    """Render a custom clinical dark card with animated left-glow and smooth hover transition."""
+    """Render a custom clinical dark card with clean surgical styling."""
     st.markdown(
-        f'<div class="card" style="background: linear-gradient(135deg, #0B0616 0%, #030206 100%);'
-        f'border: 1.5px solid {color}; border-left: 5px solid {color}; box-shadow: 0 10px 28px rgba(0,0,0,0.8), 0 0 18px rgba(138,43,226,0.25);'
+        f'<div class="card" style="background: linear-gradient(135deg, #0E1726 0%, #090D16 100%);'
+        f'border: 1.5px solid {color}; border-left: 4px solid {color}; box-shadow: 0 10px 28px rgba(0,0,0,0.8), 0 0 15px rgba(14,165,233,0.15);'
         f'transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);">'
-        f'<h2 style="font-family: \'Playfair Display\', serif; color:#ffffff; margin:0; font-size:1.4rem; text-shadow: 0 0 12px rgba(0,210,255,0.3);">{title}</h2>'
-        f'<p style="color:#B3B0C6; margin:6px 0 0 0; font-size:1.05rem;">{sub}</p></div>',
+        f'<h2 style="font-family: \'Plus Jakarta Sans\', sans-serif; color:#ffffff; margin:0; font-size:1.35rem; font-weight:700;">{title}</h2>'
+        f'<p style="color:#94A3B8; margin:6px 0 0 0; font-size:1.02rem;">{sub}</p></div>',
         unsafe_allow_html=True,
     )
 

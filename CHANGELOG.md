@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file.
 - **Docker**: Added `Dockerfile` for containerized deployments.
 
 ### Changed
-- **Editorial Bioluminescent Iris & Obsidian Theme**: Redesigned authentication showcase and clinical workstation adhering to the high-fashion editorial aesthetic ("A Deeper Kind of Precision"). Includes deep obsidian midnight palette (`#030206`), electric cyan (`#00D2FF`) and royal iris violet (`#8A2BE2`) glowing telemetry, `Playfair Display` serif typography with italic ligatures, numbered editorial indices (`01 ——`, `02 ——`, `03 ——`), minimalist outline pill buttons (`EXPLORE WORKSTATION ——>`), and animated laser scanlines.
+- **Clinical PACS Enterprise Theme**: Redesigned application into an authentic, hospital-grade Clinical PACS Workstation (Siemens / GE Healthcare / Epic style). Replaced fashion editorial portrait with a high-precision Siemens MAGNETOM Skyra 3.0T DICOM HUD preview, removed all ECG wave lines across telemetry and workstation bars, added 100% interactive clickable top navigation controls, and applied deep surgical slate (`#090D16`), container slate (`#0E1726`), and clinical blue/cyan (`#0EA5E9` / `#38BDF8`) accents with clean medical typography (`Plus Jakarta Sans` and `JetBrains Mono`).
 - **Architecture Refactor**: Split the monolithic `braintumorapp.py` into distinct logical modules (`inference.py`, `ui_components.py`, `content.py`, etc.).
 - **UI Refresh**: Modernized CSS with better color contrast, shadows, and spacing for accessibility.
 

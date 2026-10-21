@@ -73,28 +73,9 @@
       100% { opacity: 1; transform: translateX(-50%) scale(1.02); }
     }
 
-    /* Animated Neon ECG Pulse Line */
+    /* Neon ECG Pulse Line Disabled for Clinical Aesthetic */
     .ecg-container {
-      position: fixed;
-      bottom: 14%;
-      left: 0;
-      width: 100%;
-      height: 80px;
-      pointer-events: none;
-      z-index: 2;
-      opacity: 0.85;
-      overflow: hidden;
-    }
-
-    .ecg-svg {
-      width: 200%;
-      height: 100%;
-      animation: ecgFlow 6.5s linear infinite;
-    }
-
-    @keyframes ecgFlow {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      display: none !important;
     }
 
     /* Floating Medical Glass Orbs */
