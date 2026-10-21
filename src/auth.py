@@ -431,7 +431,7 @@ def render_login_page():
             bottom: 0 !important;
             width: 100vw !important;
             height: 100vh !important;
-            background: radial-gradient(circle at 50% 50%, #0C172B 0%, #070B14 70%) !important;
+            background: radial-gradient(circle at 50% 48%, #101F3B 0%, #080D18 55%, #03060B 100%) !important;
             z-index: 9999999 !important;
             display: flex !important;
             align-items: center !important;
@@ -457,6 +457,7 @@ def render_login_page():
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
             display: flex !important;
+            flex-direction: column !important;
             align-items: center !important;
             justify-content: center !important;
             margin: 0 !important;
@@ -465,74 +466,90 @@ def render_login_page():
         }
 
         @keyframes splashContentRise {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
             100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
-        .splash-rings-anchor {
-            position: relative;
-            width: 260px;
-            height: 260px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .splash-ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 1.5px solid #0EA5E9;
-            pointer-events: none;
-            animation: splashRipple 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-        }
-        .ring-1 { width: 160px; height: 160px; animation-delay: 0s; }
-        .ring-2 { width: 160px; height: 160px; animation-delay: 1.15s; }
-        .ring-3 { width: 160px; height: 160px; animation-delay: 2.3s; }
-
-        @keyframes splashRipple {
-            0% { transform: scale(0.85); opacity: 0.9; box-shadow: 0 0 12px #0EA5E9; }
-            50% { opacity: 0.4; }
-            100% { transform: scale(2.6); opacity: 0; box-shadow: 0 0 35px rgba(56, 189, 248, 0); }
-        }
-
+        /* Large squircle app logo dominating the full page, matching user reference */
         .splash-logo-box {
             position: relative;
-            width: 160px;
-            height: 160px;
-            border-radius: 36px;
-            background: #090D16;
-            border: 2.5px solid #0EA5E9;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 50px rgba(14, 165, 233, 0.7), inset 0 0 30px rgba(14, 165, 233, 0.35);
+            width: clamp(280px, 72vmin, 520px);
+            height: clamp(280px, 72vmin, 520px);
+            border-radius: 22%;
+            background: #080D18;
+            border: 2px solid rgba(56, 189, 248, 0.35);
+            box-shadow:
+                0 45px 110px -15px rgba(0, 0, 0, 0.95),
+                0 25px 60px -10px rgba(14, 165, 233, 0.4),
+                0 0 50px rgba(14, 165, 233, 0.22);
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             z-index: 5;
-            animation: logoBreathSplash 3s ease-in-out infinite;
+            animation: logoBreathSplash 4s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .splash-floor-shadow {
+            width: clamp(200px, 55vmin, 400px);
+            height: 28px;
+            margin-top: 18px;
+            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.9) 0%, rgba(14, 165, 233, 0.15) 40%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(8px);
+            pointer-events: none;
+            animation: floorShadowPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes floorShadowPulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.08); opacity: 1; }
         }
 
         @keyframes logoBreathSplash {
-            0%, 100% { transform: scale(1); border-color: #0EA5E9; box-shadow: 0 20px 60px rgba(0,0,0,0.95), 0 0 40px rgba(14,165,233,0.6); }
-            50% { transform: scale(1.06); border-color: #38BDF8; box-shadow: 0 25px 75px rgba(0,0,0,1), 0 0 60px rgba(56,189,248,0.95); }
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                border-color: rgba(56, 189, 248, 0.35);
+                box-shadow: 0 45px 110px -15px rgba(0, 0, 0, 0.95), 0 25px 60px -10px rgba(14, 165, 233, 0.4), 0 0 40px rgba(14, 165, 233, 0.2);
+            }
+            50% {
+                transform: translateY(-8px) scale(1.02);
+                border-color: #38BDF8;
+                box-shadow: 0 60px 130px -15px rgba(0, 0, 0, 1), 0 35px 80px -10px rgba(56, 189, 248, 0.65), 0 0 70px rgba(56, 189, 248, 0.4);
+            }
         }
 
-        .splash-logo-laser {
-            position: absolute;
+        /* Ambient full-page squircle logo backdrop behind login workstation */
+        .login-fullpage-backdrop {
+            position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            height: 3.5px;
-            background: linear-gradient(90deg, transparent, #38BDF8, #FFFFFF, #38BDF8, transparent);
-            box-shadow: 0 0 18px #38BDF8;
-            animation: splashLaserPass 2.4s ease-in-out infinite alternate;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             pointer-events: none;
-            z-index: 6;
+            z-index: 0;
+            overflow: hidden;
         }
-
-        @keyframes splashLaserPass {
-            0% { top: 2%; opacity: 0.6; }
-            50% { opacity: 1; filter: drop-shadow(0 0 8px #38BDF8); }
-            100% { top: 96%; opacity: 0.8; }
+        .login-fullpage-squircle {
+            width: clamp(280px, 72vmin, 520px);
+            height: clamp(280px, 72vmin, 520px);
+            border-radius: 22%;
+            opacity: 0.22;
+            border: 1.5px solid rgba(56, 189, 248, 0.25);
+            box-shadow: 0 0 70px rgba(14, 165, 233, 0.25);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: backdropBreath 5s ease-in-out infinite alternate;
+        }
+        @keyframes backdropBreath {
+            0% { transform: scale(0.98); opacity: 0.18; }
+            100% { transform: scale(1.02); opacity: 0.26; }
         }
         </style>
         <div class="ambient-node node-top-left"></div>
@@ -546,26 +563,23 @@ def render_login_page():
     # 10-Second Pure Logo Opening Splash (No Text, Logo Only in Absolute Center)
     logo_b64 = _get_logo_base64()
     if logo_b64:
-        splash_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 34px;" alt="Logo" />'
+        splash_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 22%; display: block;" alt="NeuroScan Logo" />'
+        backdrop_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 22%; display: block;" alt="NeuroScan Backdrop" />'
         login_center_logo_img = f'<img src="data:image/png;base64,{logo_b64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px; display: block;" alt="NeuroScan PACS Logo" />'
     else:
-        splash_logo_img = '<span style="font-size: 72px;">🧠</span>'
+        splash_logo_img = '<span style="font-size: 110px;">🧠</span>'
+        backdrop_logo_img = '<span style="font-size: 110px;">🧠</span>'
         login_center_logo_img = '<span style="font-size: 32px;">🧠</span>'
 
     st.markdown(
         textwrap.dedent(f"""
-        <!-- 10-Second Pure Logo Opening Splash Screen (Zero Text, Absolute Center) -->
+        <!-- 10-Second Pure Logo Opening Splash Screen (Visible on Whole Page, Matching Squircle Reference) -->
         <div id="neuroscan-splash-overlay" class="neuroscan-splash-overlay" onclick="dismissSplash()">
             <div class="splash-center-content">
-                <div class="splash-rings-anchor">
-                    <div class="splash-ring ring-1"></div>
-                    <div class="splash-ring ring-2"></div>
-                    <div class="splash-ring ring-3"></div>
-                    <div class="splash-logo-box">
-                        {splash_logo_img}
-                        <div class="splash-logo-laser"></div>
-                    </div>
+                <div class="splash-logo-box">
+                    {splash_logo_img}
                 </div>
+                <div class="splash-floor-shadow"></div>
             </div>
         </div>
 
@@ -573,7 +587,7 @@ def render_login_page():
         function dismissSplash() {{
             var el = document.getElementById('neuroscan-splash-overlay');
             if (el) {{
-                el.style.transition = 'opacity 0.4s ease, visibility 0.4s ease';
+                el.style.transition = 'opacity 0.45s ease, visibility 0.45s ease';
                 el.style.opacity = '0';
                 setTimeout(function() {{
                     el.style.visibility = 'hidden';
@@ -586,7 +600,7 @@ def render_login_page():
                         loginBox.style.transform = 'translateY(0) scale(1)';
                         loginBox.style.pointerEvents = 'auto';
                     }}
-                }}, 400);
+                }}, 450);
             }}
         }}
         setTimeout(function() {{
@@ -597,6 +611,13 @@ def render_login_page():
             }}
         }}, 50);
         </script>
+
+        <!-- Ambient Full-Page Logo Squircle Backdrop Behind Login Form -->
+        <div class="login-fullpage-backdrop">
+            <div class="login-fullpage-squircle">
+                {backdrop_logo_img}
+            </div>
+        </div>
 
         <!-- Hospital Brand Header on Login Page (Centered Logo & Typography) -->
         <div class="clinical-login-header">
