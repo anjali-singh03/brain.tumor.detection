@@ -1,6 +1,5 @@
 # Brain Tumor Detection App 🧠
 
-**🔗 Live demo:** (https://braintumordetection-rokxus5q4va4crbfjdkbss.streamlit.app/)
 
 A Streamlit web app that classifies brain MRI scans into four classes using a CNN (MobileNetV2 transfer learning).
 
