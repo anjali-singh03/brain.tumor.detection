@@ -1,6 +1,5 @@
 # Brain Tumor Detection App 🧠
 
-# live demo : (http://neuroscan.local:8501/)
 A Streamlit web app that classifies brain MRI scans into four classes using a CNN (MobileNetV2 transfer learning).
 
 > ⚠️ **For educational use only. Not a diagnostic tool.**
